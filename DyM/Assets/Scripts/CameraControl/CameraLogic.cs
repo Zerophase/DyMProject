@@ -11,7 +11,7 @@ namespace Assets.Scripts.CameraControl
 		private float speed = 5f;
 		private float totalTime = 0f;
 
-		private const float deadzone = 0.50f;
+		private const float deadzone = 0.250f;
 
 		private Vector3 originPosition;
 		private Vector3 cameraFuturePosition;
@@ -24,6 +24,8 @@ namespace Assets.Scripts.CameraControl
 
 		private Vector3EqualityComparerWithTolerance vector3EqualityComparer =
 			new Vector3EqualityComparerWithTolerance();
+
+		private float debugTimer = 0f;
 
 		public Vector3 OriginPosition
 		{
@@ -72,10 +74,20 @@ namespace Assets.Scripts.CameraControl
 
 		private Vector2 lockToAxis(Vector2 position)
 		{
-			if (Math.Abs(position.x) < deadzone)
-				position.x = 0f;
-			else if (Math.Abs(position.y) < deadzone)
-				position.y = 0f;
+			//if (Math.Abs(position.x) < deadzone)
+			//	position.x = 0f;
+			//else if (Math.Abs(position.y) < deadzone)
+			//	position.y = 0f;
+
+			position = position.normalized*((position.magnitude - deadzone)/(1 - deadzone));
+
+			debugTimer += Time.deltaTime;
+			if (debugTimer > 1f)
+			{
+				debugTimer = 0f;
+				Debug.Log("Current right stick position: " + position);
+			}
+			
 			return position;
 		}
 
