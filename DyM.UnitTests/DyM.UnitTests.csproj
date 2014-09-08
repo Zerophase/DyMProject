@@ -54,6 +54,7 @@
     <Compile Include="Tests\BaseTest\CommonVector3TestProperties.cs" />
     <Compile Include="Tests\CameraTests.cs" />
     <Compile Include="Tests\CardinalMovementTests.cs" />
+    <Compile Include="Tests\MessageDispatcherTests.cs" />
     <Compile Include="Tests\PlaneShiftTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\CharacterTest.cs" />

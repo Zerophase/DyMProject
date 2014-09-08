@@ -23,11 +23,10 @@ namespace Assets.Scripts.CameraControl
         //private const float maxPositionYUp = 2f;
 
         //FANCY DESIGNER CIRCLE VARIABLES
-        private int maxRadius = 1;
+        private double maxRadius = .75f;
         private double radius = 0f;
 
-		private Vector3EqualityComparerWithTolerance vector3EqualityComparer =
-			new Vector3EqualityComparerWithTolerance();
+		private float debugTimer = 0f;
 
 		public Vector3 OriginPosition
 		{
@@ -52,6 +51,12 @@ namespace Assets.Scripts.CameraControl
                 radius = Math.Sqrt(posXSquared + posYSquared);
                 if (Math.Abs(radius) < maxRadius)
                 {
+	                debugTimer += Time.deltaTime;
+	                if (debugTimer > 1f)
+	                {
+		                debugTimer = 0f;
+		                Debug.Log("Camera boundary radius: " + radius);
+	                }
                     return move(position, cameraPosition, time);
                 }
                 return cameraPosition;

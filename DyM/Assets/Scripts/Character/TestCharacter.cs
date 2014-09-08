@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Character.Interfaces;
+using Assets.Scripts.Utilities.Messaging;
+using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
 using Assets.Scripts.Weapons.Interfaces;
+using UnityEngine;
 
 namespace Assets.Scripts.Character
 {
@@ -18,11 +21,31 @@ namespace Assets.Scripts.Character
 			get { return weapon; }
 		}
 
+		private IReceiver receiver;
+
+		public Vector3 Position { get; set; }
+
+		public TestCharacter()
+		{
+			
+		}
+
+		public TestCharacter(IReceiver receiver)
+		{
+			this.receiver = receiver;
+			this.receiver.Owner = this;
+			receiver.SubScribe();
+		}
+
 		public void Equip(IWeapon weapon)
 		{
 			this.weapon = weapon;
 		}
 
+		public void Receive(Telegram telegram)
+		{
+			AddWeapon((TestWeapon)telegram.Message);
+		}
 
 		public void SwitchWeapon()
 		{
@@ -33,6 +56,8 @@ namespace Assets.Scripts.Character
 		public void AddWeapon(BaseWeapon weapon)
 		{
 			weapons.Add(weapon);
+			if(weapons.Count < 2)
+				Equip(weapon);
 		}
 	}
 }
