@@ -5,6 +5,7 @@ using System.Text;
 using Assets.Scripts.Character;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
+using ModestTree.Zenject;
 
 namespace Assets.Scripts.Utilities.Messaging
 {
@@ -16,11 +17,13 @@ namespace Assets.Scripts.Utilities.Messaging
 
 		public Telegram TestTelegram { get; set; }
 
+		[Inject]
 		public Receiver(IMessageDispatcher messageDispatcher)
 		{
 			this.messageDispatcher = messageDispatcher;
 		}
 
+		
 		public Receiver(IMessageDispatcher messageDispatcher, IOwner owner)
 		{
 			this.messageDispatcher = messageDispatcher;

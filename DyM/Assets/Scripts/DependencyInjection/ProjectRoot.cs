@@ -4,8 +4,16 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.CameraControl;
 using Assets.Scripts.CameraControl.Interfaces;
+using Assets.Scripts.Character;
+using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.ObjectManipulation;
 using Assets.Scripts.ObjectManipulation.Interfaces;
+using Assets.Scripts.Projectiles;
+using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Utilities.Messaging;
+using Assets.Scripts.Utilities.Messaging.Interfaces;
+using Assets.Scripts.Weapons;
+using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
 
@@ -18,6 +26,29 @@ namespace Assets.Scripts.DependencyInjection
 			dependencyFrameworkBindings();
 			movementBindings();
 			cameraBindings();
+
+			messengerBindings();
+
+			characterBindings();
+			
+			weaponBindings();
+		}
+
+		private void weaponBindings()
+		{
+			_container.Bind<IWeapon>().ToTransient<TestWeapon>();
+			_container.Bind<IProjectile>().ToTransient<Projectile>();
+		}
+
+		private void characterBindings()
+		{
+			_container.Bind<ICharacter>().ToTransient<TestCharacter>();
+		}
+
+		private void messengerBindings()
+		{
+			_container.Bind<IMessageDispatcher>().ToSingle<MessageDispatcher>();
+			_container.Bind<IReceiver>().ToTransient<Receiver>();
 		}
 
 		private void cameraBindings()
