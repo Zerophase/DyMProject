@@ -10,20 +10,72 @@ namespace Assets.Scripts.GameObjects
 	{
 		[Inject]
 		private ICameraLogic camera;
+        public float cameraSpeed = 0f;
+        private Vector3 cameraCurrentPosition;
+        public Transform player;
+        public int XBoundary = 5;
+        public int YBoundary = 3;
 
 		private void Start()
 		{
 			camera.OriginPosition = transform.localPosition;
-		}
+     	}
 
 		private void Update()
 		{
 			//Debug.Log("Right Stick Magnitude: " + new Vector2(Input.GetAxis("CameraHorizontalMovement"),
 			//		Input.GetAxis("CameraVerticalMovement")).magnitude);
-			transform.localPosition = camera.Move( 
-				new Vector2(Input.GetAxis("CameraHorizontalMovement"), 
-					Input.GetAxis("CameraVerticalMovement")),
-				transform.localPosition, Time.deltaTime);
+
+            //As long as the player is within the box set in the check function,
+            //the camera should remain still.
+            //HOWEVER, since the camera is attached to the parent character game object,
+            //Unity moves the camera regardless.
+            if(checkCenterBoundary())
+            {
+                //Keep camera still here.
+            }
+            else
+            {
+                FollowPlayer();                
+            }
+
+            //Debug.Log("Boundary Check: " + checkCenterBoundary());
+            //Debug.Log("Character Position: " + new Vector3(transform.parent.position.x, transform.parent.position.y));
+            //transform.localPosition = camera.Move(
+            //    new Vector2(Input.GetAxis("CameraHorizontalMovement"),
+            //        Input.GetAxis("CameraVerticalMovement")),
+            //    transform.localPosition, Time.deltaTime);
+
+
 		}
+
+        private bool checkCenterBoundary()
+        {
+            //Variables
+            bool containedInCenter = true;
+            float displacementX, displacementY;
+
+            //Sets the current player position
+            cameraCurrentPosition = new Vector3(transform.position.x, transform.position.y);
+
+            //Finds the distance between the camera and player on both axes.
+            displacementX = cameraCurrentPosition.x - player.position.x;
+            displacementY = cameraCurrentPosition.y - player.position.y;
+
+            //If the displacement is greater than the set value on either axis,
+            //returns a false value.
+            if(Mathf.Abs(displacementX) > XBoundary || Mathf.Abs(displacementY) > YBoundary)
+            {
+                containedInCenter = false;
+            }
+
+            return containedInCenter;
+        }
+
+        private void FollowPlayer()
+        {
+            
+        }
+
 	}
 }

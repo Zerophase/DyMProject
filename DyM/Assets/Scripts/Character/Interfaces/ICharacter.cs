@@ -15,6 +15,7 @@ namespace Assets.Scripts.Character.Interfaces
 	{
 		IWeapon Weapon { get; }
 		Vector3 Position { get; set; }
+		bool Equipped();
 		void Equip(IWeapon weapon);
 		void SwitchWeapon();
 		void AddWeapon(BaseWeapon weapon);

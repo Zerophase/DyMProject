@@ -15,7 +15,7 @@ namespace Assets.Scripts.CameraControl
 
 		private Vector3 originPosition;
 		private Vector3 cameraFuturePosition;
-
+        
 		private Vector2 previousStickPosition = new Vector2(0f, 0f);
 
         //private const float maxPositionX = 10f;
@@ -23,9 +23,9 @@ namespace Assets.Scripts.CameraControl
         //private const float maxPositionYUp = 2f;
 
         //FANCY DESIGNER CIRCLE VARIABLES
-        private double maxRadius = .75f;
+        private double maxRadius = 1;
         private double radius = 0f;
-
+        
 		private float debugTimer = 0f;
 
 		public Vector3 OriginPosition

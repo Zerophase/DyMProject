@@ -7,6 +7,7 @@ using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons.Interfaces;
+using ModestTree.Zenject;
 using UnityEngine;
 
 namespace Assets.Scripts.Weapons
@@ -20,6 +21,7 @@ namespace Assets.Scripts.Weapons
 			get { return order; }
 		}
 
+		[Inject]
 		private IProjectile projectile;
 
 		private IReceiver receiver;
@@ -67,13 +69,11 @@ namespace Assets.Scripts.Weapons
 			return projectile;
 		}
 
-
 		public void PickUp(ICharacter character)
 		{
-			if(character.Position == this.Position)
+			//if(character.Position == this.Position)
 				messageDispatcher.DispatchMessage(new Telegram(character, this));
 		}
-
 
 		public void Receive(Telegram telegram)
 		{
@@ -92,6 +92,7 @@ namespace Assets.Scripts.Weapons
 		{
 		}
 
+		[Inject]
 		public TestWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher) 
 			: base(receiver, messageDispatcher)
 		{

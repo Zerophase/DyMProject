@@ -7,6 +7,7 @@ using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
 using Assets.Scripts.Weapons.Interfaces;
+using ModestTree.Zenject;
 using UnityEngine;
 
 namespace Assets.Scripts.Character
@@ -30,11 +31,17 @@ namespace Assets.Scripts.Character
 			
 		}
 
+		[Inject]
 		public TestCharacter(IReceiver receiver)
 		{
 			this.receiver = receiver;
 			this.receiver.Owner = this;
 			receiver.SubScribe();
+		}
+
+		public bool Equipped()
+		{
+			return weapon != null;
 		}
 
 		public void Equip(IWeapon weapon)
