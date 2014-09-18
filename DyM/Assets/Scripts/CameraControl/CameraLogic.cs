@@ -30,6 +30,7 @@ namespace Assets.Scripts.CameraControl
 
 		public Vector3 OriginPosition
 		{
+			get { return originPosition; }
 			set { originPosition = value; }
 		}
 

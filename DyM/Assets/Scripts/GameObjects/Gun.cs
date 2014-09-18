@@ -9,20 +9,27 @@ public class Gun : MonoBehaviour
 {
 	[Inject] 
 	private IWeapon weapon;
+
+	private Quaternion weaponOrigin;
+
+	void Start()
+	{
+		weaponOrigin = gameObject.transform.rotation;
+	}
+
 	void Update ()
 	{
-		Vector3 direction = new Vector3(Input.GetAxis("CameraHorizontalMovement"), Input.GetAxis("CameraVerticalMovement")) -
-			Camera.main.WorldToScreenPoint(transform.position);
+		Vector3 direction = weaponOrigin.eulerAngles - new Vector3(Input.GetAxis("CameraHorizontalMovement"), Input.GetAxis("CameraVerticalMovement"));
 
 		float rotate = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
 
-		if(direction.x >= 0)
+		if (direction.x > 0)
 		{
-			transform.rotation = Quaternion.Euler(0f, 0f, rotate);
+			transform.rotation = Quaternion.Euler(0f, 0f, -rotate);
 		}
 		else
 		{
-			transform.rotation = Quaternion.Euler(0f, 0f, rotate + 180);
+			transform.rotation = Quaternion.Euler(0f, 0f, -rotate + 180);
 		}
 	}
 

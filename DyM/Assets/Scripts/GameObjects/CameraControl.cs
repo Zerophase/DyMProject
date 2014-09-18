@@ -11,14 +11,19 @@ namespace Assets.Scripts.GameObjects
 		[Inject]
 		private ICameraLogic camera;
         public float cameraSpeed = 0f;
+
         private Vector3 cameraCurrentPosition;
+		private Vector3 displaceMentVector;
+
+		private const float cameraMidOffset = 2f;
+
         public Transform player;
         public int XBoundary = 5;
         public int YBoundary = 3;
 
 		private void Start()
 		{
-			camera.OriginPosition = transform.localPosition;
+			camera.OriginPosition = transform.position;
      	}
 
 		private void Update()
@@ -30,9 +35,9 @@ namespace Assets.Scripts.GameObjects
             //the camera should remain still.
             //HOWEVER, since the camera is attached to the parent character game object,
             //Unity moves the camera regardless.
-            if(checkCenterBoundary())
+            if(!checkCenterBoundary())
             {
-                //Keep camera still here.
+				//Debug.Log("Camera should be still");
             }
             else
             {
@@ -51,30 +56,24 @@ namespace Assets.Scripts.GameObjects
 
         private bool checkCenterBoundary()
         {
-            //Variables
-            bool containedInCenter = true;
             float displacementX, displacementY;
 
             //Sets the current player position
-            cameraCurrentPosition = new Vector3(transform.position.x, transform.position.y);
+            cameraCurrentPosition = new Vector3(transform.position.x, transform.position.y, camera.OriginPosition.z);
 
             //Finds the distance between the camera and player on both axes.
             displacementX = cameraCurrentPosition.x - player.position.x;
-            displacementY = cameraCurrentPosition.y - player.position.y;
+	        displacementY = cameraCurrentPosition.y - (player.position.y + cameraMidOffset);
+            displaceMentVector = new Vector3(displacementX, displacementY, camera.OriginPosition.z);
 
-            //If the displacement is greater than the set value on either axis,
-            //returns a false value.
-            if(Mathf.Abs(displacementX) > XBoundary || Mathf.Abs(displacementY) > YBoundary)
-            {
-                containedInCenter = false;
-            }
-
-            return containedInCenter;
+            return (Mathf.Abs(displacementX) > XBoundary || Mathf.Abs(displacementY) > YBoundary);
         }
 
         private void FollowPlayer()
         {
-            
+	        Camera.main.transform.position = Vector3.Lerp(cameraCurrentPosition, cameraCurrentPosition - displaceMentVector,
+		        Time.deltaTime);
+				//new Vector3(player.position.x, player.position.y, camera.OriginPosition.z);
         }
 
 	}
