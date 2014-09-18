@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Character.Interfaces;
+using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
@@ -21,8 +22,10 @@ namespace Assets.Scripts.Weapons
 			get { return order; }
 		}
 
-		[Inject]
+		
 		private IProjectile projectile;
+
+		private IBulletPool bulletPool;
 
 		private IReceiver receiver;
 
@@ -35,11 +38,15 @@ namespace Assets.Scripts.Weapons
 			setOrder(order);
 		}
 
-		public BaseWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher)
+		public BaseWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher,
+			IBulletPool bulletPool = null)
 		{
 			this.receiver = receiver;
 			this.receiver.Owner = this;
 			this.messageDispatcher = messageDispatcher;
+			this.bulletPool = bulletPool;
+			bulletPool.Initialize(new Vector3(0f, 0f, 0f), 50);
+
 			receiver.SubScribe();
 		}
 
@@ -66,13 +73,12 @@ namespace Assets.Scripts.Weapons
 
 		public IProjectile Fire()
 		{
-			return projectile;
+			return bulletPool.GetPooledProjectile().Projectile;
 		}
 
 		public void PickUp(ICharacter character)
 		{
-			//if(character.Position == this.Position)
-				messageDispatcher.DispatchMessage(new Telegram(character, this));
+			messageDispatcher.DispatchMessage(new Telegram(character, this));
 		}
 
 		public void Receive(Telegram telegram)
@@ -93,10 +99,10 @@ namespace Assets.Scripts.Weapons
 		}
 
 		[Inject]
-		public TestWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher) 
-			: base(receiver, messageDispatcher)
+		public TestWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher,
+			IBulletPool bulletPool = null) 
+			: base(receiver, messageDispatcher, bulletPool)
 		{
-			
 		}
 	}
 

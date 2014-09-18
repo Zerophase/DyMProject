@@ -38,6 +38,9 @@ namespace Assets.Scripts.DependencyInjection
 		{
 			_container.Bind<IWeapon>().ToTransient<TestWeapon>();
 			_container.Bind<IProjectile>().ToTransient<Projectile>();
+			_container.Bind<IPooledProjectile>().ToTransient<PooledProjectile>();
+			_container.Bind<IBulletPool>().ToSingle<BulletPool>();
+			_container.Bind<IPooledGameObjects>().ToSingle<PooledGameobjects>();
 		}
 
 		private void characterBindings()

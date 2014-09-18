@@ -2,6 +2,8 @@
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.ObjectManipulation;
 using Assets.Scripts.ObjectManipulation.Interfaces;
+using Assets.Scripts.Projectiles;
+using Assets.Scripts.Projectiles.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
@@ -17,12 +19,14 @@ namespace Assets.Scripts.GameObjects
 		[Inject]
 		public ICharacter character;
 
+		[Inject]
+		public IPooledGameObjects PooledBUlletGameObjects;
 		public static GameObject GunModel;
 		private GameObject bullet;
 		void Start()
 		{
 			GunModel = GameObject.Find("Gun");
-			bullet = Resources.Load<GameObject>("Prefabs/Bullet/Bullet");
+			PooledBUlletGameObjects.Initialize();
 		}
 		// Update is called once per frame
 		void FixedUpdate ()
@@ -46,8 +50,7 @@ namespace Assets.Scripts.GameObjects
 		{
 			if (Input.GetAxis("Fire1") > 0f && character.Equipped())
 			{
-				GameObject clone = Instantiate(bullet, GunModel.transform.position, Quaternion.identity) as GameObject;
-				clone.GetComponent<Bullet>().Projectile = character.Weapon.Fire();
+				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = character.Weapon.Fire();
 			}
 		}
 
