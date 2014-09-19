@@ -17,7 +17,7 @@ namespace Assets.Scripts.Projectiles
 		List<GameObject> pooledBullets = new List<GameObject>();
 
 		[Inject] private IBulletPool bulletPool;
-		[PostInject]
+		//[PostInject]
 		public void Initialize()
 		{
 			for (int i = 0; i < bulletPool.Projectiles.Count; i++)
