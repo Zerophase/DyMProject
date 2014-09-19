@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Scripts.Utilities.Messaging.Interfaces
 {
-	public interface ITelegram
+	public interface ITelegram 
 	{
 		IOwner Receiver { get; }
 		object Message { get; }

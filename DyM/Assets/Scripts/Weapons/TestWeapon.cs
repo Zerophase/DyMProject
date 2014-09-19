@@ -29,6 +29,11 @@ namespace Assets.Scripts.Weapons
 
 		private IReceiver receiver;
 
+		public IReceiver Receiver
+		{
+			set { receiver = value; }
+		}
+
 		private IMessageDispatcher messageDispatcher;
 
 		public Vector3 Position { get; set; }
@@ -81,7 +86,7 @@ namespace Assets.Scripts.Weapons
 			messageDispatcher.DispatchMessage(new Telegram(character, this));
 		}
 
-		public void Receive(Telegram telegram)
+		public void Receive(ITelegram telegram)
 		{
 			throw new NotImplementedException();
 		}

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Abilities;
+using Assets.Scripts.Abilities.Interfaces;
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
@@ -22,8 +24,18 @@ namespace Assets.Scripts.Character
 			get { return weapon; }
 		}
 
+		private IAbility ability;
+
+		public IAbility Ability
+		{
+			get { return ability; }
+		}
 		private IReceiver receiver;
 
+		public IReceiver Receiver
+		{
+			set { receiver = value; }
+		}
 		public Vector3 Position { get; set; }
 
 		public TestCharacter()
@@ -49,9 +61,17 @@ namespace Assets.Scripts.Character
 			this.weapon = weapon;
 		}
 
-		public void Receive(Telegram telegram)
+		public void Equip(IAbility ability)
 		{
-			AddWeapon((TestWeapon)telegram.Message);
+			throw new NotImplementedException();
+		}
+
+		public void Receive(ITelegram telegram)
+		{
+			if(telegram.Message is BaseWeapon)
+				AddWeapon((TestWeapon)telegram.Message);
+			else if(telegram.Message is AbilityBase)
+				Equip((Ability)telegram.Message);
 		}
 
 		public void SwitchWeapon()

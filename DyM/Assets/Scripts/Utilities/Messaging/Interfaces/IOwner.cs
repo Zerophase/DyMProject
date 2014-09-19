@@ -7,6 +7,7 @@ namespace Assets.Scripts.Utilities.Messaging.Interfaces
 {
 	public interface IOwner
 	{
-		void Receive(Telegram telegram);
+		IReceiver Receiver { set; }
+		void Receive(ITelegram telegram);
 	}
 }

@@ -9,7 +9,7 @@ namespace Assets.Scripts.Utilities.Messaging.Interfaces
 
 	public interface IMessageDispatcher
 	{
-		event SendMessageHandler<Telegram> SendMessage;
-		void DispatchMessage(Telegram telegram);
+		event SendMessageHandler<ITelegram> SendMessage;
+		void DispatchMessage(ITelegram telegram);
 	}
 }

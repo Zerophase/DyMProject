@@ -15,7 +15,7 @@ namespace Assets.Scripts.Utilities.Messaging
 		private IOwner owner;
 		public IOwner Owner { get { return owner; } set { owner = value; }}
 
-		public Telegram TestTelegram { get; set; }
+		public ITelegram TestTelegram { get; set; }
 
 		[Inject]
 		public Receiver(IMessageDispatcher messageDispatcher)
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Utilities.Messaging
 			this.owner = owner;
 		}
 
-		public void HandleMessage(Telegram telegram)
+		public void HandleMessage(ITelegram telegram)
 		{
 			TestTelegram = telegram;
 			if (owner == telegram.Receiver)

@@ -26,10 +26,10 @@ namespace DyM.UnitTests.Tests
 			IMessageDispatcher messageDispatcher = makeDispatcher();
 			IReceiver receiver = Substitute.For<Receiver>();
 
-			Telegram expected = new Telegram();
+			ITelegram expected = new Telegram();
 			messageDispatcher.SendMessage += receiver.HandleMessage;
 			messageDispatcher.DispatchMessage(expected);
-			Telegram actual = receiver.TestTelegram;
+			ITelegram actual = receiver.TestTelegram;
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -40,9 +40,9 @@ namespace DyM.UnitTests.Tests
 			IMessageDispatcher messageDispatcher = makeDispatcher();
 			IReceiver receiver = Substitute.For<Receiver>();
 
-			Telegram expected = null;
+			ITelegram expected = null;
 			messageDispatcher.DispatchMessage(new Telegram());
-			Telegram actual = receiver.TestTelegram;
+			ITelegram actual = receiver.TestTelegram;
 
 			Assert.AreEqual(expected, actual);
 		}

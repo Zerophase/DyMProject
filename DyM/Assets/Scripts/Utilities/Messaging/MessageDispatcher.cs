@@ -10,16 +10,17 @@ namespace Assets.Scripts.Utilities.Messaging
 {
 	public class MessageDispatcher : IMessageDispatcher
 	{
+
 		[Inject]
 		public MessageDispatcher()
 		{
 			
 		}
 
-		public event SendMessageHandler<Telegram> SendMessage;
+		public event SendMessageHandler<ITelegram> SendMessage;
 
 
-		public void DispatchMessage(Telegram telegram)
+		public void DispatchMessage(ITelegram telegram)
 		{
 			if (SendMessage != null)
 				SendMessage(telegram);
