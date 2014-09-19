@@ -9,6 +9,12 @@ namespace Assets.Scripts.CameraControl
 	public class CameraLogic : ICameraLogic
 	{
 		private float speed = 5f;
+		public float Speed
+		{
+			get { return speed; }
+			set { speed = value; }
+		}
+
 		private float totalTime = 0f;
 
 		private const float deadzone = 0.50f;
@@ -114,5 +120,8 @@ namespace Assets.Scripts.CameraControl
 		{
 			return position.magnitude < deadzone;
 		}
+
+
+		
 	}
 }

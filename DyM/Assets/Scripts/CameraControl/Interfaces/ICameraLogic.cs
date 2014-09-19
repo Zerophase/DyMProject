@@ -6,5 +6,6 @@ namespace Assets.Scripts.CameraControl.Interfaces
 	{
 		Vector3 Move(Vector2 position, Vector3 cameraPosition, float time);
 		Vector3 OriginPosition { get; set; }
+		float Speed { get; set; }
 	}
 }

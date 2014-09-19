@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CameraControl;
 using Assets.Scripts.CameraControl.Interfaces;
+using Assets.Scripts.Utilities.CustomEditor;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
@@ -20,6 +21,22 @@ namespace Assets.Scripts.GameObjects
         public Transform player;
         public int XBoundary = 5;
         public int YBoundary = 3;
+
+		[ExposeProperty]
+		public float Speed
+		{
+			get
+			{
+				if(Application.isPlaying)
+					return camera.Speed;
+				return 0f;
+			}
+			set
+			{
+				if(Application.isPlaying)
+					camera.Speed = value;
+			}
+		}
 
 		private void Start()
 		{
