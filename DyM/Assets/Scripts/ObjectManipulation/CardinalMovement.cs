@@ -23,6 +23,10 @@ namespace Assets.Scripts.ObjectManipulation
 		}
 
 		private float acceleration;
+        public float Acceleration
+        {
+            get { return acceleration; }
+        }
 		private float timer;
 		private float speed = 0.2f;
 		private float maxSpeed = .75f;
