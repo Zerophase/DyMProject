@@ -12,7 +12,8 @@ public class Bullet : MonoBehaviour
 	public IProjectile Projectile { set { projectile = value; } }
 
 	private Vector3 shootForward = new Vector3(1f, 0f, 0f);
-	[Inject] public IPooledGameObjects PooledBulletGameObjects;
+	[Inject] 
+	public IPooledGameObjects PooledBulletGameObjects;
 
 	private Vector3 startPosition;
 

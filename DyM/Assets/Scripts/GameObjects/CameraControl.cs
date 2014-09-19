@@ -52,14 +52,8 @@ namespace Assets.Scripts.GameObjects
             //the camera should remain still.
             //HOWEVER, since the camera is attached to the parent character game object,
             //Unity moves the camera regardless.
-            if(!checkCenterBoundary())
-            {
-				//Debug.Log("Camera should be still");
-            }
-            else
-            {
-                FollowPlayer();                
-            }
+			checkCenterBoundary();
+         	FollowPlayer();     
 
             //Debug.Log("Boundary Check: " + checkCenterBoundary());
             //Debug.Log("Character Position: " + new Vector3(transform.parent.position.x, transform.parent.position.y));
@@ -88,8 +82,11 @@ namespace Assets.Scripts.GameObjects
 
         private void FollowPlayer()
         {
-	        Camera.main.transform.position = Vector3.Lerp(cameraCurrentPosition, cameraCurrentPosition - displaceMentVector,
-		        Time.deltaTime);
+			Vector3 temp = cameraCurrentPosition - displaceMentVector;
+			temp.z = cameraCurrentPosition.z;
+
+	        Camera.main.transform.position = Vector3.Lerp(cameraCurrentPosition, temp,
+		        Time.deltaTime*25f);
 				//new Vector3(player.position.x, player.position.y, camera.OriginPosition.z);
         }
 
