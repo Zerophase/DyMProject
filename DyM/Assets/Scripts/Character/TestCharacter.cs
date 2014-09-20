@@ -5,6 +5,7 @@ using System.Text;
 using Assets.Scripts.Abilities;
 using Assets.Scripts.Abilities.Interfaces;
 using Assets.Scripts.Character.Interfaces;
+using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
@@ -30,6 +31,9 @@ namespace Assets.Scripts.Character
 		{
 			get { return ability; }
 		}
+
+		private StatusEffect statusEffect;
+		public StatusEffect StatusEffect { get { return statusEffect; } }
 		private IReceiver receiver;
 
 		public IReceiver Receiver
@@ -72,6 +76,8 @@ namespace Assets.Scripts.Character
 				AddWeapon((TestWeapon)telegram.Message);
 			else if(telegram.Message is AbilityBase)
 				Equip((Ability)telegram.Message);
+			else if(telegram.Message is StatusEffect)
+				GainStatusEffect((StatusEffect)telegram.Message);
 		}
 
 		public void SwitchWeapon()
@@ -85,6 +91,11 @@ namespace Assets.Scripts.Character
 			weapons.Add(weapon);
 			if(weapons.Count < 2)
 				Equip(weapon);
+		}
+
+		public void GainStatusEffect(StatusEffect statusEffect)
+		{
+			this.statusEffect |= statusEffect;
 		}
 	}
 }

@@ -31,6 +31,12 @@ namespace DyM.UnitTests.Tests
 			return Substitute.For<IMessageDispatcher>();
 		}
 
+		private TestWeapon makeTestWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher,
+			IBulletPool bulletPool)
+		{
+			return new TestWeapon(receiver, messageDispatcher, bulletPool);
+		}
+
 		[Test]
 		public void Fire_FiresWeaponAttack_ReturnsBullet()
 		{
@@ -42,7 +48,7 @@ namespace DyM.UnitTests.Tests
 			bulletPool.GetPooledProjectile().Returns(pooledProjectile);
 			IReceiver receiver = makeReceiver();
 			IMessageDispatcher messageDispatcher = makeMessageDispatcher();
-			IWeapon weapon = new TestWeapon(receiver, messageDispatcher, bulletPool);
+			IWeapon weapon = makeTestWeapon(receiver, messageDispatcher, bulletPool);
 
 			IProjectile expected = pooledProjectile.Projectile;
 			IProjectile actual = weapon.Fire();
@@ -55,19 +61,23 @@ namespace DyM.UnitTests.Tests
 		public void PickUp_PicksWeaponUp_ReturnsWeapon()
 		{
 			ITelegram telegram = Substitute.For<ITelegram>();
+			IReceiver receiver = makeReceiver();
+			ICharacter character = Substitute.For<ICharacter>();
+			receiver.Owner = character;
 			IMessageDispatcher messageDispatcher =
 				makeMessageDispatcher();
-			messageDispatcher.DispatchMessage(telegram);
-			IReceiver receiverCharacter = 
-				Substitute.For<Receiver>(messageDispatcher);
-			//receiverCharacter.HandleMessage(telegram);
-			IReceiver receiverWeapon = 
-				Substitute.For<Receiver>(messageDispatcher);
+			IReceiver receiverCharacter = Substitute.For<IReceiver>();
+			IReceiver receiverWeapon = Substitute.For<IReceiver>();
 			IBulletPool bulletPool = Substitute.For<IBulletPool>();
-			ICharacter character = Substitute.For<TestCharacter>(receiverCharacter);
-			IWeapon weapon = new TestWeapon(receiverWeapon, messageDispatcher,bulletPool);
-			weapon.Position = Vector3.zero;
+			IWeapon weapon = makeTestWeapon(receiverWeapon, messageDispatcher,bulletPool);
+			receiverWeapon.Owner = weapon;
 
+			telegram.Message.Returns(weapon);
+			messageDispatcher.SendMessage += receiver.HandleMessage;
+			messageDispatcher.When(dispatch => messageDispatcher.DispatchMessage(Arg.Any<Telegram>())).
+				Do(x => character.Receive(telegram));
+			character.When(receive => character.Receive(telegram)).
+				Do(x => character.Weapon.Returns(weapon));
 			IWeapon expected = weapon;
 			character.Position = Vector3.zero;
 			weapon.PickUp(character);

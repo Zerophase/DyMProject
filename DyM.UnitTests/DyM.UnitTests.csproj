@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests\AbilityTests.cs" />
+    <Compile Include="Tests\BaseTest\CommonTestsWithMessenger.cs" />
     <Compile Include="Tests\BaseTest\CommonVector3TestProperties.cs" />
     <Compile Include="Tests\CameraTests.cs" />
     <Compile Include="Tests\CardinalMovementTests.cs" />

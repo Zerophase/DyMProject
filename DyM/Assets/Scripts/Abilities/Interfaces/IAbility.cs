@@ -4,7 +4,7 @@ namespace Assets.Scripts.Abilities.Interfaces
 {
 	public interface IAbility
 	{
-		IAbility Activate();
+		void Activate(ICharacter character);
 		void PickUp(ICharacter character);
 	}
 }
