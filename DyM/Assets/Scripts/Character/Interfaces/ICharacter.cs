@@ -19,7 +19,8 @@ namespace Assets.Scripts.Character.Interfaces
 		IAbility Ability { get; }
 		StatusEffect StatusEffect { get; }
 		Vector3 Position { get; set; }
-		bool Equipped();
+		bool EquippedWeapon();
+		bool EquippedAbility();
 		void Equip(IWeapon weapon);
 		void Equip(IAbility ability);
 		void SwitchWeapon();

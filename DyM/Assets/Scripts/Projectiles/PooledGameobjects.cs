@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.Projectiles.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
@@ -18,22 +19,26 @@ namespace Assets.Scripts.Projectiles
 
 		[Inject] private IBulletPool bulletPool;
 		//[PostInject]
+		[Inject]
+		public PooledGameobjects()
+		{
+			
+		}
 		public void Initialize()
 		{
 			for (int i = 0; i < bulletPool.Projectiles.Count; i++)
 			{
 				addProjectile();
-				pooledBullets[i].AddComponent<Bullet>();
 				pooledBullets[i].SetActive(false);
 			}
 		}
 
 		private void addProjectile()
 		{
-			pooledBullets.Add
-			(
-				GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Bullet/Bullet")) as GameObject
-			);
+			GameObject go =
+				ProjectRoot.Instantiator.Instantiate(Resources.Load<GameObject>("Prefabs/Bullet/Bullet")); //GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Bullet/Bullet")) as GameObject;
+			//go.transform.parent = GameObject.Find("ContextView").transform;
+			pooledBullets.Add(go);
 		}
 
 		public GameObject GetPooledBullet()

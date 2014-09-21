@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Abilities;
+using Assets.Scripts.Abilities.Interfaces;
 using Assets.Scripts.CameraControl;
 using Assets.Scripts.CameraControl.Interfaces;
 using Assets.Scripts.Character;
@@ -21,6 +23,7 @@ namespace Assets.Scripts.DependencyInjection
 {
 	public class ProjectRoot : MonoInstaller
 	{
+		public static GameObjectInstantiator Instantiator;
 		public override void InstallBindings()
 		{
 			dependencyFrameworkBindings();
@@ -32,6 +35,15 @@ namespace Assets.Scripts.DependencyInjection
 			characterBindings();
 			
 			weaponBindings();
+
+			abilityBindings();
+
+			Instantiator = new GameObjectInstantiator(_container);
+		}
+
+		private void abilityBindings()
+		{
+			_container.Bind<IAbility>().ToTransient<Ability>();
 		}
 
 		private void weaponBindings()

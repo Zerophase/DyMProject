@@ -48,10 +48,18 @@ namespace Assets.Scripts.GameObjects
 
 		void Update()
 		{
-			if (Input.GetAxis("Fire1") > 0f && character.Equipped())
+			if (Input.GetAxis("Fire1") > 0f && character.EquippedWeapon())
 			{
-				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = character.Weapon.Fire();
+				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = 
+					character.Weapon.Fire();
 			}
+
+			if (Input.GetButtonDown("ActivateAbility") && character.EquippedAbility())
+			{
+				character.Ability.Activate(character);
+				Debug.Log("StatusEffect is: " + character.StatusEffect);
+			}
+				
 		}
 
 		private bool dodgeKeysToCheck()

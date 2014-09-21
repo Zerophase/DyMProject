@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
+using ModestTree.Zenject;
 
 namespace Assets.Scripts.Abilities
 {
 	public class Ability : AbilityBase
 	{
+		[Inject]
 		public Ability(IMessageDispatcher messageDispatcher)
 			:base(messageDispatcher)
 		{

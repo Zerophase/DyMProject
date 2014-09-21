@@ -24,9 +24,11 @@ namespace DyM.UnitTests.Tests
 		public void DispatchMessage_SendsOutMessageToReceivers_ReceiverReceivesMesage()
 		{
 			IMessageDispatcher messageDispatcher = makeDispatcher();
-			IReceiver receiver = Substitute.For<Receiver>();
+			IReceiver receiver = Substitute.For<IReceiver>();
 
-			ITelegram expected = new Telegram();
+			ITelegram expected = Substitute.For<ITelegram>();
+			receiver.When(receivedMessage => receiver.HandleMessage(expected))
+				.Do(x => receiver.TestTelegram.Returns(expected));
 			messageDispatcher.SendMessage += receiver.HandleMessage;
 			messageDispatcher.DispatchMessage(expected);
 			ITelegram actual = receiver.TestTelegram;
@@ -38,10 +40,14 @@ namespace DyM.UnitTests.Tests
 		public void DispatchMessage_NoReceiverIsAttached_DoesNothing()
 		{
 			IMessageDispatcher messageDispatcher = makeDispatcher();
-			IReceiver receiver = Substitute.For<Receiver>();
+			IReceiver receiver = Substitute.For<IReceiver>();
+			ITelegram telegram = Substitute.For<ITelegram>();
 
 			ITelegram expected = null;
-			messageDispatcher.DispatchMessage(new Telegram());
+			receiver.When(receivedMessage => receiver.HandleMessage(expected))
+				.Do(x => receiver.TestTelegram.Returns(expected));
+			messageDispatcher.SendMessage += receiver.HandleMessage;
+			messageDispatcher.DispatchMessage(expected);
 			ITelegram actual = receiver.TestTelegram;
 
 			Assert.AreEqual(expected, actual);

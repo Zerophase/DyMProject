@@ -55,9 +55,14 @@ namespace Assets.Scripts.Character
 			receiver.SubScribe();
 		}
 
-		public bool Equipped()
+		public bool EquippedWeapon()
 		{
 			return weapon != null;
+		}
+
+		public bool EquippedAbility()
+		{
+			return ability != null;
 		}
 
 		public void Equip(IWeapon weapon)
@@ -67,7 +72,7 @@ namespace Assets.Scripts.Character
 
 		public void Equip(IAbility ability)
 		{
-			throw new NotImplementedException();
+			this.ability = ability;
 		}
 
 		public void Receive(ITelegram telegram)
