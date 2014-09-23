@@ -43,7 +43,7 @@ namespace Assets.Scripts.GameObjects
 			camera.OriginPosition = transform.position;
      	}
 
-		private void Update()
+		private void FixedUpdate()
 		{
 			//Debug.Log("Right Stick Magnitude: " + new Vector2(Input.GetAxis("CameraHorizontalMovement"),
 			//		Input.GetAxis("CameraVerticalMovement")).magnitude);
