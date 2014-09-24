@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts.Character.Interfaces;
+using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.ObjectManipulation;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Projectiles;
@@ -14,8 +15,12 @@ namespace Assets.Scripts.GameObjects
 {
 	public class Player : MonoBehaviour
 	{
+		private IPlaneShift planeShift;
 		[Inject]
-		public IMovement movement;
+		private PlaneShiftFactory factory;
+
+		[Inject]
+		private ICardinalMovement cardinalMovement;
 		[Inject]
 		public ICharacter character;
 
@@ -23,8 +28,10 @@ namespace Assets.Scripts.GameObjects
 		public IPooledGameObjects PooledBUlletGameObjects;
 		public static GameObject GunModel;
 		private GameObject bullet;
+		
 		void Start()
 		{
+			planeShift = factory.Create(transform.position);
 			GunModel = GameObject.Find("Gun");
 			PooledBUlletGameObjects.Initialize();
 		}
@@ -33,16 +40,16 @@ namespace Assets.Scripts.GameObjects
 		{
 			//Debug.Log("Left thumbstick position: " + Input.GetAxisRaw("Horizontal"));
 			if(Input.GetButtonDown("PlaneShiftDown"))
-				transform.Translate(movement.ShiftPlane(KeyCode.Joystick1Button4, 
+				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4, 
 					transform.position));
 			else if(Input.GetButtonDown("PlaneShiftUp"))
-				transform.Translate(movement.ShiftPlane(KeyCode.Joystick1Button5,
+				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button5,
 					transform.position));
 
-			transform.Translate(movement.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
+			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
 
-			transform.Translate(movement.Jump(Input.GetAxis("Vertical"), transform.position.y));
-			transform.Translate(movement.Move(Input.GetAxis("Horizontal"), Time.deltaTime));
+			transform.Translate(cardinalMovement.Jump(Input.GetAxis("Jump"), transform.position.y));
+			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), Time.deltaTime));
 		
 		}
 

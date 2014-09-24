@@ -27,7 +27,12 @@ namespace Assets.Scripts.DependencyInjection
 		public override void InstallBindings()
 		{
 			dependencyFrameworkBindings();
+
+			
+			factoryBindings();
+			//_container.BindValue<float>().To(transform.position.z);
 			movementBindings();
+			
 			cameraBindings();
 
 			messengerBindings();
@@ -74,8 +79,13 @@ namespace Assets.Scripts.DependencyInjection
 		private void movementBindings()
 		{
 			_container.Bind<ICardinalMovement>().ToTransient<CardinalMovement>();
-			_container.Bind<IPlaneShift>().ToTransient<PlaneShift>();
+			//_container.Bind<IPlaneShift>().ToTransient<PlaneShift>();
 			_container.Bind<IMovement>().ToTransient<Movement>();
+		}
+
+		private void factoryBindings()
+		{
+			_container.Bind<PlaneShiftFactory>().ToSingle();
 		}
 
 		private void dependencyFrameworkBindings()

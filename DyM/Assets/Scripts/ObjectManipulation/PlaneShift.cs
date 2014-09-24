@@ -36,13 +36,12 @@ namespace Assets.Scripts.ObjectManipulation
 			1f // up
 		};
 
-		[Inject]
 		public PlaneShift()
 		{
 			
 		}
 
-
+		[Inject]
 		public PlaneShift(Vector3 position)
 		{
 			planePosition = PlanePosition.CENTER;
@@ -87,7 +86,7 @@ namespace Assets.Scripts.ObjectManipulation
 
 		private bool maxShift(float plane, float direction)
 		{
-			if (Array.IndexOf(shiftPlanePosition, plane + direction) > arrayIndexNotFound)
+			if (Array.IndexOf(shiftPlanePosition, (int)(plane + direction)) > arrayIndexNotFound)
 				return true;
 			else
 			{
@@ -114,13 +113,6 @@ namespace Assets.Scripts.ObjectManipulation
 			planeShiftTimer = 0f;
 		}
 
-		private bool maxShift(float plane)
-		{
-			if (Array.IndexOf(shiftPlanePosition, plane) > arrayIndexNotFound)
-				return true;
-			return false;
-		}
-
 		public Vector3 Dodge(Vector3 currentPlane, bool keyIsPressed, float timing)
 		{
 			if (savedKeyPress != KeyCode.None && keyIsPressed)
@@ -140,6 +132,13 @@ namespace Assets.Scripts.ObjectManipulation
 			}
 
 			return temp;
+		}
+
+		private bool maxShift(float plane)
+		{
+			if (Array.IndexOf(shiftPlanePosition, (int)plane) > arrayIndexNotFound)
+				return true;
+			return false;
 		}
 	}
 }

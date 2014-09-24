@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
@@ -7,12 +8,11 @@ namespace Assets.Scripts.ObjectManipulation
 {
 	public class Movement : IMovement
 	{
-		[Inject]
 		private IPlaneShift planeShift;
 		[Inject]
 		private ICardinalMovement cardinalMovement;
 
-		[Inject]
+		
 		public Movement(IPlaneShift planeShift, ICardinalMovement cardinalMovement)
 		{
 			createPlaneShift(planeShift);
