@@ -28,7 +28,10 @@ namespace Assets.Scripts.GameObjects
 		public IPooledGameObjects PooledBUlletGameObjects;
 		public static GameObject GunModel;
 		private GameObject bullet;
-		
+
+		private bool planeShiftUp = false;
+		private bool planeShiftdown = false;
+
 		void Start()
 		{
 			planeShift = factory.Create(transform.position);
@@ -39,15 +42,20 @@ namespace Assets.Scripts.GameObjects
 		void FixedUpdate ()
 		{
 			//Debug.Log("Left thumbstick position: " + Input.GetAxisRaw("Horizontal"));
-			if(Input.GetButtonDown("PlaneShiftDown"))
+			if(planeShiftdown)
+			{
 				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4, 
 					transform.position));
-			else if(Input.GetButtonDown("PlaneShiftUp"))
+				planeShiftdown = false;
+			}
+			else if(planeShiftUp)
+			{
 				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button5,
 					transform.position));
+				planeShiftUp = false;
+			}
 
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
-
 			transform.Translate(cardinalMovement.Jump(Input.GetAxis("Jump"), transform.position.y));
 			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), Time.deltaTime));
 		
@@ -55,6 +63,17 @@ namespace Assets.Scripts.GameObjects
 
 		void Update()
 		{
+			if (Input.GetButtonDown("PlaneShiftDown"))
+			{
+				planeShiftdown = true;
+				planeShiftUp = false;
+			}
+			else if (Input.GetButtonDown("PlaneShiftUp"))
+			{
+				planeShiftUp = true;
+				planeShiftdown = false;
+			}
+
 			if (Input.GetAxis("Fire1") > 0f && character.EquippedWeapon())
 			{
 				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = 

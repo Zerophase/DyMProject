@@ -80,13 +80,16 @@ namespace Assets.Scripts.ObjectManipulation
 			}
 			else
 			{
+				if(activatePlaneShift == KeyCode.JoystickButton4 || activatePlaneShift == KeyCode.JoystickButton5)
+					Debug.Log("Bug happening here");
 				return Vector3.zero;
 			}
 		}
 
+		// needs to round float to nearest whole number
 		private bool maxShift(float plane, float direction)
 		{
-			if (Array.IndexOf(shiftPlanePosition, (int)(plane + direction)) > arrayIndexNotFound)
+			if (Array.IndexOf(shiftPlanePosition, (float)Math.Round((plane + direction), 0)) > arrayIndexNotFound)
 				return true;
 			else
 			{
@@ -136,7 +139,7 @@ namespace Assets.Scripts.ObjectManipulation
 
 		private bool maxShift(float plane)
 		{
-			if (Array.IndexOf(shiftPlanePosition, (int)plane) > arrayIndexNotFound)
+			if (Array.IndexOf(shiftPlanePosition, (float)Math.Round(plane, 0)) > arrayIndexNotFound)
 				return true;
 			return false;
 		}
