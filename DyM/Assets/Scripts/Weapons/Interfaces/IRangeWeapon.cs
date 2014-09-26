@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
+using Assets.Scripts.Projectiles.Interfaces;
+
 namespace Assets.Scripts.Weapons.Interfaces
 {
 	public interface IRangeWeapon : IWeapon

@@ -9,21 +9,22 @@ using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
 using Assets.Scripts.Weapons.Interfaces;
+using Assets.Scripts.Weapons.Bases;
 using UnityEngine;
 
 namespace Assets.Scripts.Character.Interfaces
 {
 	public interface ICharacter : IOwner
 	{
-		IWeapon Weapon { get; }
+		IRangeWeapon Weapon { get; }
 		IAbility Ability { get; }
 		StatusEffect StatusEffect { get; }
 		Vector3 Position { get; set; }
 		bool EquippedWeapon();
 		bool EquippedAbility();
-		void Equip(IWeapon weapon);
+		void Equip(IRangeWeapon weapon);
 		void Equip(IAbility ability);
 		void SwitchWeapon();
-		void AddWeapon(BaseWeapon weapon);
+		void AddWeapon(RangeWeaponBase weapon);
 	}
 }

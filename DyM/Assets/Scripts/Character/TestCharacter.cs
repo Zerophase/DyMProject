@@ -10,6 +10,7 @@ using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
 using Assets.Scripts.Weapons.Interfaces;
+using Assets.Scripts.Weapons.Bases;
 using ModestTree.Zenject;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace Assets.Scripts.Character
 {
 	public class TestCharacter : ICharacter
 	{
-		private List<BaseWeapon> weapons = new List<BaseWeapon>(); 
+		private List<RangeWeaponBase> weapons = new List<RangeWeaponBase>(); 
 
 		private IRangeWeapon weapon;
 		public IRangeWeapon Weapon
@@ -65,7 +66,7 @@ namespace Assets.Scripts.Character
 			return ability != null;
 		}
 
-		public void Equip(IWeapon weapon)
+		public void Equip(IRangeWeapon weapon)
 		{
 			this.weapon = weapon;
 		}
@@ -77,7 +78,7 @@ namespace Assets.Scripts.Character
 
 		public void Receive(ITelegram telegram)
 		{
-			if(telegram.Message is BaseWeapon)
+			if(telegram.Message is RangeWeaponBase)
 				AddWeapon((TestWeapon)telegram.Message);
 			else if(telegram.Message is AbilityBase)
 				Equip((Ability)telegram.Message);
@@ -91,7 +92,7 @@ namespace Assets.Scripts.Character
 			Equip(weapons.Find(x => x != weapon));
 		}
 
-		public void AddWeapon(BaseWeapon weapon)
+		public void AddWeapon(RangeWeaponBase weapon)
 		{
 			weapons.Add(weapon);
 			if(weapons.Count < 2)
