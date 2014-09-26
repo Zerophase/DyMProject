@@ -19,8 +19,8 @@ namespace Assets.Scripts.Character
 	{
 		private List<BaseWeapon> weapons = new List<BaseWeapon>(); 
 
-		private IWeapon weapon;
-		public IWeapon Weapon
+		private IRangeWeapon weapon;
+		public IRangeWeapon Weapon
 		{
 			get { return weapon; }
 		}
