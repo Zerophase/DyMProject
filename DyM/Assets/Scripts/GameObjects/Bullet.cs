@@ -11,23 +11,30 @@ public class Bullet : MonoBehaviour
 	private IProjectile projectile;
 	public IProjectile Projectile { set { projectile = value; } }
 
-	private Vector3 shootForward = new Vector3(1f, 0f, 0f);
 	[Inject] 
 	public IPooledGameObjects PooledBulletGameObjects;
 
 	private Vector3 startPosition;
 
-	void Start()
-	{
-		startPosition = transform.position;
-	}
+	private bool setUp = false;
 
 	void Update ()
 	{
-		transform.position +=  shootForward.x * Player.GunModel.transform.up;
-
-		if (Mathf.Abs((startPosition + transform.position).x) > 5f)
+		if (gameObject.activeInHierarchy && !setUp)
 		{
+			transform.position = (Player.GunModel.transform.position + new Vector3(0f, Player.GunModel.transform.lossyScale.y, 0f));
+			startPosition = transform.position;
+			setUp = true;
+		}
+
+		if(!Player.GunModel.GetComponent<Gun>().Rotated)
+			transform.position += Player.GunModel.transform.up;
+		else if (Player.GunModel.GetComponent<Gun>().Rotated)
+			transform.position -= Player.GunModel.transform.up;
+
+		if (Mathf.Abs((transform.position - startPosition).magnitude) > 5f)
+		{
+			setUp = false;
 			PooledBulletGameObjects.DeactivatePooledBullet(gameObject);
 		}
 	}

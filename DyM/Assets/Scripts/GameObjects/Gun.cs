@@ -17,6 +17,8 @@ public class Gun : MonoBehaviour
 		weaponOrigin = gameObject.transform.rotation;
 	}
 
+	public bool Rotated;
+
 	void Update ()
 	{
 		Vector3 direction = weaponOrigin.eulerAngles - new Vector3(Input.GetAxis("CameraHorizontalMovement"), Input.GetAxis("CameraVerticalMovement"));
@@ -26,10 +28,12 @@ public class Gun : MonoBehaviour
 		if (direction.x > 0)
 		{
 			transform.rotation = Quaternion.Euler(0f, 0f, -rotate);
+			Rotated = false;
 		}
 		else
 		{
 			transform.rotation = Quaternion.Euler(0f, 0f, -rotate + 180);
+			Rotated = true;
 		}
 	}
 
