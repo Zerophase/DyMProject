@@ -42,9 +42,9 @@ namespace Assets.Scripts.ObjectManipulation
 			this.planeShift = planeShift;
 		}
 
-		public Vector3 Move(float pos, float time)
+		public Vector3 Move(float pos, Vector3 test, float time)
 		{
-			return cardinalMovement.Move(pos, time);
+			return cardinalMovement.Move(pos, test, time);
 		}
 
 		public Vector3 Jump(float pos, float playerPos)

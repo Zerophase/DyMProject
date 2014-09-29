@@ -31,6 +31,7 @@ namespace Assets.Scripts.GameObjects
 
 		private bool planeShiftUp = false;
 		private bool planeShiftdown = false;
+        private Vector3 acceleration = new Vector3(1f,0f,0f);
 
 		void Start()
 		{
@@ -57,7 +58,7 @@ namespace Assets.Scripts.GameObjects
 
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
 			transform.Translate(cardinalMovement.Jump(Input.GetAxis("Jump"), transform.position.y));
-			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), Time.deltaTime));
+			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
 		
 		}
 
