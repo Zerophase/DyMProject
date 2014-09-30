@@ -10,6 +10,9 @@ using UnityEngine;
 
 namespace DyM.UnitTests
 {
+	/// <summary>
+	/// Test is broken need to update Acceleration values.
+	/// </summary>
 	[TestFixture]
     public class MovementTests
 	{
@@ -23,15 +26,15 @@ namespace DyM.UnitTests
 			return new Movement(planeShift, cardinalMovement);
 		}
 
-		private Vector3 simulateInput(Func<float, float, Vector3> methodUnderTest, 
-			float initialPosition, float movementModifier, int loops, 
+		private Vector3 simulateInput(Func<float, Vector3, float, Vector3> methodUnderTest, 
+			float initialPosition, Vector3 acceleration, float movementModifier, int loops, 
 			bool subtractFromMovementModifier = false)
 		{
 			Vector3 intermediateStep = new Vector3();
 			for (int i = 0; i < loops; i++)
 			{
 				Vector3 preveIntermediateStep = intermediateStep;
-				intermediateStep = methodUnderTest(initialPosition, movementModifier);
+				intermediateStep = methodUnderTest(initialPosition, acceleration, movementModifier);
 				
 				if (subtractFromMovementModifier && 
 					preveIntermediateStep.y > intermediateStep.y)
@@ -47,10 +50,10 @@ namespace DyM.UnitTests
 		{
 			IMovement movement = createMovement();
 			float initialPos = 1f;
-			//movement.ForceOutput = "right";
+			Vector3 acceleration = Vector3.zero;
 
 			Vector3 expected = new Vector3(midSpeed, 0f, 0f);
-			Vector3 actual = simulateInput(movement.Move, initialPos, .6f, 2);
+			Vector3 actual = simulateInput(movement.Move, initialPos, acceleration, .6f, 2);
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -60,10 +63,10 @@ namespace DyM.UnitTests
 		{
 			IMovement movement = createMovement();
 			float initialPos = -1f;
-			//movement.ForceOutput = "left";
+			Vector3 acceleration = Vector3.zero;
 
 			Vector3 expected = new Vector3(-midSpeed, 0f, 0f);
-			Vector3 actual = simulateInput(movement.Move, initialPos, .6f, 2);
+			Vector3 actual = simulateInput(movement.Move, initialPos, acceleration, .6f, 2);
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -73,9 +76,10 @@ namespace DyM.UnitTests
 		{
 			IMovement movement = createMovement();
 			float initialPos = 1f;
+			Vector3 acceleration = Vector3.zero;
 
 			Vector3 expected = new Vector3(maxSpeed, 0f, 0f);
-			Vector3 actual = simulateInput(movement.Move, initialPos, .6f, 5);
+			Vector3 actual = simulateInput(movement.Move, initialPos, acceleration, .6f, 5);
 
 			Assert.LessOrEqual(expected.y, actual.y);
 		}
@@ -85,9 +89,10 @@ namespace DyM.UnitTests
 		{
 			IMovement movement = createMovement();
 			float initialPos = -1f;
+			Vector3 acceleration = Vector3.zero;
 
 			Vector3 expected = new Vector3(-maxSpeed, 0f, 0f);
-			Vector3 actual = simulateInput(movement.Move, initialPos, .6f, 5);
+			Vector3 actual = simulateInput(movement.Move, initialPos, acceleration, .6f, 5);
 
 			Assert.GreaterOrEqual(expected.y, actual.y);
 		}
@@ -97,10 +102,11 @@ namespace DyM.UnitTests
 		{
 			IMovement movement = createMovement();
 			float initalPos = 1f;
+			Vector3 acceleration = Vector3.zero;
 
 			Vector3 expected = new Vector3(0f, 0f, 0f);
-			Vector3 actual = movement.Move(initalPos, .1f);
-			actual = movement.Move(0f, .1f);
+			Vector3 actual = movement.Move(initalPos, acceleration, .1f);
+			actual = movement.Move(0f, acceleration, .1f);
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -137,7 +143,7 @@ namespace DyM.UnitTests
 			float initialPos = 1f;
 
 			Vector3 expected = new Vector3(0f, 5f, 0f);
-			Vector3 actual = simulateInput(movement.Jump, initialPos, 1f, 10);
+			Vector3 actual = Vector3.zero;//simulateInput(movement.Jump, initialPos, 1f, 10);
 
 			Assert.AreEqual(expected, actual);
 		}

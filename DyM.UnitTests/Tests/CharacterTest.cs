@@ -9,6 +9,7 @@ using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Weapons;
+using Assets.Scripts.Weapons.Bases;
 using Assets.Scripts.Weapons.Interfaces;
 using DyM.UnitTests.Tests.BaseTest;
 using NSubstitute;
@@ -22,7 +23,7 @@ namespace DyM.UnitTests.Tests
 		[Test]
 		public void Equip_WeaponGetsEquiped_SetsEquippedWeapon()
 		{
-			IWeapon weapon = Substitute.For<IWeapon>();
+			IRangeWeapon weapon = Substitute.For<IRangeWeapon>();
 			ICharacter character = new TestCharacter();
 
 			IWeapon expected = weapon;
@@ -35,16 +36,16 @@ namespace DyM.UnitTests.Tests
 		[Test]
 		public void SwitchWeapon_SwitchWeaponEquipped_SetsEquippedWeapon()
 		{
-			BaseWeapon weapon = Substitute.For<TestWeapon>();
-			BaseWeapon weapon2 = Substitute.For<TestWeapon2>();
+			RangeWeaponBase weapon = Substitute.For<TestWeapon>();
+			RangeWeaponBase weapon2 = Substitute.For<TestWeapon2>();
 			ICharacter character = new TestCharacter();
 
-			BaseWeapon expected = weapon2;
+			RangeWeaponBase expected = weapon2;
 			character.AddWeapon(weapon);
 			character.AddWeapon(weapon2);
 			character.Equip(weapon);
 			character.SwitchWeapon();
-			BaseWeapon actual = (BaseWeapon)character.Weapon;
+			RangeWeaponBase actual = (RangeWeaponBase)character.Weapon;
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -52,18 +53,18 @@ namespace DyM.UnitTests.Tests
 		[Test]
 		public void SwitchWeapon_SwitchesToNextWeaponWhenMultipleWeaponsArePickedUp_SetsEquippedWeapon()
 		{
-			BaseWeapon weapon = Substitute.For<TestWeapon>();
-			BaseWeapon weapon2 = Substitute.For<TestWeapon2>();
-			BaseWeapon weapon3 = Substitute.For<TestWeapon3>();
+			RangeWeaponBase weapon = Substitute.For<TestWeapon>();
+			RangeWeaponBase weapon2 = Substitute.For<TestWeapon2>();
+			RangeWeaponBase weapon3 = Substitute.For<TestWeapon3>();
 			ICharacter character = new TestCharacter();
 
-			BaseWeapon expected = weapon2;
+			RangeWeaponBase expected = weapon2;
 			character.AddWeapon(weapon);
 			character.AddWeapon(weapon3);
 			character.AddWeapon(weapon2);
 			character.Equip(weapon);
 			character.SwitchWeapon();
-			BaseWeapon actual = (BaseWeapon)character.Weapon;
+			RangeWeaponBase actual = (RangeWeaponBase)character.Weapon;
 
 			Assert.AreEqual(expected, actual);
 		}
