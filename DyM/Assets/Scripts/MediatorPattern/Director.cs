@@ -8,35 +8,25 @@ using UnityEngine;
 
 namespace Assets.Scripts.MediatorPattern
 {
-	public class Director : MonoBehaviour, IOwner
+	public abstract class Director : MonoBehaviour, IOwner
 	{
 		[Inject]
-		private IReceiver receiver;
-
-		
-
-		private List<Mediator> mediatedObject = new List<Mediator>();  
+		protected IReceiver receiver;
+		  
 		public IReceiver Receiver
 		{
 			set { receiver = value; }
 		}
 
-		public void Receive(ITelegram telegram)
+		public virtual void Receive(ITelegram telegram)
 		{
-			if(telegram.Receiver == this)
-				mediatedObject.Add((Mediator)telegram.Message);
+			throw new NotImplementedException();
 		}
 
 		void Awake()
 		{
-			this.receiver.Owner = this;
+			receiver.Owner = this;
 			receiver.SubScribe();
-		}
-
-		void Update()
-		{
-			Debug.Log("Amount of objects in mediated object: " +
-			mediatedObject.Count);
 		}
 	}
 }

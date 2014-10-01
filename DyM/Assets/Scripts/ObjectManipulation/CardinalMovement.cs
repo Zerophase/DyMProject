@@ -14,6 +14,9 @@ namespace Assets.Scripts.ObjectManipulation
 	    private Vector3 velocity;
 	    private Vector3 acceleration;
 
+		private Vector3 gravity;
+		public Vector3 Gravity { set { gravity = value; } }
+
 		private Vector3 jumpPosition;
 		private float prevPosition;
 		private float startJump;
