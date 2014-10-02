@@ -80,8 +80,6 @@ namespace Assets.Scripts.ObjectManipulation
 			}
 			else
 			{
-				if(activatePlaneShift == KeyCode.JoystickButton4 || activatePlaneShift == KeyCode.JoystickButton5)
-					Debug.Log("Bug happening here");
 				return Vector3.zero;
 			}
 		}

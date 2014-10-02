@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.DependencyInjection;
+using Assets.Scripts.MediatorPattern;
 using Assets.Scripts.ObjectManipulation;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Projectiles;
@@ -13,14 +14,13 @@ using System.Collections;
 
 namespace Assets.Scripts.GameObjects
 {
-	public class Player : MonoBehaviour
+	public class Player : PhysicsMediator
 	{
 		private IPlaneShift planeShift;
 		[Inject]
 		private PlaneShiftFactory factory;
 
-		[Inject]
-		private ICardinalMovement cardinalMovement;
+		
 		[Inject]
 		public ICharacter character;
 
@@ -38,6 +38,8 @@ namespace Assets.Scripts.GameObjects
 			planeShift = factory.Create(transform.position);
 			GunModel = GameObject.Find("Gun");
 			PooledBUlletGameObjects.Initialize();
+
+			base.Start();
 		}
 		// Update is called once per frame
 		void FixedUpdate ()

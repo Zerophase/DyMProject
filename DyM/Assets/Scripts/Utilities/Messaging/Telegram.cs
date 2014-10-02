@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.MediatorPattern;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 
 namespace Assets.Scripts.Utilities.Messaging
@@ -29,6 +30,12 @@ namespace Assets.Scripts.Utilities.Messaging
 		public Telegram(IOwner receiver, object message)
 		{
 			this.receiver = receiver;
+			this.message = message;
+		}
+
+		public Telegram(object receiver, object message)
+		{
+			this.receiver = (IOwner) Activator.CreateInstance((Type)receiver);
 			this.message = message;
 		}
 	}

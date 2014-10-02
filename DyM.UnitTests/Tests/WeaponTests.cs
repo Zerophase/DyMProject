@@ -48,7 +48,7 @@ namespace DyM.UnitTests.Tests
 			bulletPool.GetPooledProjectile().Returns(pooledProjectile);
 			IReceiver receiver = makeReceiver();
 			IMessageDispatcher messageDispatcher = makeMessageDispatcher();
-			IWeapon weapon = makeTestWeapon(receiver, messageDispatcher, bulletPool);
+			IRangeWeapon weapon = makeTestWeapon(receiver, messageDispatcher, bulletPool);
 
 			IProjectile expected = pooledProjectile.Projectile;
 			IProjectile actual = weapon.Fire();
