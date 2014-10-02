@@ -47,9 +47,9 @@ namespace Assets.Scripts.ObjectManipulation
 			return cardinalMovement.Move(pos, test, time);
 		}
 
-		public Vector3 Jump(float pos, float playerPos)
+		public Vector3 Jump(bool pressed, float playerPos)
 		{
-			return cardinalMovement.Jump(pos, playerPos);
+			return cardinalMovement.Jump(pressed, playerPos);
 		}
 
 		public Vector3 ShiftPlane(KeyCode activatePlaneShift, Vector3 currentPosition)

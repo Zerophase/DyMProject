@@ -9,7 +9,7 @@ namespace Assets.Scripts.ObjectManipulation.Interfaces
 	public interface ICardinalMovement
 	{
 		Vector3 Move(float stickInput, Vector3 acceleration, float time);
-		Vector3 Jump(float pos, float playerPos);
+		Vector3 Jump(bool pressed, float playerPos);
 		bool Falling { get; }
 	}
 }
