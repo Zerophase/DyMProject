@@ -1,0 +1,267 @@
+fileFormatVersion: 2
+guid: 4a97156f60bd5fe438162dd76d7fe60d
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Rocks_CLEANED_0
+    21300002: Rocks_CLEANED_1
+    21300004: Rocks_CLEANED_2
+    21300006: Rocks_CLEANED_3
+    21300008: Rocks_CLEANED_4
+    21300010: Rocks_CLEANED_5
+    21300012: Rocks_CLEANED_6
+    21300014: Rocks_CLEANED_7
+    21300016: Rocks_CLEANED_8
+    21300018: Rocks_CLEANED_9
+    21300020: Rocks_CLEANED_10
+    21300022: Rocks_CLEANED_11
+    21300024: Rocks_CLEANED_12
+    21300026: Rocks_CLEANED_13
+    21300028: Rocks_CLEANED_14
+    21300030: Rocks_CLEANED_15
+    21300032: Rocks_CLEANED_16
+    21300034: Rocks_CLEANED_17
+    21300036: Rocks_CLEANED_18
+    21300038: Rocks_CLEANED_19
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Rocks_CLEANED_0
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 1218
+        width: 355
+        height: 272
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_1
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 1224
+        width: 334
+        height: 274
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_2
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 1229
+        width: 349
+        height: 267
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_3
+      rect:
+        serializedVersion: 2
+        x: 1195
+        y: 1244
+        width: 381
+        height: 256
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_4
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 1076
+        width: 438
+        height: 328
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_5
+      rect:
+        serializedVersion: 2
+        x: 1192
+        y: 1020
+        width: 255
+        height: 209
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_6
+      rect:
+        serializedVersion: 2
+        x: 931
+        y: 1004
+        width: 231
+        height: 218
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_7
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 1015
+        width: 224
+        height: 207
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_8
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 1018
+        width: 211
+        height: 189
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_9
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 623
+        width: 403
+        height: 349
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_10
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 608
+        width: 366
+        height: 356
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_11
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 429
+        width: 220
+        height: 170
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_12
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 431
+        width: 209
+        height: 166
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_13
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 629
+        width: 306
+        height: 231
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_14
+      rect:
+        serializedVersion: 2
+        x: 1419
+        y: 459
+        width: 274
+        height: 261
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_15
+      rect:
+        serializedVersion: 2
+        x: 1581
+        y: 761
+        width: 468
+        height: 287
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_16
+      rect:
+        serializedVersion: 2
+        x: 1701
+        y: 90
+        width: 313
+        height: 265
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_17
+      rect:
+        serializedVersion: 2
+        x: 1274
+        y: 107
+        width: 315
+        height: 240
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_18
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 127
+        width: 507
+        height: 295
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rocks_CLEANED_19
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 68
+        width: 537
+        height: 335
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
