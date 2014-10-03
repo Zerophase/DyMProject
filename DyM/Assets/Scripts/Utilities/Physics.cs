@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
-public static class Physics 
+public static class PhysicsFuncts 
 {
     public static Vector3 calculateVelocity(Vector3 currentAcceleration, float direction)
     {

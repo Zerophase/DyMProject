@@ -57,9 +57,8 @@ namespace Assets.Scripts.GameObjects
 					transform.position));
 				planeShiftUp = false;
 			}
-
+            
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
-			transform.Translate(cardinalMovement.Jump(Input.GetAxis("Jump"), transform.position.y));
 			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
 		
 		}
