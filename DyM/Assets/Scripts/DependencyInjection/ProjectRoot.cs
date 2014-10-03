@@ -38,7 +38,8 @@ namespace Assets.Scripts.DependencyInjection
 
 			characterBindings();
 			
-			weaponBindings();
+			rangeWeaponBindings();
+			meleeWeaponBindings();
 
 			abilityBindings();
 
@@ -50,13 +51,18 @@ namespace Assets.Scripts.DependencyInjection
 			_container.Bind<IAbility>().ToTransient<Ability>();
 		}
 
-		private void weaponBindings()
+		private void rangeWeaponBindings()
 		{
-			_container.Bind<IWeapon>().ToTransient<TestWeapon>();
+			_container.Bind<IRangeWeapon>().ToTransient<TestRangeWeapon>();
 			_container.Bind<IProjectile>().ToTransient<Projectile>();
 			_container.Bind<IPooledProjectile>().ToTransient<PooledProjectile>();
 			_container.Bind<IBulletPool>().ToSingle<BulletPool>();
 			_container.Bind<IPooledGameObjects>().ToSingle<PooledGameobjects>();
+		}
+
+		private void meleeWeaponBindings()
+		{
+			_container.Bind<IMeleeWeapon>().ToTransient<TestMeleeWeapon>();
 		}
 
 		private void characterBindings()

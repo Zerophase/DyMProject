@@ -12,7 +12,7 @@ namespace Assets.Scripts.Weapons.Interfaces
 {
 		public interface IMeleeWeapon : IWeapon
 		{
-			void Attack();
+			int Attack();
 		}
 }
 

@@ -16,13 +16,16 @@ namespace Assets.Scripts.Character.Interfaces
 {
 	public interface ICharacter : IOwner
 	{
-		IRangeWeapon Weapon { get; }
+		IRangeWeapon RangeWeapon { get; }
+		IMeleeWeapon MeleeWeapon { get; }
 		IAbility Ability { get; }
 		StatusEffect StatusEffect { get; }
 		Vector3 Position { get; set; }
-		bool EquippedWeapon();
+		bool EquippedRangeWeapon();
+		bool EquippedMeleeWeapon();
 		bool EquippedAbility();
-		void Equip(IRangeWeapon weapon);
+		void Equip(IRangeWeapon rangeweapon);
+		void Equip(IMeleeWeapon meleeWeapon);
 		void Equip(IAbility ability);
 		void SwitchWeapon();
 		void AddWeapon(RangeWeaponBase weapon);

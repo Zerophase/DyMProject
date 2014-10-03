@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security;
 using System.Text;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Utilities.Messaging;
+using Assets.Scripts.Utilities.Messaging.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
 
@@ -28,6 +30,8 @@ namespace Assets.Scripts.MediatorPattern
 		protected virtual void Start()
 		{
 			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
+			var Foo = typeof (PhysicsDirector);
+			IOwner o = Foo as IOwner;
 		}
 	}
 }

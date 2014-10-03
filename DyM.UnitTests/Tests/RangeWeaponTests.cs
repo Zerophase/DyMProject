@@ -11,6 +11,7 @@ using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
 using Assets.Scripts.Weapons.Interfaces;
+using DyM.UnitTests.Tests.BaseTest;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEditor.VersionControl;
@@ -19,22 +20,12 @@ using UnityEngine;
 namespace DyM.UnitTests.Tests
 {
 	[TestFixture]
-	public class WeaponTests
+	public class RangeWeaponTests : WeaponTestBase
 	{
-		private IReceiver makeReceiver()
-		{
-			return Substitute.For<IReceiver>();
-		}
-
-		private IMessageDispatcher makeMessageDispatcher()
-		{
-			return Substitute.For<IMessageDispatcher>();
-		}
-
-		private TestWeapon makeTestWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher,
+		private TestRangeWeapon makeTestRangeWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher,
 			IBulletPool bulletPool)
 		{
-			return new TestWeapon(receiver, messageDispatcher, bulletPool);
+			return new TestRangeWeapon(receiver, messageDispatcher, bulletPool);
 		}
 
 		[Test]
@@ -46,9 +37,9 @@ namespace DyM.UnitTests.Tests
 			IBulletPool bulletPool = Substitute.For<IBulletPool>();
 			bulletPool.Projectile = pooledProjectile;
 			bulletPool.GetPooledProjectile().Returns(pooledProjectile);
-			IReceiver receiver = makeReceiver();
-			IMessageDispatcher messageDispatcher = makeMessageDispatcher();
-			IRangeWeapon weapon = makeTestWeapon(receiver, messageDispatcher, bulletPool);
+			IReceiver receiver = substituteReceiver();
+			IMessageDispatcher messageDispatcher = substituteMessageDispatcher();
+			IRangeWeapon weapon = makeTestRangeWeapon(receiver, messageDispatcher, bulletPool);
 
 			IProjectile expected = pooledProjectile.Projectile;
 			IProjectile actual = weapon.Fire();
@@ -56,20 +47,18 @@ namespace DyM.UnitTests.Tests
 			Assert.AreEqual(expected, actual);
 		}
 
-		//TODO fix test so it passes with current implementation
 		[Test]
-		public void PickUp_PicksWeaponUp_ReturnsWeapon()
+		public void PickUp_PicksRangeWeaponUp_ReturnsWeapon()
 		{
 			ITelegram telegram = Substitute.For<ITelegram>();
-			IReceiver receiver = makeReceiver();
+			IReceiver receiver = substituteReceiver();
 			ICharacter character = Substitute.For<ICharacter>();
 			receiver.Owner = character;
 			IMessageDispatcher messageDispatcher =
-				makeMessageDispatcher();
-			IReceiver receiverCharacter = Substitute.For<IReceiver>();
-			IReceiver receiverWeapon = Substitute.For<IReceiver>();
+				substituteMessageDispatcher();
+			IReceiver receiverWeapon = substituteReceiver();
 			IBulletPool bulletPool = Substitute.For<IBulletPool>();
-			IWeapon weapon = makeTestWeapon(receiverWeapon, messageDispatcher,bulletPool);
+			IRangeWeapon weapon = makeTestRangeWeapon(receiverWeapon, messageDispatcher,bulletPool);
 			receiverWeapon.Owner = weapon;
 
 			telegram.Message.Returns(weapon);
@@ -77,11 +66,11 @@ namespace DyM.UnitTests.Tests
 			messageDispatcher.When(dispatch => messageDispatcher.DispatchMessage(Arg.Any<Telegram>())).
 				Do(x => character.Receive(telegram));
 			character.When(receive => character.Receive(telegram)).
-				Do(x => character.Weapon.Returns(weapon));
-			IWeapon expected = weapon;
+				Do(x => character.RangeWeapon.Returns(weapon));
+			IRangeWeapon expected = weapon;
 			character.Position = Vector3.zero;
 			weapon.PickUp(character);
-			IWeapon actual = character.Weapon;
+			IRangeWeapon actual = character.RangeWeapon;
 
 			Assert.AreEqual(expected, actual);
 		}

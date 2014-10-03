@@ -8,16 +8,19 @@ using System.Collections;
 public class Gun : MonoBehaviour
 {
 	[Inject] 
-	private IWeapon weapon;
+	private IRangeWeapon weapon;
 
 	private Quaternion weaponOrigin;
+
+	[HideInInspector]
+	public bool Rotated;
 
 	void Start()
 	{
 		weaponOrigin = gameObject.transform.rotation;
 	}
 
-	public bool Rotated;
+	
 
 	void Update ()
 	{

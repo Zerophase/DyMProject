@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour
 	public IPooledGameObjects PooledBulletGameObjects;
 
 	private Vector3 startPosition;
+	private Vector3 fireDirection;
 
 	private bool setUp = false;
 
@@ -24,13 +25,14 @@ public class Bullet : MonoBehaviour
 		{
 			transform.position = (Player.GunModel.transform.position + new Vector3(0f, Player.GunModel.transform.lossyScale.y, 0f));
 			startPosition = transform.position;
+			fireDirection = Player.GunModel.transform.up;
 			setUp = true;
 		}
 
 		if(!Player.GunModel.GetComponent<Gun>().Rotated)
-			transform.position += Player.GunModel.transform.up;
+			transform.position += fireDirection * Time.deltaTime;
 		else if (Player.GunModel.GetComponent<Gun>().Rotated)
-			transform.position -= Player.GunModel.transform.up;
+			transform.position -= fireDirection * Time.deltaTime;
 
 		if (Mathf.Abs((transform.position - startPosition).magnitude) > 5f)
 		{

@@ -17,18 +17,32 @@ using NUnit.Framework;
 
 namespace DyM.UnitTests.Tests
 {
+	//todo refactor to use interfaces vs actual classes.
 	[TestFixture]
 	public class CharacterTest : CommonTestsWithMessenger
 	{
 		[Test]
-		public void Equip_WeaponGetsEquiped_SetsEquippedWeapon()
+		public void Equip_MeleeWeaponGetsEquiped_SetsMeleeEquippedWeapon()
+		{
+			IMeleeWeapon meleeWeapon = Substitute.For<IMeleeWeapon>();
+			ICharacter character = new TestCharacter();
+
+			IMeleeWeapon expected = meleeWeapon;
+			character.Equip(meleeWeapon);
+			IMeleeWeapon actual = character.MeleeWeapon;
+			
+			Assert.AreEqual(expected, actual);
+		}
+
+		[Test]
+		public void Equip_RangeWeaponGetsEquiped_SetsRangeEquippedWeapon()
 		{
 			IRangeWeapon weapon = Substitute.For<IRangeWeapon>();
 			ICharacter character = new TestCharacter();
 
-			IWeapon expected = weapon;
+			IRangeWeapon expected = weapon;
 			character.Equip(weapon);
-			IWeapon actual = character.Weapon;
+			IRangeWeapon actual = character.RangeWeapon;
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -36,7 +50,7 @@ namespace DyM.UnitTests.Tests
 		[Test]
 		public void SwitchWeapon_SwitchWeaponEquipped_SetsEquippedWeapon()
 		{
-			RangeWeaponBase weapon = Substitute.For<TestWeapon>();
+			RangeWeaponBase weapon = Substitute.For<TestRangeWeapon>();
 			RangeWeaponBase weapon2 = Substitute.For<TestWeapon2>();
 			ICharacter character = new TestCharacter();
 
@@ -45,7 +59,7 @@ namespace DyM.UnitTests.Tests
 			character.AddWeapon(weapon2);
 			character.Equip(weapon);
 			character.SwitchWeapon();
-			RangeWeaponBase actual = (RangeWeaponBase)character.Weapon;
+			RangeWeaponBase actual = (RangeWeaponBase)character.RangeWeapon;
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -53,7 +67,7 @@ namespace DyM.UnitTests.Tests
 		[Test]
 		public void SwitchWeapon_SwitchesToNextWeaponWhenMultipleWeaponsArePickedUp_SetsEquippedWeapon()
 		{
-			RangeWeaponBase weapon = Substitute.For<TestWeapon>();
+			RangeWeaponBase weapon = Substitute.For<TestRangeWeapon>();
 			RangeWeaponBase weapon2 = Substitute.For<TestWeapon2>();
 			RangeWeaponBase weapon3 = Substitute.For<TestWeapon3>();
 			ICharacter character = new TestCharacter();
@@ -64,7 +78,7 @@ namespace DyM.UnitTests.Tests
 			character.AddWeapon(weapon2);
 			character.Equip(weapon);
 			character.SwitchWeapon();
-			RangeWeaponBase actual = (RangeWeaponBase)character.Weapon;
+			RangeWeaponBase actual = (RangeWeaponBase)character.RangeWeapon;
 
 			Assert.AreEqual(expected, actual);
 		}

@@ -16,19 +16,18 @@ namespace Assets.Scripts.Weapons
 {
 
 
-	public class TestWeapon : RangeWeaponBase
+	public class TestRangeWeapon : RangeWeaponBase
 	{
-		
-		public TestWeapon() : base(0)
+		public TestRangeWeapon() : base(0)
 		{
 		}
 
-		public TestWeapon(IProjectile projectile) : base(0, projectile)
+		public TestRangeWeapon(IProjectile projectile) : base(0, projectile)
 		{
 		}
 
 		[Inject]
-		public TestWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher,
+		public TestRangeWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher,
 			IBulletPool bulletPool = null) 
 			: base(receiver, messageDispatcher, bulletPool)
 		{
