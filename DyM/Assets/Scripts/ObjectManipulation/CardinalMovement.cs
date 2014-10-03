@@ -15,10 +15,9 @@ namespace Assets.Scripts.ObjectManipulation
 	    private Vector3 velocity;
 	    private Vector3 acceleration;
 
-<<<<<<< HEAD
 	    private Vector3 jumpVelocity;
 	    private Vector3 jumpAcceleration = new Vector3(0f, .3f, 0f);
-=======
+
 		private Vector3 gravity;
 		public Vector3 Gravity { set { gravity = value; } }
 
@@ -26,7 +25,7 @@ namespace Assets.Scripts.ObjectManipulation
 		private float prevPosition;
 		private float startJump;
 		private float jumpHeight = 5f;
->>>>>>> origin/master
+
 		private bool falling;
 		public bool Falling
 		{
