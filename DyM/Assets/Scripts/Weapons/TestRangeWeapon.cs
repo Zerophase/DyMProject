@@ -28,8 +28,8 @@ namespace Assets.Scripts.Weapons
 
 		[Inject]
 		public TestRangeWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher,
-			IBulletPool bulletPool = null) 
-			: base(receiver, messageDispatcher, bulletPool)
+			IProjectile projectile, IBulletPool bulletPool = null) 
+			: base(receiver, messageDispatcher, projectile, bulletPool)
 		{
 		}
 	}

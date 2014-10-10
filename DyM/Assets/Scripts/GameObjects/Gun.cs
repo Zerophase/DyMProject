@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Character;
+using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.GameObjects;
+using Assets.Scripts.Weapons;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
@@ -7,7 +9,6 @@ using System.Collections;
 
 public class Gun : MonoBehaviour
 {
-	[Inject] 
 	private IRangeWeapon weapon;
 
 	private Quaternion weaponOrigin;
@@ -15,8 +16,12 @@ public class Gun : MonoBehaviour
 	[HideInInspector]
 	public bool Rotated;
 
+	[Inject] 
+	private RangeWeaponFactory rangeWeaponFactory;
+
 	void Start()
 	{
+		weapon = rangeWeaponFactory.Create(WeaponTypes.MACHINE_GUN);
 		weaponOrigin = gameObject.transform.rotation;
 	}
 

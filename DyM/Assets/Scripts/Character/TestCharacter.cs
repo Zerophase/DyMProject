@@ -95,7 +95,7 @@ namespace Assets.Scripts.Character
 		public void Receive(ITelegram telegram)
 		{
 			if(telegram.Message is RangeWeaponBase)
-				AddWeapon((TestRangeWeapon)telegram.Message);
+				AddWeapon((RangeWeaponBase)telegram.Message);
 			else if(telegram.Message is MeleeWeaponBase)
 				Equip((TestMeleeWeapon)telegram.Message);
 			else if(telegram.Message is AbilityBase)

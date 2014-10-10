@@ -8,7 +8,7 @@ using UnityEngine;
 namespace DyM.UnitTests.Tests
 { 
 	/// <summary>
-	/// Test is currently broken need to update for acceleration
+	/// Tests are currently broken need to update for acceleration, jump needs corrections
 	/// </summary>
 	[TestFixture]
 	public class CardinalMovementTests : CommonVector3TestProperties
@@ -99,8 +99,8 @@ namespace DyM.UnitTests.Tests
 			ICardinalMovement cardinalMovement = createCardinalMovement();
 
 			Vector3 expected = new Vector3(0f, 0f, 0f);
-			Vector3 actual = cardinalMovement.Jump(initialPosition, 1f);
-			actual = cardinalMovement.Jump(0f, 3f);
+			Vector3 actual = cardinalMovement.Jump(true, 1f);
+			actual = cardinalMovement.Jump(true, 3f);
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -113,7 +113,7 @@ namespace DyM.UnitTests.Tests
 			{
 				if (cardinalMovement.Falling)
 					break;
-				tempPlayerPos += cardinalMovement.Jump(buttonIsPressed, tempPlayerPos.y);
+				tempPlayerPos += cardinalMovement.Jump(true, tempPlayerPos.y);
 			}
 
 			return tempPlayerPos;
@@ -130,7 +130,7 @@ namespace DyM.UnitTests.Tests
 			Vector3 expected = Vector3.zero;
 			Vector3 actual = startPos;
 			// Normalizes Max Jump based on players current position.
-			actual += cardinalMovement.Jump(noKeyPressed, actual.y);
+			actual += cardinalMovement.Jump(false, actual.y);
 			actual = simulateJumpHeight(cardinalMovement, initialPosition, actual.y, 6);
 
 			Assert.AreEqual(expected, actual);
@@ -144,9 +144,9 @@ namespace DyM.UnitTests.Tests
 			float noKeyPressed = 0f;
 
 			Vector3 expected = new Vector3(0f, 10f, 0f);
-			Vector3 actual = cardinalMovement.Jump(noKeyPressed, startPos.y);
+			Vector3 actual = cardinalMovement.Jump(false, startPos.y);
 			actual = simulateJumpHeight(cardinalMovement, initialPosition, actual.y, 6);
-			cardinalMovement.Jump(noKeyPressed, actual.y);
+			cardinalMovement.Jump(false, actual.y);
 			actual = simulateJumpHeight(cardinalMovement, initialPosition, actual.y, 6);
 
 			Assert.AreEqual(expected, actual);

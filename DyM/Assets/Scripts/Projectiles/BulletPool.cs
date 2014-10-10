@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
 
@@ -10,12 +12,12 @@ namespace Assets.Scripts.Projectiles
 		[Inject]
 		public BulletPool()
 		{
-			
 		}
 
 		List<IPooledProjectile> projectiles = new List<IPooledProjectile>();
 
 		[Inject]
+		private PooledProjectileFactory pooledProjectileFactory;
 		private IPooledProjectile projectile;
 
 		// For Tests
@@ -26,8 +28,9 @@ namespace Assets.Scripts.Projectiles
 			get { return  projectiles; }
 		}
 
-		public void Initialize(Vector3 startPosition, int count)
+		public void Initialize(IRangeWeapon rangeWeapon, Vector3 startPosition, int count)
 		{
+			projectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
 			for (int i = 0; i < count; i++)
 			{
 				addProjectile();

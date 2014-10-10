@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.Projectiles.Interfaces;
 
-namespace Assets.Scripts.Projectiles
+namespace Assets.Scripts.Projectiles.Projectiles
 {
 	public class Projectile : IProjectile
 	{

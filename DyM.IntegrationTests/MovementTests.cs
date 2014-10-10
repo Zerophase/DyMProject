@@ -11,7 +11,7 @@ using UnityEngine;
 namespace DyM.UnitTests
 {
 	/// <summary>
-	/// Test is broken need to update Acceleration values.
+	/// Tests are broken need to update Acceleration values.
 	/// </summary>
 	[TestFixture]
     public class MovementTests
@@ -118,7 +118,7 @@ namespace DyM.UnitTests
 			float initialPos = 1f;
 
 			Vector3 expected = new Vector3(0f, .5f, 0f);
-			Vector3 actual = movement.Jump(initialPos, 1f);
+			Vector3 actual = movement.Jump(true, 1f);
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -130,8 +130,8 @@ namespace DyM.UnitTests
 			float initialPos = 1f;
 
 			Vector3 expected = new Vector3(0f, 0f, 0f);
-			Vector3 actual = movement.Jump(initialPos, 1f);
-			actual = movement.Jump(0f, 3f);
+			Vector3 actual = movement.Jump(true, 1f);
+			actual = movement.Jump(true, 3f);
 
 			Assert.AreEqual(expected, actual);
 		}

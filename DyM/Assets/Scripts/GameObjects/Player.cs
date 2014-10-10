@@ -60,38 +60,37 @@ namespace Assets.Scripts.GameObjects
             
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
 			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
-		
 		}
 
 		void Update()
 		{
-			if (Input.GetButtonDown("PlaneShiftDown"))
-			{
-				planeShiftdown = true;
-				planeShiftUp = false;
-			}
-			else if (Input.GetButtonDown("PlaneShiftUp"))
-			{
-				planeShiftUp = true;
-				planeShiftdown = false;
-			}
+			//if (Input.GetButtonDown("PlaneShiftDown"))
+			//{
+			//	planeShiftdown = true;
+			//	planeShiftUp = false;
+			//}
+			//else if (Input.GetButtonDown("PlaneShiftUp"))
+			//{
+			//	planeShiftUp = true;
+			//	planeShiftdown = false;
+			//}
 
-			if (Input.GetButton("Fire1") && character.EquippedRangeWeapon())
+			if (Input.GetAxis("Fire1") > 0 && character.EquippedRangeWeapon())
 			{
 				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = 
 					character.RangeWeapon.Fire();
 			}
 
-			if (Input.GetButtonDown("WeakAttack") && character.EquippedRangeWeapon())
-			{
-				character.MeleeWeapon.Attack();
-			}
+			//if (Input.GetButtonDown("WeakAttack") && character.EquippedRangeWeapon())
+			//{
+			//	character.MeleeWeapon.Attack();
+			//}
 
-			if (Input.GetButtonDown("ActivateAbility") && character.EquippedAbility())
-			{
-				character.Ability.Activate(character);
-				Debug.Log("StatusEffect is: " + character.StatusEffect);
-			}
+			//if (Input.GetButtonDown("ActivateAbility") && character.EquippedAbility())
+			//{
+			//	character.Ability.Activate(character);
+			//	Debug.Log("StatusEffect is: " + character.StatusEffect);
+			//}
 				
 		}
 

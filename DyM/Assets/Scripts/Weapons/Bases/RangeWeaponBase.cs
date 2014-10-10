@@ -1,10 +1,12 @@
 
+using Assets.Scripts.Projectiles.Projectiles;
 using Assets.Scripts.Weapons.Interfaces;
 using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.Utilities.Messaging;
 using System;
+using ModestTree.Zenject;
 using UnityEngine;
 
 namespace Assets.Scripts.Weapons.Bases
@@ -20,7 +22,8 @@ namespace Assets.Scripts.Weapons.Bases
 		
 		
 		private IProjectile projectile;
-		
+		public IProjectile Projectile { get { return projectile; } }
+
 		private IBulletPool bulletPool;
 		
 		private IReceiver receiver;
@@ -40,13 +43,16 @@ namespace Assets.Scripts.Weapons.Bases
 		}
 		
 		public RangeWeaponBase(IReceiver receiver, IMessageDispatcher messageDispatcher,
-		                       IBulletPool bulletPool = null)
+		                       IProjectile projectile, IBulletPool bulletPool = null)
 		{
 			this.receiver = receiver;
 			this.receiver.Owner = this;
 			this.messageDispatcher = messageDispatcher;
 			this.bulletPool = bulletPool;
-			bulletPool.Initialize(new Vector3(0f, 0f, 0f), 50);
+			this.projectile = projectile;
+
+			if(bulletPool.Projectiles.Count < 50)
+				bulletPool.Initialize(this, new Vector3(0f, 0f, 0f), 50);
 			
 			receiver.SubScribe();
 		}

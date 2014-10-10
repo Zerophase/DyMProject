@@ -12,9 +12,11 @@ using Assets.Scripts.ObjectManipulation;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Projectiles.Projectiles;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
+using Assets.Scripts.Weapons.Guns;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
@@ -53,9 +55,11 @@ namespace Assets.Scripts.DependencyInjection
 
 		private void rangeWeaponBindings()
 		{
-			_container.Bind<IRangeWeapon>().ToTransient<TestRangeWeapon>();
-			_container.Bind<IProjectile>().ToTransient<Projectile>();
-			_container.Bind<IPooledProjectile>().ToTransient<PooledProjectile>();
+			_container.Bind<IRangeWeapon>().ToTransient<MachineGun>();
+			//_container.Bind<IProjectile>().ToTransient<Projectile>();
+			_container.Bind<IProjectile>().ToTransient<MachineGunProjectile>().
+				WhenInjectedInto<MachineGun>();
+			//_container.Bind<IPooledProjectile>().ToTransient<PooledProjectile>();
 			_container.Bind<IBulletPool>().ToSingle<BulletPool>();
 			_container.Bind<IPooledGameObjects>().ToSingle<PooledGameobjects>();
 		}
@@ -90,6 +94,8 @@ namespace Assets.Scripts.DependencyInjection
 		private void factoryBindings()
 		{
 			_container.Bind<PlaneShiftFactory>().ToSingle();
+			_container.Bind<RangeWeaponFactory>().ToSingle();
+			_container.Bind<PooledProjectileFactory>().ToSingle();
 		}
 
 		private void dependencyFrameworkBindings()

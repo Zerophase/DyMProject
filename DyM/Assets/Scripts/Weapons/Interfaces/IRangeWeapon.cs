@@ -15,6 +15,7 @@ namespace Assets.Scripts.Weapons.Interfaces
 	public interface IRangeWeapon : IWeapon
 	{
 		IProjectile Fire();
+		IProjectile Projectile { get; }
 	}
 }
 
