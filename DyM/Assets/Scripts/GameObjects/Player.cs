@@ -31,14 +31,18 @@ namespace Assets.Scripts.GameObjects
 
 		private bool planeShiftUp = false;
 		private bool planeShiftdown = false;
-        private Vector3 acceleration = new Vector3(1f,0f,0f);
-
+        private Vector3 acceleration = new Vector3(10f,0f,0f);
+		
+		OurCollider ourCollider;
+		
 		void Start()
 		{
 			planeShift = factory.Create(transform.position);
 			GunModel = GameObject.Find("Gun");
 			PooledBUlletGameObjects.Initialize();
-
+			
+			ourCollider = new OurCollider(renderer.bounds.center, renderer.bounds.size);
+			
 			base.Start();
 		}
 		// Update is called once per frame
@@ -60,20 +64,21 @@ namespace Assets.Scripts.GameObjects
             
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
 			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
+			transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"),0f));
 		}
 
 		void Update()
 		{
-			//if (Input.GetButtonDown("PlaneShiftDown"))
-			//{
-			//	planeShiftdown = true;
-			//	planeShiftUp = false;
-			//}
-			//else if (Input.GetButtonDown("PlaneShiftUp"))
-			//{
-			//	planeShiftUp = true;
-			//	planeShiftdown = false;
-			//}
+			if (Input.GetButtonDown("PlaneShiftDown"))
+			{
+				planeShiftdown = true;
+				planeShiftUp = false;
+			}
+			else if (Input.GetButtonDown("PlaneShiftUp"))
+			{
+				planeShiftUp = true;
+				planeShiftdown = false;
+			}
 
 			if (Input.GetAxis("Fire1") > 0 && character.EquippedRangeWeapon())
 			{
@@ -81,16 +86,16 @@ namespace Assets.Scripts.GameObjects
 					character.RangeWeapon.Fire();
 			}
 
-			//if (Input.GetButtonDown("WeakAttack") && character.EquippedRangeWeapon())
-			//{
-			//	character.MeleeWeapon.Attack();
-			//}
+			if (Input.GetButtonDown("WeakAttack") && character.EquippedRangeWeapon())
+			{
+				character.MeleeWeapon.Attack();
+			}
 
-			//if (Input.GetButtonDown("ActivateAbility") && character.EquippedAbility())
-			//{
-			//	character.Ability.Activate(character);
-			//	Debug.Log("StatusEffect is: " + character.StatusEffect);
-			//}
+			if (Input.GetButtonDown("ActivateAbility") && character.EquippedAbility())
+			{
+				character.Ability.Activate(character);
+				Debug.Log("StatusEffect is: " + character.StatusEffect);
+			}
 				
 		}
 

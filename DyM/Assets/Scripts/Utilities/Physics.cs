@@ -2,23 +2,19 @@
 using UnityEngine;
 using System.Collections;
 
-public static class PhysicsFuncts 
+namespace Assets.Scripts.Utilities
 {
-    public static Vector3 calculateVelocity(Vector3 currentAcceleration, float direction)
-    {
-        Vector3 result = Vector3.zero;
-
-        result = currentAcceleration*direction;
-
-        return result;
-    }
-
-    public static Vector3 calculatePosition(Vector3 currentVelocity)
-    {
-        Vector3 result = Vector3.zero;
-
-        result = currentVelocity*Time.deltaTime;
-
-        return result;
-    }
+	public static class PhysicsFuncts 
+	{
+		public static Vector3 calculateVelocity(Vector3 currentAcceleration, float time)
+		{
+			return currentAcceleration * time;
+		}
+		
+		public static Vector3 calculatePosition(Vector3 currentVelocity, float time)
+		{
+			return currentVelocity * time;
+		}
+	}
 }
+

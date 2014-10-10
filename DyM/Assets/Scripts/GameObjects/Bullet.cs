@@ -4,6 +4,7 @@ using Assets.Scripts.Projectiles.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Utilities;
 
 public class Bullet : MonoBehaviour
 {
@@ -16,7 +17,9 @@ public class Bullet : MonoBehaviour
 
 	private Vector3 startPosition;
 	private Vector3 fireDirection;
-
+	private float speed = 10.0f;
+	
+	
 	private bool setUp = false;
 
 	void Update ()
@@ -25,14 +28,14 @@ public class Bullet : MonoBehaviour
 		{
 			transform.position = (Player.GunModel.transform.position + new Vector3(0f, Player.GunModel.transform.lossyScale.y, 0f));
 			startPosition = transform.position;
-			fireDirection = Player.GunModel.transform.up;
+			if(Player.GunModel.GetComponent<Gun>().Rotated)
+				fireDirection = -Player.GunModel.transform.up;
+			else
+				fireDirection = Player.GunModel.transform.up;
 			setUp = true;
 		}
-
-		if(!Player.GunModel.GetComponent<Gun>().Rotated)
-			transform.position += fireDirection * Time.deltaTime;
-		else if (Player.GunModel.GetComponent<Gun>().Rotated)
-			transform.position -= fireDirection * Time.deltaTime;
+		
+		transform.Translate(PhysicsFuncts.calculateVelocity(speed * fireDirection, Time.deltaTime));
 
 		if (Mathf.Abs((transform.position - startPosition).magnitude) > 5f)
 		{

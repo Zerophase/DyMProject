@@ -38,13 +38,23 @@ namespace Assets.Scripts.ObjectManipulation
 
 		public Vector3 Move(float stickInput, Vector3 acceleration, float time)
 		{
-		    velocity = PhysicsFuncts.calculateVelocity(acceleration,stickInput);
+		    velocity = PhysicsFuncts.calculateVelocity(acceleration, time) * stickInput;
+		    
 			return velocity;
 		}
 
 		public Vector3 Jump(bool pressed, float playerPos)
 		{
-		  
+			if(pressed)
+			{
+				jumpVelocity = new Vector3(0f,.5f,0f);
+				jumpVelocity += PhysicsFuncts.calculateVelocity(gravity, Time.deltaTime);
+				
+			}
+			else
+			{
+				jumpVelocity = Vector3.zero;
+			}
 			return jumpVelocity;
 		}
 		

@@ -88,7 +88,6 @@ namespace Assets.Scripts.DependencyInjection
 		private void movementBindings()
 		{
 			_container.Bind<ICardinalMovement>().ToTransient<CardinalMovement>();
-			_container.Bind<IMovement>().ToTransient<Movement>();
 		}
 
 		private void factoryBindings()
