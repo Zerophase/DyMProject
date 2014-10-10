@@ -1,0 +1,113 @@
+fileFormatVersion: 2
+guid: 97b2defd7b40aa44eb43f62d9ecaaefd
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Platforms_CLEANEDv2_0
+    21300002: Platforms_CLEANEDv2_1
+    21300004: Platforms_CLEANEDv2_2
+    21300006: Platforms_CLEANEDv2_3
+    21300008: Platforms_CLEANEDv2_4
+    21300010: Platforms_CLEANEDv2_5
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Platforms_CLEANEDv2_0
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 1270
+        width: 463
+        height: 162
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Platforms_CLEANEDv2_1
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1004
+        width: 744
+        height: 180
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Platforms_CLEANEDv2_2
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 709
+        width: 1083
+        height: 280
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Platforms_CLEANEDv2_3
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 867
+        width: 476
+        height: 192
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Platforms_CLEANEDv2_4
+      rect:
+        serializedVersion: 2
+        x: 1180
+        y: 575
+        width: 750
+        height: 203
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Platforms_CLEANEDv2_5
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 316
+        width: 1130
+        height: 257
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

@@ -18,16 +18,22 @@ namespace Assets.Scripts.Character
 {
 	public class TestCharacter : ICharacter
 	{
-		private List<RangeWeaponBase> weapons = new List<RangeWeaponBase>(); 
+		private List<RangeWeaponBase> rangeWeapons = new List<RangeWeaponBase>(); 
 
-		private IRangeWeapon weapon;
-		public IRangeWeapon Weapon
+		private IRangeWeapon rangeWeapon;
+		public IRangeWeapon RangeWeapon
 		{
-			get { return weapon; }
+			get { return rangeWeapon; }
+		}
+
+		private IMeleeWeapon meleeWeapon;
+
+		public IMeleeWeapon MeleeWeapon
+		{
+			get { return meleeWeapon; }
 		}
 
 		private IAbility ability;
-
 		public IAbility Ability
 		{
 			get { return ability; }
@@ -56,9 +62,14 @@ namespace Assets.Scripts.Character
 			receiver.SubScribe();
 		}
 
-		public bool EquippedWeapon()
+		public bool EquippedRangeWeapon()
 		{
-			return weapon != null;
+			return rangeWeapon != null;
+		}
+
+		public bool EquippedMeleeWeapon()
+		{
+			return meleeWeapon != null;
 		}
 
 		public bool EquippedAbility()
@@ -68,7 +79,12 @@ namespace Assets.Scripts.Character
 
 		public void Equip(IRangeWeapon weapon)
 		{
-			this.weapon = weapon;
+			this.rangeWeapon = weapon;
+		}
+
+		public void Equip(IMeleeWeapon meleeWeapon)
+		{
+			this.meleeWeapon = meleeWeapon;
 		}
 
 		public void Equip(IAbility ability)
@@ -79,7 +95,9 @@ namespace Assets.Scripts.Character
 		public void Receive(ITelegram telegram)
 		{
 			if(telegram.Message is RangeWeaponBase)
-				AddWeapon((TestWeapon)telegram.Message);
+				AddWeapon((TestRangeWeapon)telegram.Message);
+			else if(telegram.Message is MeleeWeaponBase)
+				Equip((TestMeleeWeapon)telegram.Message);
 			else if(telegram.Message is AbilityBase)
 				Equip((Ability)telegram.Message);
 			else if(telegram.Message is StatusEffect)
@@ -88,14 +106,14 @@ namespace Assets.Scripts.Character
 
 		public void SwitchWeapon()
 		{
-			weapons.Sort();
-			Equip(weapons.Find(x => x != weapon));
+			rangeWeapons.Sort();
+			Equip(rangeWeapons.Find(x => x != rangeWeapon));
 		}
 
 		public void AddWeapon(RangeWeaponBase weapon)
 		{
-			weapons.Add(weapon);
-			if(weapons.Count < 2)
+			rangeWeapons.Add(weapon);
+			if(rangeWeapons.Count < 2)
 				Equip(weapon);
 		}
 

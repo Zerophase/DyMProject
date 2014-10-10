@@ -33,9 +33,9 @@ namespace Assets.Scripts.Utilities.Messaging
 			this.message = message;
 		}
 
-		public Telegram(object receiver, object message)
+		public Telegram(Director d, object message)
 		{
-			this.receiver = (IOwner) Activator.CreateInstance((Type)receiver);
+			this.receiver = d;
 			this.message = message;
 		}
 	}

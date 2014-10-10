@@ -8,34 +8,51 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
+using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Weapons.Interfaces;
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using UnityEngine;
 
-namespace AssemblyCSharp
+namespace Assets.Scripts.Weapons.Bases
 {
-		public class MeleeWeaponBase : IMeleeWeapon
-		{
-
-			public Vector3 Position { get; set; }
+	public class MeleeWeaponBase : IMeleeWeapon
+	{
+		
+		public Vector3 Position { get; set; }
 			
 		private IReceiver receiver;
-			public IReceiver Receiver { set {this.Receiver = value;} }
-			public void PickUp(ICharacter character)
-			{
+		public IReceiver Receiver { set {this.Receiver = value;} }
 
-			}
-
-			public void Attack()
-			{
-
-			}
-
-			public void Receive(ITelegram telegram)
-			{
-
-			}
+		private IMessageDispatcher messageDispatcher;
+		public MeleeWeaponBase()
+		{
+			
 		}
+
+		public MeleeWeaponBase(IReceiver receiver, IMessageDispatcher messageDispatcher)
+		{
+			this.receiver = receiver;
+			this.receiver.Owner = this;
+			this.messageDispatcher = messageDispatcher;
+
+			receiver.SubScribe();
+		}
+
+		public void PickUp(ICharacter character)
+		{
+			messageDispatcher.DispatchMessage(new Telegram(character, this));
+		}
+
+		public int Attack()
+		{
+			return 10;
+		}
+
+		public void Receive(ITelegram telegram)
+		{
+
+		}
+	}
 }
 

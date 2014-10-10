@@ -76,10 +76,15 @@ namespace Assets.Scripts.GameObjects
 				planeShiftdown = false;
 			}
 
-			if (Input.GetAxis("Fire1") > 0f && character.EquippedWeapon())
+			if (Input.GetButton("Fire1") && character.EquippedRangeWeapon())
 			{
 				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = 
-					character.Weapon.Fire();
+					character.RangeWeapon.Fire();
+			}
+
+			if (Input.GetButtonDown("WeakAttack") && character.EquippedRangeWeapon())
+			{
+				character.MeleeWeapon.Attack();
 			}
 
 			if (Input.GetButtonDown("ActivateAbility") && character.EquippedAbility())
