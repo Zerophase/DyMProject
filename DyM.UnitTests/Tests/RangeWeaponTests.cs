@@ -7,6 +7,7 @@ using Assets.Scripts.Character;
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Projectiles.Projectiles;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
@@ -25,7 +26,7 @@ namespace DyM.UnitTests.Tests
 		private TestRangeWeapon makeTestRangeWeapon(IReceiver receiver, IMessageDispatcher messageDispatcher,
 			IBulletPool bulletPool)
 		{
-			return new TestRangeWeapon(receiver, messageDispatcher, bulletPool);
+			return new TestRangeWeapon(receiver, messageDispatcher, new Projectile(), bulletPool);
 		}
 
 		[Test]

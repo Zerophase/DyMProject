@@ -53,7 +53,7 @@ namespace Assets.Scripts.ObjectManipulation
 			}
 			else
 			{
-				jumpVelocity = Vector3.zero;
+				jumpVelocity += PhysicsFuncts.calculateVelocity(gravity, Time.deltaTime);
 			}
 			return jumpVelocity;
 		}

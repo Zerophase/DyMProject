@@ -19,7 +19,7 @@ namespace Assets.Scripts.MediatorPattern
 
 		public Vector3 Gravity { set { cardinalMovement.Gravity = value; } }
 
-		private static PhysicsDirector physicsDirector;
+		
 
 		protected virtual void Awake()
 		{
@@ -30,8 +30,6 @@ namespace Assets.Scripts.MediatorPattern
 		protected virtual void Start()
 		{
 			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
-			var Foo = typeof (PhysicsDirector);
-			IOwner o = Foo as IOwner;
 		}
 	}
 }

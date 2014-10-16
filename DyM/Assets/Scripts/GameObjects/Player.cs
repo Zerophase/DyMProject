@@ -6,6 +6,7 @@ using Assets.Scripts.ObjectManipulation;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Utilities;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
@@ -32,16 +33,16 @@ namespace Assets.Scripts.GameObjects
 		private bool planeShiftUp = false;
 		private bool planeShiftdown = false;
         private Vector3 acceleration = new Vector3(10f,0f,0f);
+
 		
-		OurCollider ourCollider;
 		
 		void Start()
 		{
 			planeShift = factory.Create(transform.position);
 			GunModel = GameObject.Find("Gun");
 			PooledBUlletGameObjects.Initialize();
-			
-			ourCollider = new OurCollider(renderer.bounds.center, renderer.bounds.size);
+
+			ourCollider = ourColliderFactory.Create(renderer.bounds.center, renderer.bounds.size);
 			
 			base.Start();
 		}
