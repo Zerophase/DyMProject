@@ -21,6 +21,32 @@ namespace Assets.Scripts.MediatorPattern
 		void Update()
 		{
 			gravityAssignment();
+			
+			if (grounds != null)
+			{
+				foreach (var physicsMed in physicsMediators)
+				{
+					foreach (var ground in grounds)
+					{
+						
+						if (physicsMed.collider.CheckBounds(ground.collider))
+						{
+							physicsMed.Gravity = Vector3.zero;
+							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
+							          "Position of Ground: " + ground.collider.transform.position + 
+							          " Gravity is Zero");
+						}	
+						
+						else if (!physicsMed.collider.CheckBounds(ground.collider))
+						{
+							physicsMed.Gravity = gravity;
+							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
+							          "Position of Ground: " + ground.collider.transform.position + 
+							          " Gravity is -9.8");
+						}
+					}
+				}
+			}
 		}
 
 		private void gravityAssignment()
@@ -33,31 +59,6 @@ namespace Assets.Scripts.MediatorPattern
 				}
 
 				assignGravity = false;
-			}
-
-			if (grounds != null)
-			{
-				foreach (var physicsMed in physicsMediators)
-				{
-					foreach (var ground in grounds)
-					{
-						if (physicsMed.collider.CheckBounds(ground.collider))
-						{
-							physicsMed.Gravity = Vector3.zero;
-							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
-								"Position of Ground: " + ground.collider.transform.position + 
-								" Gravity is Zero");
-						}	
-						
-						else if (!physicsMed.collider.CheckBounds(ground.collider))
-						{
-							physicsMed.Gravity = gravity;
-							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
-							          "Position of Ground: " + ground.collider.transform.position + 
-							          " Gravity is Zero");
-						}
-					}
-				}
 			}
 		}
 
