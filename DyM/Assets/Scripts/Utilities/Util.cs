@@ -47,6 +47,25 @@ namespace Assets.Scripts.Utilities
 				return val;
 			}
 		}
+		
+		
+		private static bool collided;
+		private static Vector3 maxDistance;
+		public static bool CheckBounds(this Collider collider, Collider otherCollider)
+		{
+			collided = false;
+			
+			maxDistance = collider.bounds.center + otherCollider.bounds.center;
+			
+			if (maxDistance.x > Mathf.Abs(collider.bounds.size.x - otherCollider.bounds.size.x)) 
+				collided = true;
+			if(maxDistance.y > Mathf.Abs(collider.bounds.size.y - otherCollider.bounds.size.y))
+				collided = true;
+			if(maxDistance.z > Mathf.Abs(collider.bounds.size.z - otherCollider.bounds.size.z))
+				collided = true;
+			
+			return collided;
+		}
 	}
 
 }

@@ -13,14 +13,5 @@ namespace Assets.Scripts.MediatorPattern
 		[Inject]
 		protected IMessageDispatcher messageDispatcher;
 		protected static PhysicsDirector physicsDirector;
-
-		[Inject]
-		protected OurColliderFactory ourColliderFactory;
-		protected OurCollider ourCollider;
-
-		public OurCollider GetOurCollider
-		{
-			get { return ourCollider; }
-		}
 	}
 }

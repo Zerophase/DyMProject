@@ -16,7 +16,6 @@ namespace Assets.Scripts.GameObjects
 		}
 		void Start ()
 		{
-			ourCollider = ourColliderFactory.Create(collider.bounds.center, collider.bounds.size);
 			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
 		}
 	}

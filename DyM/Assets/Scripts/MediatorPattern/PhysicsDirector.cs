@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
+using Assets.Scripts.Utilities;
 using UnityEngine;
 
 namespace Assets.Scripts.MediatorPattern
@@ -40,12 +41,21 @@ namespace Assets.Scripts.MediatorPattern
 				{
 					foreach (var ground in grounds)
 					{
-						physicsMed.GetOurCollider.DrawDebug();
-						ground.GetOurCollider.DrawDebug();
-						if (physicsMed.GetOurCollider.CheckBounds(ground.GetOurCollider.GetBounds))
+						if (physicsMed.collider.CheckBounds(ground.collider))
+						{
 							physicsMed.Gravity = Vector3.zero;
-						else if (!physicsMed.GetOurCollider.CheckBounds(ground.GetOurCollider.GetBounds))
+							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
+								"Position of Ground: " + ground.collider.transform.position + 
+								" Gravity is Zero");
+						}	
+						
+						else if (!physicsMed.collider.CheckBounds(ground.collider))
+						{
 							physicsMed.Gravity = gravity;
+							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
+							          "Position of Ground: " + ground.collider.transform.position + 
+							          " Gravity is Zero");
+						}
 					}
 				}
 			}
