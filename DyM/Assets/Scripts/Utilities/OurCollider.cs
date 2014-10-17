@@ -5,12 +5,14 @@ namespace Assets.Scripts.Utilities
 	public class OurCollider 
 	{
 		private Bounds bounds;
-	
+		public Bounds GetBounds { get { return bounds; }}
+
+		public Vector3 Center { set { bounds.center = value; } }
 		private bool collided;
 		Vector3 maxDistance;
 		public OurCollider(Vector3 center, Vector3 size)
 		{
-			this.bounds = new Bounds(center, size);
+			bounds = new Bounds(center, size);
 		}
 	
 		public bool CheckBounds(Bounds boundsToCheck)
@@ -27,6 +29,13 @@ namespace Assets.Scripts.Utilities
 				collided = true;
 		   		
 			return collided;
+		}
+
+		public void DrawDebug()
+		{
+			Vector3 point = bounds.center + bounds.extents;
+			Vector3 point2 = bounds.center - bounds.extents;
+			Debug.DrawLine(point, point2);
 		}
 	}
 }

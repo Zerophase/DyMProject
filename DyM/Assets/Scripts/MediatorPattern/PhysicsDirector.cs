@@ -40,9 +40,11 @@ namespace Assets.Scripts.MediatorPattern
 				{
 					foreach (var ground in grounds)
 					{
-						if (physicsMed.GetOurCollider.CheckBounds(ground.collider.bounds))
+						physicsMed.GetOurCollider.DrawDebug();
+						ground.GetOurCollider.DrawDebug();
+						if (physicsMed.GetOurCollider.CheckBounds(ground.GetOurCollider.GetBounds))
 							physicsMed.Gravity = Vector3.zero;
-						else if (!physicsMed.GetOurCollider.CheckBounds(ground.collider.bounds))
+						else if (!physicsMed.GetOurCollider.CheckBounds(ground.GetOurCollider.GetBounds))
 							physicsMed.Gravity = gravity;
 					}
 				}

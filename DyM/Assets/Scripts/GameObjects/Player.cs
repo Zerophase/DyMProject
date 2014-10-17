@@ -42,7 +42,7 @@ namespace Assets.Scripts.GameObjects
 			GunModel = GameObject.Find("Gun");
 			PooledBUlletGameObjects.Initialize();
 
-			ourCollider = ourColliderFactory.Create(renderer.bounds.center, renderer.bounds.size);
+			ourCollider = ourColliderFactory.Create(collider.bounds.center, collider.bounds.size);
 			
 			base.Start();
 		}
@@ -70,6 +70,7 @@ namespace Assets.Scripts.GameObjects
 
 		void Update()
 		{
+			ourCollider.Center = gameObject.transform.position;
 			if (Input.GetButtonDown("PlaneShiftDown"))
 			{
 				planeShiftdown = true;
