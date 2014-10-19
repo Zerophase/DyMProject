@@ -51,26 +51,43 @@ namespace Assets.Scripts.Utilities
 		
 		private static bool collided;
 		private static Vector3 maxDistance;
-		public static bool CheckBounds(this Collider collider, Collider otherCollider)
+		public static bool CheckBounds(this GameObject ground, GameObject player)
 		{
 			collided = false;
-			
-			if(collider.bounds.Intersects(otherCollider.bounds))
-			{
-				collided = true;
-				Debug.Log("collided is true");
-			}
-			
-////			if (maxDistance.x > Mathf.Abs(collider.bounds.size.x - otherCollider.bounds.size.x)) 
-////				collided = true;
-//			if(maxDistance.y > Mathf.Abs(collider.bounds.size.y - otherCollider.bounds.size.y))
-//				collided = true;
-////			if(maxDistance.z > Mathf.Abs(collider.bounds.size.z - otherCollider.bounds.size.z))
-////				collided = true;
-			
-			return collided;
+			Rect aBox = ground.BoxToRect();
+			Rect bBox = player.BoxToRect();
+
+			return Intersect(aBox, bBox);
 		}
-		
+
+		private static bool Intersect(Rect ground, Rect player)
+		{
+			bool comp1 = ground.yMin > player.yMax;
+			bool comp2 = ground.yMax < player.yMin;
+			bool comp3 = ground.xMin < player.xMax;
+			bool comp4 = ground.xMax > player.xMin;
+
+			return comp1 && comp2 && comp3 && comp4;
+		}
+
+		private static Rect BoxToRect(this GameObject a)
+		{
+			BoxCollider2D aCollider = a.GetComponent<BoxCollider2D>();
+
+			Vector2 aPos = a.transform.position.v2();
+
+			aPos += aCollider.center;
+			aPos.x -= aCollider.size.x/2;
+			aPos.y += aCollider.size.y/2;
+
+			return new Rect(aPos.x, aPos.y, aCollider.size.x, -aCollider.size.y);
+		}
+
+		private static Vector2 v2(this Vector3 v)
+		{
+			return	 new Vector2(v.x, v.y);
+		}
+
 		public static Vector3 CheckForOverlap(this Vector3 position, Collider collider)
 		{
 			return position;

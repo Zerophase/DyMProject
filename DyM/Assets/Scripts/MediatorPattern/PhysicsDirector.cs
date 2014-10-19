@@ -29,20 +29,20 @@ namespace Assets.Scripts.MediatorPattern
 					foreach (var ground in grounds)
 					{
 						
-						if (physicsMed.collider.CheckBounds(ground.collider))
+						if (ground.gameObject.CheckBounds(physicsMed.gameObject))
 						{
 							physicsMed.Gravity = Vector3.zero;
-							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
-							          "Position of Ground: " + ground.collider.transform.position + 
-							          " Gravity is Zero");
+							//Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
+							//		  "Position of Ground: " + ground.collider.transform.position +
+							//		  " Gravity is Zero");
 						}	
 						
-						else if (!physicsMed.collider.CheckBounds(ground.collider))
+						else if (!ground.gameObject.CheckBounds(physicsMed.gameObject))
 						{
 							physicsMed.Gravity = gravity;
-							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
-							          "Position of Ground: " + ground.collider.transform.position + 
-							          " Gravity is -9.8");
+							//Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
+							//		  "Position of Ground: " + ground.collider.transform.position +
+							//		  " Gravity is -9.8");
 						}
 					}
 				}
