@@ -50,37 +50,41 @@ namespace Assets.Scripts.Utilities
 		
 		
 		private static bool collided;
-		private static Vector3 maxDistance;
+
 		public static bool CheckBounds(this GameObject ground, GameObject player)
 		{
+            
 			collided = false;
-			Rect aBox = ground.BoxToRect();
-			Rect bBox = player.BoxToRect();
+			Box3D aBox = ground.BoxToRect();
+			Box3D bBox = player.BoxToRect();
 
 			return Intersect(aBox, bBox);
 		}
 
-		private static bool Intersect(Rect ground, Rect player)
-		{
-			bool comp1 = ground.yMin > player.yMax;
-			bool comp2 = ground.yMax < player.yMin;
-			bool comp3 = ground.xMin < player.xMax;
-			bool comp4 = ground.xMax > player.xMin;
+		private static bool Intersect(Box3D ground, Box3D player)
+		{	
+            bool comp1 = ground.position.x < player.xMax;
+			bool comp2 = ground.xMax > player.position.x;
+			bool comp3 = ground.position.y > player.yMax;
+			bool comp4 = ground.yMax < player.position.y;
+		    bool comp5 = ground.position.z > player.zMax;
+		    bool comp6 = ground.zMax < player.position.z;
 
-			return comp1 && comp2 && comp3 && comp4;
+			return comp1 && comp2 && comp3 && comp4 && comp5 && comp6;
 		}
 
-		private static Rect BoxToRect(this GameObject a)
+		private static Box3D BoxToRect(this GameObject a)
 		{
-			BoxCollider2D aCollider = a.GetComponent<BoxCollider2D>();
+			BoxCollider aCollider = a.GetComponent<BoxCollider>();
 
-			Vector2 aPos = a.transform.position.v2();
+			Vector3 aPos = a.transform.position;
 
 			aPos += aCollider.center;
 			aPos.x -= aCollider.size.x/2;
 			aPos.y += aCollider.size.y/2;
+		    aPos.z -= aCollider.size.z/2;
 
-			return new Rect(aPos.x, aPos.y, aCollider.size.x, -aCollider.size.y);
+			return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x, -aCollider.size.y, aCollider.size.z);
 		}
 
 		private static Vector2 v2(this Vector3 v)

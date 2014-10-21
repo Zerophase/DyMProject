@@ -43,6 +43,7 @@ namespace Assets.Scripts.GameObjects
 			PooledBUlletGameObjects.Initialize();
 			
 			base.Start();
+            
 		}
 		// Update is called once per frame
 		void FixedUpdate ()

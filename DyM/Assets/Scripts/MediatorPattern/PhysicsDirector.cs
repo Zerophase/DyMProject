@@ -16,7 +16,7 @@ namespace Assets.Scripts.MediatorPattern
  
 		private bool assignGravity;
 
-		private Vector3 gravity = new Vector3(0f, -9.8f, 0f);
+		private Vector3 gravity = new Vector3(0f, -.1f, 0f);
 
 		void Update()
 		{
