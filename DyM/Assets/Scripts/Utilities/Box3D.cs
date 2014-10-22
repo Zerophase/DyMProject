@@ -9,9 +9,16 @@ namespace Assets.Scripts.Utilities
         public float width;
         public float height;
         public float depth;
+
+		public float xMin;
         public float xMax;
+
+	    public float yMin;
         public float yMax;
+
+	    public float zMin;
         public float zMax;
+	    
 
         public Box3D(Vector3 position, float width, float height, float depth)
         {
@@ -24,15 +31,15 @@ namespace Assets.Scripts.Utilities
             this.zMax = position.z + depth;
         }
 
-        public Box3D(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax)
+        public Box3D(float x, float y, float z, float width, float height, float depth)
         {
-            this.position = new Vector3(xMin, yMin, zMin);
-            this.width = xMax - xMin;
-            this.height = yMax - yMin;
-            this.depth = zMax - zMin;
-            this.xMax = xMax;
-            this.yMax = yMax;
-            this.zMax = zMax;
+            this.xMax = x + width;
+            this.yMax = y + height;
+            this.zMax = z + depth;
+
+	        this.xMin = x;
+	        this.yMin = y;
+	        this.zMin = z;
         }
 
 

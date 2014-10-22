@@ -63,12 +63,14 @@ namespace Assets.Scripts.Utilities
 
 		private static bool Intersect(Box3D ground, Box3D player)
 		{	
-            bool comp1 = ground.position.x < player.xMax;
-			bool comp2 = ground.xMax > player.position.x;
-			bool comp3 = ground.position.y > player.yMax;
-			bool comp4 = ground.yMax < player.position.y;
-		    bool comp5 = ground.position.z > player.zMax;
-		    bool comp6 = ground.zMax < player.position.z;
+            bool comp1 = ground.xMin < player.xMax;
+			bool comp2 = ground.xMax > player.xMin;
+
+			bool comp3 = ground.yMin > player.yMax;
+			bool comp4 = ground.yMax < player.yMin;
+
+			bool comp5 = ground.zMin < player.zMax;
+			bool comp6 = ground.zMax > player.zMin;
 
 			return comp1 && comp2 && comp3 && comp4 && comp5 && comp6;
 		}
@@ -78,13 +80,14 @@ namespace Assets.Scripts.Utilities
 			BoxCollider aCollider = a.GetComponent<BoxCollider>();
 
 			Vector3 aPos = a.transform.position;
-
+			
 			aPos += aCollider.center;
-			aPos.x -= aCollider.size.x/2;
-			aPos.y += aCollider.size.y/2;
-		    aPos.z -= aCollider.size.z/2;
+			aPos.x -= (aCollider.size.x * a.transform.lossyScale.x) / 2;
+			aPos.y += (aCollider.size.y * a.transform.lossyScale.y) /2;
+		    aPos.z -= (aCollider.size.z * a.transform.lossyScale.z) /2;
 
-			return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x, -aCollider.size.y, aCollider.size.z);
+			return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x * a.transform.lossyScale.x, -aCollider.size.y * a.transform.lossyScale.y, aCollider.size.z * a.transform.lossyScale.z);
+			//return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x, -aCollider.size.y, aCollider.size.z);
 		}
 
 		private static Vector2 v2(this Vector3 v)

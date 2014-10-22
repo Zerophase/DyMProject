@@ -16,7 +16,7 @@ namespace Assets.Scripts.MediatorPattern
  
 		private bool assignGravity;
 
-		private Vector3 gravity = new Vector3(0f, -.1f, 0f);
+		private Vector3 gravity = new Vector3(0f, -1.0f, 0f);
 
 		void Update()
 		{
@@ -32,6 +32,8 @@ namespace Assets.Scripts.MediatorPattern
 						if (ground.gameObject.CheckBounds(physicsMed.gameObject))
 						{
 							physicsMed.Gravity = Vector3.zero;
+							// if gameobject is colliding with a ground stop checking for other grounds.
+							break;
 							//Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
 							//		  "Position of Ground: " + ground.collider.transform.position +
 							//		  " Gravity is Zero");

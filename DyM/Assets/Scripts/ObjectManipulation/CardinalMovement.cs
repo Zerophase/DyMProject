@@ -48,12 +48,11 @@ namespace Assets.Scripts.ObjectManipulation
 			if(pressed)
 			{
 				jumpVelocity = new Vector3(0f,.5f,0f);
-				jumpVelocity += PhysicsFuncts.calculateVelocity(gravity, Time.deltaTime);
 				
 			}
 			else
 			{
-				jumpVelocity += PhysicsFuncts.calculateVelocity(gravity, Time.deltaTime);
+				jumpVelocity = gravity;
 			}
 			return jumpVelocity;
 		}
