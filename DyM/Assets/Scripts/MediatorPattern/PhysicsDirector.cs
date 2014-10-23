@@ -5,6 +5,7 @@ using System.Text;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Utilities;
+using Assets.Scripts.Weapons;
 using UnityEngine;
 
 namespace Assets.Scripts.MediatorPattern
@@ -13,6 +14,7 @@ namespace Assets.Scripts.MediatorPattern
 	{
 		private List<PhysicsMediator> physicsMediators = new List<PhysicsMediator>();
 		private List<Ground> grounds = new List<Ground>();
+		private List<WeaponPickUpGameObject> weaponPickUpGameObjects = new List<WeaponPickUpGameObject>();
  
 		private bool assignGravity;
 
@@ -21,30 +23,42 @@ namespace Assets.Scripts.MediatorPattern
 		void Update()
 		{
 			gravityAssignment();
-			
+
+			GroundCollision();
+
+			PickUpCollision();
+		}
+
+		private void PickUpCollision()
+		{
+			for(int i = 0; i < weaponPickUpGameObjects.Count; i++)
+			{
+				if (weaponPickUpGameObjects[i].gameObject.CheckBounds(physicsMediators[0].gameObject))
+				{
+					weaponPickUpGameObjects[i].PickUp(physicsMediators[0].gameObject);
+					weaponPickUpGameObjects.RemoveAt(i);
+				}
+			}
+		}
+
+		private void GroundCollision()
+		{
 			if (grounds != null)
 			{
 				foreach (var physicsMed in physicsMediators)
 				{
 					foreach (var ground in grounds)
 					{
-						
 						if (ground.gameObject.CheckBounds(physicsMed.gameObject))
 						{
 							physicsMed.Gravity = Vector3.zero;
 							// if gameobject is colliding with a ground stop checking for other grounds.
 							break;
-							//Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
-							//		  "Position of Ground: " + ground.collider.transform.position +
-							//		  " Gravity is Zero");
-						}	
-						
+						}
+
 						else if (!ground.gameObject.CheckBounds(physicsMed.gameObject))
 						{
 							physicsMed.Gravity = gravity;
-							//Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
-							//		  "Position of Ground: " + ground.collider.transform.position +
-							//		  " Gravity is -9.8");
 						}
 					}
 				}
@@ -75,6 +89,8 @@ namespace Assets.Scripts.MediatorPattern
 				}
 				else if(telegram.Message is Ground)
 					grounds.Add((Ground)telegram.Message);
+				else if(telegram.Message is WeaponPickUpGameObject)
+					weaponPickUpGameObjects.Add((WeaponPickUpGameObject)telegram.Message);
 			}
 		}
 	}

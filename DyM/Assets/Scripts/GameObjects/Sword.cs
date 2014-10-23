@@ -36,7 +36,7 @@ namespace Assets.Scripts.GameObjects
 
 			if (collision.gameObject.tag == "Player")
 			{
-				weapon.PickUp(collision.gameObject.GetComponent<Player>().character);
+				//weapon.PickUp(collision.gameObject.GetComponent<Player>().character);
 				Destroy(gameObject);
 			}
 		}

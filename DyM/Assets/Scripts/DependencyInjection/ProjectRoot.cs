@@ -62,6 +62,7 @@ namespace Assets.Scripts.DependencyInjection
 			//_container.Bind<IPooledProjectile>().ToTransient<PooledProjectile>();
 			_container.Bind<IBulletPool>().ToSingle<BulletPool>();
 			_container.Bind<IPooledGameObjects>().ToSingle<PooledGameobjects>();
+			_container.Bind<IPickUp>().ToTransient<WeaponPickUp>();
 		}
 
 		private void meleeWeaponBindings()
@@ -95,6 +96,7 @@ namespace Assets.Scripts.DependencyInjection
 			_container.Bind<PlaneShiftFactory>().ToSingle();
 			_container.Bind<RangeWeaponFactory>().ToSingle();
 			_container.Bind<PooledProjectileFactory>().ToSingle();
+			_container.Bind<WeaponPickUpFactory>().ToSingle();
 		}
 
 		private void dependencyFrameworkBindings()

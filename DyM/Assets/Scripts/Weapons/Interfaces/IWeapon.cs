@@ -14,7 +14,5 @@ namespace Assets.Scripts.Weapons.Interfaces
 	public interface IWeapon : IOwner
 	{
 		Vector3 Position { get; set; }
-
-		void PickUp(ICharacter character);
 	}
 }

@@ -9,19 +9,13 @@ using System.Collections;
 
 public class Gun : MonoBehaviour
 {
-	private IRangeWeapon weapon;
-
 	private Quaternion weaponOrigin;
 
 	[HideInInspector]
 	public bool Rotated;
 
-	[Inject] 
-	private RangeWeaponFactory rangeWeaponFactory;
-
 	void Start()
 	{
-		weapon = rangeWeaponFactory.Create(WeaponTypes.MACHINE_GUN);
 		weaponOrigin = gameObject.transform.rotation;
 	}
 
@@ -43,18 +37,5 @@ public class Gun : MonoBehaviour
 			transform.rotation = Quaternion.Euler(0f, 0f, -rotate + 180);
 			Rotated = true;
 		}
-	}
-
-	void OnCollisionEnter(Collision collision)
-	{
-		if(this.tag == "EquippedGun")
-			return;
-
-		if (collision.gameObject.tag == "Player")
-		{
-			weapon.PickUp(collision.gameObject.GetComponent<Player>().character);
-			Destroy(gameObject);
-		}
-			
 	}
 }

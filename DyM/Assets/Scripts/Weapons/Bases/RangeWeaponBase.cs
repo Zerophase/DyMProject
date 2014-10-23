@@ -82,12 +82,7 @@ namespace Assets.Scripts.Weapons.Bases
 		{
 			return bulletPool.GetPooledProjectile().Projectile;
 		}
-		
-		public void PickUp(ICharacter character)
-		{
-			messageDispatcher.DispatchMessage(new Telegram(character, this));
-		}
-		
+
 		public void Receive(ITelegram telegram)
 		{
 			throw new NotImplementedException();
