@@ -5,6 +5,7 @@ using System.Text;
 using Assets.Scripts.Weapons;
 using Assets.Scripts.Weapons.Bases;
 using Assets.Scripts.Weapons.Guns;
+using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 
 namespace Assets.Scripts.DependencyInjection
@@ -14,6 +15,8 @@ namespace Assets.Scripts.DependencyInjection
 		private Instantiator instantiator;
 		[Inject]
 		private RangeWeaponFactory rangeWeaponFactory;
+
+		[Inject] private IMeleeWeapon meleeWeapon;
 
 		public WeaponPickUpFactory(Instantiator instantiator)
 		{
@@ -30,6 +33,8 @@ namespace Assets.Scripts.DependencyInjection
 				case WeaponTypes.FORK_LIGHTNING:
 					return instantiator.Instantiate<WeaponPickUp>(
 						rangeWeaponFactory.Create(weaponTypes));
+				case WeaponTypes.SWORD:
+					return instantiator.Instantiate<WeaponPickUp>(meleeWeapon);
 			}
 
 			return null;

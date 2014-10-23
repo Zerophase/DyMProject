@@ -10,18 +10,14 @@ namespace Assets.Scripts.GameObjects
 {
 	public class WeaponPickUpGameObject : Mediator
 	{
+		public WeaponTypes WeaponTypes;
 		[Inject]
 		private WeaponPickUpFactory weaponPickUpFactory;
 		private WeaponPickUp weaponPickUp;
 
-		protected virtual void Awake()
-		{
-			if (physicsDirector == null)
-				physicsDirector = FindObjectOfType<PhysicsDirector>();
-		}
 		public void Start()
 		{
-			weaponPickUp = weaponPickUpFactory.Create(WeaponTypes.MACHINE_GUN);
+			weaponPickUp = weaponPickUpFactory.Create(WeaponTypes);
 			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
 		}
 

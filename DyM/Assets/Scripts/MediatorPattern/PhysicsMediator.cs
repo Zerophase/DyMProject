@@ -19,12 +19,6 @@ namespace Assets.Scripts.MediatorPattern
 
 		public Vector3 Gravity { set { cardinalMovement.Gravity = value; } }
 
-		protected virtual void Awake()
-		{
-			if (physicsDirector == null)
-				physicsDirector = FindObjectOfType<PhysicsDirector>();
-		}
-
 		protected virtual void Start()
 		{
 			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));

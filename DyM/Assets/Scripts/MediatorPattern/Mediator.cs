@@ -13,5 +13,11 @@ namespace Assets.Scripts.MediatorPattern
 		[Inject]
 		protected IMessageDispatcher messageDispatcher;
 		protected static PhysicsDirector physicsDirector;
+
+		protected virtual void Awake()
+		{
+			if (physicsDirector == null)
+				physicsDirector = FindObjectOfType<PhysicsDirector>();
+		}
 	}
 }
