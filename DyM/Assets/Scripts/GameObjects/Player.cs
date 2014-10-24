@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.MediatorPattern;
@@ -43,41 +44,25 @@ namespace Assets.Scripts.GameObjects
 			PooledBUlletGameObjects.Initialize();
 			
 			base.Start();
-		}
-		// Update is called once per frame
-		void FixedUpdate ()
-		{
-			//Debug.Log("Left thumbstick position: " + Input.GetAxisRaw("Horizontal"));
-			if(planeShiftdown)
-			{
-				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4, 
-					transform.position));
-				planeShiftdown = false;
-			}
-			else if(planeShiftUp)
-			{
-				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button5,
-					transform.position));
-				planeShiftUp = false;
-			}
             
-			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
-			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
-			transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"),0f));
 		}
 
 		void Update()
 		{
 			if (Input.GetButtonDown("PlaneShiftDown"))
 			{
-				planeShiftdown = true;
-				planeShiftUp = false;
+				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4,
+					transform.position));
 			}
 			else if (Input.GetButtonDown("PlaneShiftUp"))
 			{
-				planeShiftUp = true;
-				planeShiftdown = false;
+				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button5,
+					transform.position));
 			}
+
+			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
+			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
+			transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
 
 			if (Input.GetAxis("Fire1") > 0 && character.EquippedRangeWeapon())
 			{
@@ -93,7 +78,7 @@ namespace Assets.Scripts.GameObjects
 			if (Input.GetButtonDown("ActivateAbility") && character.EquippedAbility())
 			{
 				character.Ability.Activate(character);
-				Debug.Log("StatusEffect is: " + character.StatusEffect);
+//				Debug.Log("StatusEffect is: " + character.StatusEffect);
 			}
 				
 		}

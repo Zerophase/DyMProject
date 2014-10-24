@@ -5,6 +5,7 @@ using System.Text;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Utilities;
+using Assets.Scripts.Weapons;
 using UnityEngine;
 
 namespace Assets.Scripts.MediatorPattern
@@ -13,14 +14,71 @@ namespace Assets.Scripts.MediatorPattern
 	{
 		private List<PhysicsMediator> physicsMediators = new List<PhysicsMediator>();
 		private List<Ground> grounds = new List<Ground>();
- 
+		private List<WeaponPickUpGameObject> weaponPickUpGameObjects = 
+			new List<WeaponPickUpGameObject>();
+		private List<AbilityPickUp> abilityPickUps =
+ 			new List<AbilityPickUp>();
+
 		private bool assignGravity;
 
-		private Vector3 gravity = new Vector3(0f, -9.8f, 0f);
+		private Vector3 gravity = new Vector3(0f, -1.0f, 0f);
 
 		void Update()
 		{
 			gravityAssignment();
+
+			GroundCollision();
+
+			WeaponPickUpCollision();
+			AbilityPickUpCollision();
+		}
+
+		private void AbilityPickUpCollision()
+		{
+			for (int i = 0; i < abilityPickUps.Count; i++)
+			{
+				if (abilityPickUps[i].gameObject.CheckBounds(physicsMediators[0].gameObject))
+				{
+					abilityPickUps[i].PickUp(physicsMediators[0].gameObject);
+					abilityPickUps.RemoveAt(i);
+				}
+			}
+		}
+
+		private void WeaponPickUpCollision()
+		{
+			for(int i = 0; i < weaponPickUpGameObjects.Count; i++)
+			{
+				if (weaponPickUpGameObjects[i].gameObject.CheckBounds(physicsMediators[0].gameObject))
+				{
+					weaponPickUpGameObjects[i].PickUp(physicsMediators[0].gameObject);
+					weaponPickUpGameObjects.RemoveAt(i);
+				}
+			}
+		}
+
+		private void GroundCollision()
+		{
+			if (grounds != null)
+			{
+				foreach (var physicsMed in physicsMediators)
+				{
+					foreach (var ground in grounds)
+					{
+						if (ground.gameObject.CheckBounds(physicsMed.gameObject))
+						{
+							physicsMed.Gravity = Vector3.zero;
+							// if gameobject is colliding with a ground stop checking for other grounds.
+							break;
+						}
+
+						else if (!ground.gameObject.CheckBounds(physicsMed.gameObject))
+						{
+							physicsMed.Gravity = gravity;
+						}
+					}
+				}
+			}
 		}
 
 		private void gravityAssignment()
@@ -33,31 +91,6 @@ namespace Assets.Scripts.MediatorPattern
 				}
 
 				assignGravity = false;
-			}
-
-			if (grounds != null)
-			{
-				foreach (var physicsMed in physicsMediators)
-				{
-					foreach (var ground in grounds)
-					{
-						if (physicsMed.collider.CheckBounds(ground.collider))
-						{
-							physicsMed.Gravity = Vector3.zero;
-							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
-								"Position of Ground: " + ground.collider.transform.position + 
-								" Gravity is Zero");
-						}	
-						
-						else if (!physicsMed.collider.CheckBounds(ground.collider))
-						{
-							physicsMed.Gravity = gravity;
-							Debug.Log("Position of Player: " + physicsMed.collider.transform.position +
-							          "Position of Ground: " + ground.collider.transform.position + 
-							          " Gravity is Zero");
-						}
-					}
-				}
 			}
 		}
 
@@ -72,6 +105,10 @@ namespace Assets.Scripts.MediatorPattern
 				}
 				else if(telegram.Message is Ground)
 					grounds.Add((Ground)telegram.Message);
+				else if(telegram.Message is WeaponPickUpGameObject)
+					weaponPickUpGameObjects.Add((WeaponPickUpGameObject)telegram.Message);
+				else if(telegram.Message is AbilityPickUp)
+					abilityPickUps.Add((AbilityPickUp)telegram.Message);
 			}
 		}
 	}

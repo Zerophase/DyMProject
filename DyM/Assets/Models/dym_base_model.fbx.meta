@@ -1,0 +1,147 @@
+fileFormatVersion: 2
+guid: 06ee467bbaa3b1b4ea2ebb0ee006829f
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: group3
+    100004: group4
+    100006: group5
+    100008: group6
+    100010: group7
+    100012: lbicep
+    100014: lforearm
+    100016: lshoulder
+    100018: pCylinder4
+    100020: polySurface10
+    100022: polySurface18
+    100024: polySurface22
+    100026: polySurface26
+    100028: polySurface6
+    100030: polySurface7
+    100032: polySurface9
+    100034: pSphere1
+    100036: pSphere2
+    100038: pSphere3
+    100040: pSphere4
+    400000: //RootNode
+    400002: group3
+    400004: group4
+    400006: group5
+    400008: group6
+    400010: group7
+    400012: lbicep
+    400014: lforearm
+    400016: lshoulder
+    400018: pCylinder4
+    400020: polySurface10
+    400022: polySurface18
+    400024: polySurface22
+    400026: polySurface26
+    400028: polySurface6
+    400030: polySurface7
+    400032: polySurface9
+    400034: pSphere1
+    400036: pSphere2
+    400038: pSphere3
+    400040: pSphere4
+    2300000: lbicep
+    2300002: lforearm
+    2300004: lshoulder
+    2300006: pCylinder4
+    2300008: polySurface10
+    2300010: polySurface18
+    2300012: polySurface22
+    2300014: polySurface26
+    2300016: polySurface6
+    2300018: polySurface7
+    2300020: polySurface9
+    2300022: pSphere1
+    2300024: pSphere2
+    2300026: pSphere3
+    2300028: pSphere4
+    3300000: lbicep
+    3300002: lforearm
+    3300004: lshoulder
+    3300006: pCylinder4
+    3300008: polySurface10
+    3300010: polySurface18
+    3300012: polySurface22
+    3300014: polySurface26
+    3300016: polySurface6
+    3300018: polySurface7
+    3300020: polySurface9
+    3300022: pSphere1
+    3300024: pSphere2
+    3300026: pSphere3
+    3300028: pSphere4
+    4300000: polySurface18
+    4300002: pSphere4
+    4300004: pCylinder4
+    4300006: polySurface6
+    4300008: polySurface7
+    4300010: polySurface9
+    4300012: polySurface10
+    4300014: lforearm
+    4300016: pSphere2
+    4300018: lbicep
+    4300020: pSphere1
+    4300022: lshoulder
+    4300024: pSphere3
+    4300026: polySurface26
+    4300028: polySurface22
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

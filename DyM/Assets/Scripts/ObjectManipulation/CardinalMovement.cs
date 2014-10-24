@@ -36,9 +36,9 @@ namespace Assets.Scripts.ObjectManipulation
 		{
 		}
 
-		public Vector3 Move(float stickInput, Vector3 acceleration, float time)
+		public Vector3 Move(float direction, Vector3 acceleration, float time)
 		{
-		    velocity = PhysicsFuncts.calculateVelocity(acceleration, time) * stickInput;
+		    velocity = PhysicsFuncts.calculateVelocity(acceleration, time) * direction;
 		    
 			return velocity;
 		}
@@ -48,12 +48,11 @@ namespace Assets.Scripts.ObjectManipulation
 			if(pressed)
 			{
 				jumpVelocity = new Vector3(0f,.5f,0f);
-				jumpVelocity += PhysicsFuncts.calculateVelocity(gravity, Time.deltaTime);
 				
 			}
 			else
 			{
-				jumpVelocity += PhysicsFuncts.calculateVelocity(gravity, Time.deltaTime);
+				jumpVelocity = gravity;
 			}
 			return jumpVelocity;
 		}

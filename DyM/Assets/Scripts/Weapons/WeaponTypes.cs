@@ -8,6 +8,7 @@ namespace Assets.Scripts.Weapons
 	public enum WeaponTypes
 	{
 		MACHINE_GUN,
-		FORK_LIGHTNING
+		FORK_LIGHTNING,
+		SWORD
 	};
 }

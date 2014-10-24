@@ -8,7 +8,7 @@ using  UnityEngine;
 namespace Assets.Scripts.GameObjects
 {
 	public class Ground : Mediator
-	{
+	{	
 		private void Awake()
 		{
 			if (physicsDirector == null)

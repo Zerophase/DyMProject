@@ -122,12 +122,12 @@ namespace Assets.Scripts.ObjectManipulation
 			Vector3 temp = Vector3.zero;
 			if (!keyIsPressed && savedKeyPress != KeyCode.None && planeShiftTimer < .5f )
 			{
-				if (savedKeyPress == KeyCode.Joystick1Button4 && 
-					maxShift(PlaneShiftedTo.z))
-					temp = new Vector3(0f, currentPlane.y, -1f);
-				else if (savedKeyPress == KeyCode.Joystick1Button5 && 
-					maxShift(PlaneShiftedTo.z))
-					temp = new Vector3(0f, currentPlane.y, 1f);
+				if (savedKeyPress == KeyCode.Joystick1Button4 &&
+				    maxShift(PlaneShiftedTo.z))
+					temp = planeShiftDownVector;
+				else if (savedKeyPress == KeyCode.Joystick1Button5 &&
+				         maxShift(PlaneShiftedTo.z))
+					temp = planeShiftUpVector;
 
 				savedKeyPress = KeyCode.None;
 			}
