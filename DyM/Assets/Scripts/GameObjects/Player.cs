@@ -78,7 +78,7 @@ namespace Assets.Scripts.GameObjects
 			if (Input.GetButtonDown("ActivateAbility") && character.EquippedAbility())
 			{
 				character.Ability.Activate(character);
-				Debug.Log("StatusEffect is: " + character.StatusEffect);
+//				Debug.Log("StatusEffect is: " + character.StatusEffect);
 			}
 				
 		}

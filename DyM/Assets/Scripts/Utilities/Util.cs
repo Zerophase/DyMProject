@@ -87,7 +87,6 @@ namespace Assets.Scripts.Utilities
 		    aPos.z -= (aCollider.size.z * a.transform.lossyScale.z) /2;
 
 			return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x * a.transform.lossyScale.x, -aCollider.size.y * a.transform.lossyScale.y, aCollider.size.z * a.transform.lossyScale.z);
-			//return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x, -aCollider.size.y, aCollider.size.z);
 		}
 
 		private static Vector2 v2(this Vector3 v)
