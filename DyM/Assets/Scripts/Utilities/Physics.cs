@@ -18,7 +18,7 @@ namespace Assets.Scripts.Utilities
 
 	    public static Vector3 calculateJumpingVelocity(Vector3 jumpVelocity, Vector3 gravity, float time)
 	    {
-	        
+	        return new Vector3();
 	    }
 	}
 }

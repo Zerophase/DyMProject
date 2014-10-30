@@ -87,7 +87,10 @@ namespace Assets.Scripts.ObjectManipulation
 		// needs to round float to nearest whole number
 		private bool maxShift(float plane, float direction)
 		{
-			if (Array.IndexOf(shiftPlanePosition, (float)Math.Round((plane + direction), 0)) > arrayIndexNotFound)
+			//TODO fix by correcting for rounding errors.
+			float test = (float) Math.Round((plane + direction), 0);
+			if (Array.IndexOf(shiftPlanePosition, 
+				plane + (float)Math.Round(direction, 0)) > arrayIndexNotFound)
 				return true;
 			else
 			{
@@ -137,7 +140,7 @@ namespace Assets.Scripts.ObjectManipulation
 
 		private bool maxShift(float plane)
 		{
-			if (Array.IndexOf(shiftPlanePosition, (float)Math.Round(plane, 0)) > arrayIndexNotFound)
+			if (Array.IndexOf(shiftPlanePosition, plane) > arrayIndexNotFound)
 				return true;
 			return false;
 		}
