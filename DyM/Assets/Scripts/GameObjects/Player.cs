@@ -31,12 +31,8 @@ namespace Assets.Scripts.GameObjects
 		public static GameObject GunModel;
 		private GameObject bullet;
 
-		private bool planeShiftUp = false;
-		private bool planeShiftdown = false;
         private Vector3 acceleration = new Vector3(10f,0f,0f);
 
-		
-		
 		void Start()
 		{
 			planeShift = factory.Create(transform.position);
