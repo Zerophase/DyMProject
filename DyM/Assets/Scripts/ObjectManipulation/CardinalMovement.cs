@@ -24,6 +24,7 @@ namespace Assets.Scripts.ObjectManipulation
 		private float prevPosition;
 		private float startJump;
 		private float jumpHeight = 5f;
+	    private float jumpTimer = 0f;
 
 		private bool falling;
 		public bool Falling
@@ -56,14 +57,27 @@ namespace Assets.Scripts.ObjectManipulation
 
 		public Vector3 Jump(bool pressed, float distanceJumped)
 		{
-			if(pressed)
+            
+			if(Input.GetButtonDown("Jump"))
 			{
-				
+			    jumpTimer += Time.deltaTime;
+			    jumpVelocity = new Vector3(0f, 2f, 0f);
 			}
-			else
-			{
-				jumpVelocity = gravity;
-			}
+            else if (Input.GetButton("Jump") && jumpVelocity.y > 0f)
+            {
+                jumpTimer += Time.deltaTime;
+                jumpVelocity = (.5f*gravity*Mathf.Pow(jumpTimer,2)) + jumpVelocity;
+            }
+            else if (Input.GetButtonUp("Jump"))
+            {
+                jumpTimer = 0f;
+                jumpVelocity = gravity*jumpTimer;
+            }
+            else
+            {
+                jumpTimer += Time.deltaTime;
+                jumpVelocity = gravity*jumpTimer;
+            }
 			return jumpVelocity;
 		}
 		
