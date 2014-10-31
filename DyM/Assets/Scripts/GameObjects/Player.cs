@@ -61,8 +61,9 @@ namespace Assets.Scripts.GameObjects
 			}
 
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
-			transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
-			transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
+            transform.Translate((cardinalMovement.CalculateTotalMovement(Input.GetAxis("Horizontal"),acceleration,Input.GetButton("Jump"))));
+            //transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
+            //transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
 
 			if (Input.GetAxis("Fire1") > 0 && character.EquippedRangeWeapon())
 			{

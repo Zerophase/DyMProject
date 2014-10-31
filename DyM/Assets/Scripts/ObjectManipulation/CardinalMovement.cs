@@ -16,7 +16,6 @@ namespace Assets.Scripts.ObjectManipulation
 	    private Vector3 acceleration;
 
 	    private Vector3 jumpVelocity;
-	    private Vector3 jumpAcceleration = new Vector3(0f, .3f, 0f);
 
 		private Vector3 gravity;
 		public Vector3 Gravity { set { gravity = value; } }
@@ -36,18 +35,29 @@ namespace Assets.Scripts.ObjectManipulation
 		{
 		}
 
+	    public Vector3 CalculateTotalMovement(float direction, Vector3 xVelocity, bool isJumping, float distanceJumped)
+	    {
+	        Vector3 total = Vector3.zero;
+	        total += Move(direction, xVelocity, Time.deltaTime);
+	        total += Jump(isJumping, distanceJumped);
+	        return total;
+	    }
 		public Vector3 Move(float direction, Vector3 acceleration, float time)
 		{
 		    velocity = PhysicsFuncts.calculateVelocity(acceleration, time) * direction;
-		    
+            //Mapped a sprint button for testing, that kind of works.
+            //Worth looking into if we decide to add sprint, very easy.
+            //if (Input.GetAxis("Sprint") > .5)
+            //{
+            //    velocity+= PhysicsFuncts.calculateVelocity(new Vector3(5,0,0), time) * direction;
+            //}
 			return velocity;
 		}
 
-		public Vector3 Jump(bool pressed, float playerPos)
+		public Vector3 Jump(bool pressed, float distanceJumped)
 		{
 			if(pressed)
 			{
-				jumpVelocity = new Vector3(0f,.5f,0f);
 				
 			}
 			else
