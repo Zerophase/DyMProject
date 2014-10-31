@@ -31,12 +31,8 @@ namespace Assets.Scripts.GameObjects
 		public static GameObject GunModel;
 		private GameObject bullet;
 
-		private bool planeShiftUp = false;
-		private bool planeShiftdown = false;
         private Vector3 acceleration = new Vector3(10f,0f,0f);
 
-		
-		
 		void Start()
 		{
 			planeShift = factory.Create(transform.position);
@@ -61,7 +57,8 @@ namespace Assets.Scripts.GameObjects
 			}
 
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
-            transform.Translate((cardinalMovement.CalculateTotalMovement(Input.GetAxis("Horizontal"),acceleration,Input.GetButton("Jump"))));
+            transform.Translate(cardinalMovement.CalculateTotalMovement(Input.GetAxis("Horizontal"),
+				acceleration,Input.GetButton("Jump"), 0f/*stand in for total distance jumped*/));
             //transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
             //transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
 
