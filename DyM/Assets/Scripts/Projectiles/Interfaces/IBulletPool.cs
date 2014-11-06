@@ -14,5 +14,6 @@ namespace Assets.Scripts.Projectiles.Interfaces
 		List<IPooledProjectile> Projectiles { get; }
 		IPooledProjectile GetPooledProjectile();
 		void DeactivatePooledProjectile(IPooledProjectile projectile);
+		void ChangeBullet(IRangeWeapon rangeWeapon);
 	}
 }

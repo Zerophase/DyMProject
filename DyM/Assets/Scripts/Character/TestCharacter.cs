@@ -5,6 +5,7 @@ using System.Text;
 using Assets.Scripts.Abilities;
 using Assets.Scripts.Abilities.Interfaces;
 using Assets.Scripts.Character.Interfaces;
+using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
@@ -18,7 +19,10 @@ namespace Assets.Scripts.Character
 {
 	public class TestCharacter : ICharacter
 	{
-		private List<RangeWeaponBase> rangeWeapons = new List<RangeWeaponBase>(); 
+		private List<RangeWeaponBase> rangeWeapons = new List<RangeWeaponBase>();
+
+		[Inject]
+		private IBulletPool bulletPool;
 
 		private IRangeWeapon rangeWeapon;
 		public IRangeWeapon RangeWeapon
@@ -79,6 +83,7 @@ namespace Assets.Scripts.Character
 
 		public void Equip(IRangeWeapon weapon)
 		{
+			bulletPool.ChangeBullet(weapon);
 			this.rangeWeapon = weapon;
 		}
 
@@ -113,7 +118,8 @@ namespace Assets.Scripts.Character
 		public void AddWeapon(RangeWeaponBase weapon)
 		{
 			rangeWeapons.Add(weapon);
-			if(rangeWeapons.Count < 2)
+			//TODO reenable once change weapon button in place
+			//if(rangeWeapons.Count < 2)
 				Equip(weapon);
 		}
 

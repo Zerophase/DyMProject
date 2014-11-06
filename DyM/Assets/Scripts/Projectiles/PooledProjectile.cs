@@ -8,6 +8,7 @@ using UnityEditor;
 
 namespace Assets.Scripts.Projectiles
 {
+	//Projectile held by BulletPool
 	public struct PooledProjectile : IPooledProjectile
 	{
 		private IProjectile projectile;
@@ -19,6 +20,7 @@ namespace Assets.Scripts.Projectiles
 		public IProjectile Projectile
 		{
 			get { return projectile; }
+			set { projectile = value; }
 		}
 
 		/// <summary>

@@ -37,6 +37,14 @@ namespace Assets.Scripts.Projectiles
 			}
 		}
 
+		public void ChangeBullet(IRangeWeapon rangeWeapon)
+		{
+			for (int i = 0; i < projectiles.Count; i++)
+			{
+				projectiles[i] = projectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
+			}
+		}
+
 		private void addProjectile()
 		{
 			projectiles.Add(projectile);

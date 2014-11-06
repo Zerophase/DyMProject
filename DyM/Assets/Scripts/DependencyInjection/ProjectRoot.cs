@@ -56,10 +56,10 @@ namespace Assets.Scripts.DependencyInjection
 		private void rangeWeaponBindings()
 		{
 			_container.Bind<IRangeWeapon>().ToTransient<MachineGun>();
-			//_container.Bind<IProjectile>().ToTransient<Projectile>();
 			_container.Bind<IProjectile>().ToTransient<MachineGunProjectile>().
 				WhenInjectedInto<MachineGun>();
-			//_container.Bind<IPooledProjectile>().ToTransient<PooledProjectile>();
+			_container.Bind<IProjectile>().ToTransient<LightningGunProjectile>().
+				WhenInjectedInto<ForkLightningGun>();
 			_container.Bind<IBulletPool>().ToSingle<BulletPool>();
 			_container.Bind<IPooledGameObjects>().ToSingle<PooledGameobjects>();
 			_container.Bind<IPickUp>().ToTransient<WeaponPickUp>();

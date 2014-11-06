@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.Projectiles.Interfaces;
 using ModestTree.Zenject;
@@ -30,7 +31,16 @@ namespace Assets.Scripts.Projectiles
 			{
 				addProjectile();
 				pooledBullets[i].SetActive(false);
+				SetArt(i);
 			}
+		}
+
+		private void SetArt(int index)
+		{
+			pooledBullets[index].gameObject.renderer.material =
+				bulletPool.Projectiles[index].Projectile.GetMaterial;
+			pooledBullets[index].gameObject.GetComponent<MeshFilter>().mesh =
+				bulletPool.Projectiles[index].Projectile.GetMesh;
 		}
 
 		private void addProjectile()
@@ -45,8 +55,17 @@ namespace Assets.Scripts.Projectiles
 		{
 			GameObject currentBullet = null;
 
-			addNewProjectileToList(ref currentBullet);
+			if (bulletPool.Projectiles.Any(p =>
+				   pooledBullets.Find(x => x.renderer.material != p.Projectile.GetMaterial)))
+			{
+				for (int i = 0; i < pooledBullets.Count; i++)
+				{
+					SetArt(i);
+				}
+			}
 
+			addNewProjectileToList(ref currentBullet);
+			
 			iterateThroughCreatedProjectiles(ref currentBullet);
 
 			return currentBullet;
@@ -70,6 +89,7 @@ namespace Assets.Scripts.Projectiles
 			{
 				int lastElement = pooledBullets.Count - 1;
 				addProjectile();
+				SetArt(lastElement);
 				pooledBullets[lastElement].SetActive(true);
 				currentProjectile = pooledBullets[lastElement];
 			}
