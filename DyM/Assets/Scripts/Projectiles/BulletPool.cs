@@ -73,6 +73,7 @@ namespace Assets.Scripts.Projectiles
 				{
 					projectiles[i].Active = true;
 					currentProjectile = projectiles[i];
+					break;
 				}
 			}
 		}
