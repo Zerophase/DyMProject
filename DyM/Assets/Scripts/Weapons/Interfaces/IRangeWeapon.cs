@@ -16,6 +16,7 @@ namespace Assets.Scripts.Weapons.Interfaces
 	{
 		IProjectile Fire();
 		IProjectile Projectile { get; }
+		bool FireRate(float time);
 	}
 }
 

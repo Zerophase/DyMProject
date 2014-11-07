@@ -60,7 +60,7 @@ namespace Assets.Scripts.Projectiles
 			
 			iterateThroughCreatedProjectiles(ref currentProjectile);
 
-			if (projectiles.Any(b => b.Projectile is MachineGunProjectile))
+			if (projectiles.Any(b => b.Projectile is LightningGunProjectile))
 				Debug.Log("machineGun Projectile when should be lightning:" + projectiles.Find(b => b.Projectile is MachineGunProjectile));
 			return currentProjectile;
 		}

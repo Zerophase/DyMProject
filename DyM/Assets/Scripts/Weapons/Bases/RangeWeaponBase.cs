@@ -1,5 +1,6 @@
 
 using Assets.Scripts.Projectiles.Projectiles;
+using Assets.Scripts.Utilities;
 using Assets.Scripts.Weapons.Interfaces;
 using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
@@ -19,8 +20,10 @@ namespace Assets.Scripts.Weapons.Bases
 		{
 			get { return order; }
 		}
-		
-		
+
+		private float timeSinceLastShot;
+		protected float fireRate;
+
 		private IProjectile projectile;
 		public IProjectile Projectile { get { return projectile; } }
 
@@ -81,6 +84,23 @@ namespace Assets.Scripts.Weapons.Bases
 		public IProjectile Fire()
 		{
 			return bulletPool.GetPooledProjectile().Projectile;
+		}
+
+		public bool FireRate(float time)
+		{
+			bool fire;
+			timeSinceLastShot += time;
+			if (fireRate <= timeSinceLastShot)
+			{
+				timeSinceLastShot = 0f;
+				fire = true;
+			}
+			else
+			{
+				fire = false;
+			}
+
+			return fire;
 		}
 
 		public void Receive(ITelegram telegram)

@@ -79,6 +79,7 @@ namespace Assets.Scripts.Projectiles
 				{
 					pooledBullets[i].SetActive(true);
 					currentProjectile = pooledBullets[i];
+					break;
 				}
 			}
 		}

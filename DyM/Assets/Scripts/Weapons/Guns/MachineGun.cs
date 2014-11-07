@@ -16,7 +16,7 @@ namespace Assets.Scripts.Weapons.Guns
 			IProjectile projectile, IBulletPool bulletPool = null) :
 			base(receiver, messageDispatcher, projectile, bulletPool)
 		{
-			
+			fireRate = 0.25f;
 		}
 	}
 }

@@ -18,10 +18,12 @@ public class Bullet : MonoBehaviour
 
 	private Vector3 startPosition;
 	private Vector3 fireDirection;
-	private float speed = 10.0f;
+	private float speed = 20.0f;
 	
 	
 	private bool setUp = false;
+
+	private float totalTime = 0f;
 
 	void Update ()
 	{
@@ -33,24 +35,10 @@ public class Bullet : MonoBehaviour
 
 	private void lightningGunBullet()
 	{
-		if (gameObject.activeInHierarchy && !setUp)
-		{
-			transform.position = (Player.GunModel.transform.position + new Vector3(0f, Player.GunModel.transform.lossyScale.y, 0f));
-			startPosition = transform.position;
-			if (Player.GunModel.GetComponent<Gun>().Rotated)
-				fireDirection = -Player.GunModel.transform.up + new Vector3(0f, 0f, 0.5f);
-			else
-				fireDirection = Player.GunModel.transform.up;
-			setUp = true;
-		}
-
-		Vector3 temp = PhysicsFuncts.calculateVelocity(speed*fireDirection, Time.deltaTime);
-		temp.z += Mathf.Sqrt(Mathf.Abs(temp.z));
-		transform.Translate(temp);
-	}
-
-	private void machineGunBullet()
-	{
+		//There was a bug that caused the bullets to explode by using: 
+		//fireDirection = -Player.GunModel.transform.up + new Vector3(0f, 0f, 0.5f);
+		//might be interesting to make a gun that shoots outwards and then explodes in
+		//4 directions
 		if (gameObject.activeInHierarchy && !setUp)
 		{
 			transform.position = (Player.GunModel.transform.position + new Vector3(0f, Player.GunModel.transform.lossyScale.y, 0f));
@@ -61,10 +49,36 @@ public class Bullet : MonoBehaviour
 				fireDirection = Player.GunModel.transform.up;
 			setUp = true;
 		}
+		Vector3 temp;
+		if (Util.compareEachFloat(transform.position.magnitude, (startPosition + new Vector3(-1f, 0f, -1f)).magnitude))
+			temp = Vector3.Slerp(startPosition, startPosition + new Vector3(-1f, 0f, -1f), totalTime);
+		else
+			temp = transform.position + fireDirection;
+
+		totalTime += Time.deltaTime / 100;
+		if (totalTime >= 1f)
+			totalTime = 0f;
+
+		transform.position = temp;
+	}
+
+	private void machineGunBullet()
+	{
+		if (gameObject.activeInHierarchy && !setUp)
+		{
+			transform.position = Player.GunModel.transform.position;
+
+			startPosition = transform.position;
+			if (Player.GunModel.GetComponent<Gun>().Rotated)
+				fireDirection = -Player.GunModel.transform.up;
+			else
+				fireDirection = Player.GunModel.transform.up;
+			setUp = true;
+		}
 
 		transform.Translate(PhysicsFuncts.calculateVelocity(speed*fireDirection, Time.deltaTime));
 
-		if (Mathf.Abs((transform.position - startPosition).magnitude) > 5f)
+		if (Mathf.Abs((transform.position - startPosition).magnitude) > 10f)
 		{
 			setUp = false;
 			PooledBulletGameObjects.DeactivatePooledBullet(gameObject);

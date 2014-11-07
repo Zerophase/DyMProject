@@ -62,7 +62,8 @@ namespace Assets.Scripts.GameObjects
             //transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
             //transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
 
-			if (Input.GetAxis("Fire1") > 0 && character.EquippedRangeWeapon())
+			if (Input.GetAxis("Fire1") > 0 && 
+				character.EquippedRangeWeapon() && character.RangeWeapon.FireRate(Time.deltaTime))
 			{
 				IProjectile bullet = character.RangeWeapon.Fire();
 				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = bullet;
