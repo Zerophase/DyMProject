@@ -89,6 +89,145 @@ namespace Assets.Scripts.Utilities
 			return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x * a.transform.lossyScale.x, -aCollider.size.y * a.transform.lossyScale.y, aCollider.size.z * a.transform.lossyScale.z);
 		}
 
+        private static float SweptAABB(Box3D b1, Box3D b2, ref float normalX, ref float normalY, ref float normalZ)
+        {
+            float xInvEntry, yInvEntry, zInvEntry;
+            float xInvExit, yInvExit, zInvExit;
+
+            if(b1.xVelocity > 0.0f)
+            {
+                xInvEntry = b2.xMin - b1.xMax;
+                xInvExit = b2.xMax - b1.xMin;
+            }
+            else
+            {
+                xInvEntry = b2.xMax - b1.xMin;
+                xInvExit = b2.xMin - b1.xMax;
+            }
+
+            if(b1.yVelocity > 0.0f)
+            {
+                yInvEntry = b2.yMin - b1.yMax;
+                yInvExit = b2.yMax - b1.yMin;
+            }
+            else
+            {
+                yInvEntry = b2.yMax - b1.yMin;
+                yInvExit = b2.yMin - b1.yMax;
+            }
+
+            if(b1.zVelocity > 0.0f)
+            {
+                zInvEntry = b2.zMin - b1.zMax;
+                zInvExit = b2.zMax - b1.zMin;
+            }
+            else 
+            {
+                zInvEntry = b2.zMax - b1.zMin;
+                zInvExit = b2.zMin - b1.zMax;
+            }
+
+
+            float xEntry, yEntry, zEntry;
+            float xExit, yExit, zExit;
+
+            if(b1.xVelocity == 0.0f)
+            {
+                xEntry = float.NegativeInfinity;
+                xExit = float.PositiveInfinity;
+            }
+            else
+            {
+                xEntry = xInvEntry / b1.xVelocity;
+                xExit = xInvExit / b1.xVelocity;
+            }
+
+            if(b1.yVelocity == 0.0f)
+            {
+                yEntry = float.NegativeInfinity;
+                yExit = float.PositiveInfinity;
+            }
+            else
+            {
+                yEntry = yInvEntry / b1.yVelocity;
+                yExit = yInvExit / b1.yVelocity;
+            }
+
+            if(b1.zVelocity == 0.0f)
+            {
+                zEntry = float.NegativeInfinity;
+                zExit = float.PositiveInfinity;
+            }
+            else
+            {
+                zEntry = zInvEntry / b1.zVelocity;
+                zExit = zInvExit / b1.zVelocity;
+            }
+
+            float entryTime = Math.Max(xEntry, yEntry);
+            entryTime = Math.Max(entryTime, zEntry);
+            float exitTime = Math.Max(xExit, yExit);
+            exitTime = Math.Max(entryTime, zExit);
+
+            if (entryTime > exitTime || xEntry < 0.0f && yEntry < 0.0f && zEntry < 0.0f ||
+                xEntry > 1.0f || yEntry > 1.0f || zEntry > 1.0f)
+            {
+                normalX = 0.0f;
+                normalY = 0.0f;
+                normalZ = 0.0f;
+                return 1.0f;
+            }
+            else
+            {
+                if(xEntry > yEntry)
+                {
+                    if(xInvEntry < 0.0f)
+                    {
+                        normalX = 1.0f;
+                        normalY = 0.0f;
+                        normalZ = 0.0f;
+                    }
+                    else
+                    {
+                        normalX = -1.0f;
+                        normalY = 0.0f;
+                        normalZ = 0.0f;
+                    }
+                }
+                else if (xEntry > zEntry)
+                {
+                    if (xInvEntry < 0.0f)
+                    {
+                        normalX = 1.0f;
+                        normalY = 0.0f;
+                        normalZ = 0.0f;
+                    }
+                    else
+                    {
+                        normalX = -1.0f;
+                        normalY = 0.0f;
+                        normalZ = 0.0f;
+                    }
+                }
+                else if (yEntry > zEntry)
+                {
+                    if (yInvEntry < 0.0f)
+                    {
+                        normalX = 0.0f;
+                        normalY = 1.0f;
+                        normalZ = 0.0f;
+                    }
+                    else
+                    {
+                        normalX = 0.0f;
+                        normalY = -1.0f;
+                        normalZ = 0.0f;
+                    }
+                }
+            }
+            return entryTime;
+        }
+
 		private static Vector2 v2(this Vector3 v)
 		{
 			return	 new Vector2(v.x, v.y);

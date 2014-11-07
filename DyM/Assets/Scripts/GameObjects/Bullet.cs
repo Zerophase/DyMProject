@@ -18,13 +18,15 @@ public class Bullet : MonoBehaviour
 
 	private Vector3 startPosition;
 	private Vector3 fireDirection;
-	private float speed = 20.0f;
-	
-	
+	private float speed = 10.0f;
+    private float bulletTimer = 0f;
+    private float smoothCurve = 0.0f;
+    private float smoothCurveChange = -0.5f;
 	private bool setUp = false;
+    Vector3 positionStorage;
 
-	private float totalTime = 0f;
-
+    static int id = -1;
+    private int localID;
 	void Update ()
 	{
 		if(projectile is MachineGunProjectile)
@@ -39,27 +41,43 @@ public class Bullet : MonoBehaviour
 		//fireDirection = -Player.GunModel.transform.up + new Vector3(0f, 0f, 0.5f);
 		//might be interesting to make a gun that shoots outwards and then explodes in
 		//4 directions
-		if (gameObject.activeInHierarchy && !setUp)
-		{
-			transform.position = (Player.GunModel.transform.position + new Vector3(0f, Player.GunModel.transform.lossyScale.y, 0f));
-			startPosition = transform.position;
-			if (Player.GunModel.GetComponent<Gun>().Rotated)
-				fireDirection = -Player.GunModel.transform.up;
-			else
-				fireDirection = Player.GunModel.transform.up;
-			setUp = true;
-		}
-		Vector3 temp;
-		if (Util.compareEachFloat(transform.position.magnitude, (startPosition + new Vector3(-1f, 0f, -1f)).magnitude))
-			temp = Vector3.Slerp(startPosition, startPosition + new Vector3(-1f, 0f, -1f), totalTime);
-		else
-			temp = transform.position + fireDirection;
+        if (gameObject.activeInHierarchy && !setUp)
+        {
+            id++;
+            localID = id;
+            transform.position = Player.GunModel.transform.position;
 
-		totalTime += Time.deltaTime / 100;
-		if (totalTime >= 1f)
-			totalTime = 0f;
+            startPosition = transform.position;
+            if (Player.GunModel.GetComponent<Gun>().Rotated)
+                fireDirection = -Player.GunModel.transform.up;
+            else
+                fireDirection = Player.GunModel.transform.up;
+            setUp = true;
+        }
+        bulletTimer += Time.deltaTime;
+        Debug.Log("Before: " + smoothCurve);
+        positionStorage = PhysicsFuncts.calculateVelocity(speed * fireDirection, Time.deltaTime);
 
-		transform.position = temp;
+        if (smoothCurve < 1.0f)
+        {
+            positionStorage.z = smoothCurve = smoothCurveChange * bulletTimer;
+            Debug.Log("After: " + smoothCurve);
+            
+        }
+        else if (smoothCurve > 1.0f)
+        {
+            positionStorage.z = 0.0f;
+        }
+        
+        transform.Translate(positionStorage);
+
+        if (Mathf.Abs((transform.position - startPosition).magnitude) > 3000f)
+        {
+            smoothCurve = 0f;
+            bulletTimer = 0f;
+            setUp = false;
+            PooledBulletGameObjects.DeactivatePooledBullet(gameObject);
+        };
 	}
 
 	private void machineGunBullet()

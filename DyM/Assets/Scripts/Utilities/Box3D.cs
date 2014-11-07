@@ -18,7 +18,10 @@ namespace Assets.Scripts.Utilities
 
 	    public float zMin;
         public float zMax;
-	    
+
+        public float xVelocity;
+        public float yVelocity;
+        public float zVelocity;
 
         public Box3D(Vector3 position, float width, float height, float depth)
         {
