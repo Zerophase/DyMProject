@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.GameObjects;
 using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Projectiles.Projectiles;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
@@ -24,18 +25,44 @@ public class Bullet : MonoBehaviour
 
 	void Update ()
 	{
+		if(projectile is MachineGunProjectile)
+			machineGunBullet();
+		else if (projectile is LightningGunProjectile)
+			lightningGunBullet();
+	}
+
+	private void lightningGunBullet()
+	{
 		if (gameObject.activeInHierarchy && !setUp)
 		{
 			transform.position = (Player.GunModel.transform.position + new Vector3(0f, Player.GunModel.transform.lossyScale.y, 0f));
 			startPosition = transform.position;
-			if(Player.GunModel.GetComponent<Gun>().Rotated)
+			if (Player.GunModel.GetComponent<Gun>().Rotated)
+				fireDirection = -Player.GunModel.transform.up + new Vector3(0f, 0f, 0.5f);
+			else
+				fireDirection = Player.GunModel.transform.up;
+			setUp = true;
+		}
+
+		Vector3 temp = PhysicsFuncts.calculateVelocity(speed*fireDirection, Time.deltaTime);
+		temp.z += Mathf.Sqrt(Mathf.Abs(temp.z));
+		transform.Translate(temp);
+	}
+
+	private void machineGunBullet()
+	{
+		if (gameObject.activeInHierarchy && !setUp)
+		{
+			transform.position = (Player.GunModel.transform.position + new Vector3(0f, Player.GunModel.transform.lossyScale.y, 0f));
+			startPosition = transform.position;
+			if (Player.GunModel.GetComponent<Gun>().Rotated)
 				fireDirection = -Player.GunModel.transform.up;
 			else
 				fireDirection = Player.GunModel.transform.up;
 			setUp = true;
 		}
-		
-		transform.Translate(PhysicsFuncts.calculateVelocity(speed * fireDirection, Time.deltaTime));
+
+		transform.Translate(PhysicsFuncts.calculateVelocity(speed*fireDirection, Time.deltaTime));
 
 		if (Mathf.Abs((transform.position - startPosition).magnitude) > 5f)
 		{

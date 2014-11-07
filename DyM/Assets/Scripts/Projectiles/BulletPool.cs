@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Projectiles.Projectiles;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
@@ -55,8 +57,11 @@ namespace Assets.Scripts.Projectiles
 			IPooledProjectile currentProjectile = null;
 
 			addNewProjectileToList(ref currentProjectile);
-
+			
 			iterateThroughCreatedProjectiles(ref currentProjectile);
+
+			if (projectiles.Any(b => b.Projectile is MachineGunProjectile))
+				Debug.Log("machineGun Projectile when should be lightning:" + projectiles.Find(b => b.Projectile is MachineGunProjectile));
 			return currentProjectile;
 		}
 

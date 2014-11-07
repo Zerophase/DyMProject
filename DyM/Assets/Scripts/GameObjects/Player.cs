@@ -64,8 +64,8 @@ namespace Assets.Scripts.GameObjects
 
 			if (Input.GetAxis("Fire1") > 0 && character.EquippedRangeWeapon())
 			{
-				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = 
-					character.RangeWeapon.Fire();
+				IProjectile bullet = character.RangeWeapon.Fire();
+				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = bullet;
 			}
 
 			if (Input.GetButtonDown("WeakAttack") && character.EquippedRangeWeapon())

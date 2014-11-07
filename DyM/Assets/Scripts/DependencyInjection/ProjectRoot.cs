@@ -38,10 +38,10 @@ namespace Assets.Scripts.DependencyInjection
 
 			messengerBindings();
 
-			characterBindings();
-			
 			rangeWeaponBindings();
 			meleeWeaponBindings();
+
+			characterBindings();
 
 			abilityBindings();
 
