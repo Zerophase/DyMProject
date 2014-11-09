@@ -64,7 +64,7 @@ namespace Assets.Scripts.ObjectManipulation
 			    jumpTimer = 0;
 			    jumpVelocity = new Vector3(0f, 1.3f, 0f);
 			    falling = false;
-			    jumped = true;
+                //jumped = true;
 			}
             else if (Input.GetButton("Jump") && jumpVelocity.y > 0f)
             {
