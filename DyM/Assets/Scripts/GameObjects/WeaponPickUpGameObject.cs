@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.GameObjects
 {
-	public class WeaponPickUpGameObject : Mediator
+	public class WeaponPickUpGameObject : PhysicsMediator
 	{
 		public WeaponTypes WeaponTypes;
 		[Inject]
@@ -18,7 +18,8 @@ namespace Assets.Scripts.GameObjects
 		public void Start()
 		{
 			weaponPickUp = weaponPickUpFactory.Create(WeaponTypes);
-			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
+			
+			base.Start();
 		}
 
 		// Use this for initialization

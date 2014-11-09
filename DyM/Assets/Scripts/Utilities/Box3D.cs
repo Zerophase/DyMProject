@@ -5,18 +5,20 @@ namespace Assets.Scripts.Utilities
 {
     public class Box3D
     {
-        public Vector3 position;
+	    private BoxCollider boxCollider;
+        private Vector3 position;
+
         public float width;
         public float height;
         public float depth;
 
-		public float xMin;
+		public float xMin {get { return position.x; }}
         public float xMax;
 
-	    public float yMin;
+	    public float yMin {get { return position.y; }}
         public float yMax;
 
-	    public float zMin;
+	    public float zMin {get { return position.z; }}
         public float zMax;
 
         public float xVelocity;
@@ -34,17 +36,35 @@ namespace Assets.Scripts.Utilities
             this.zMax = position.z + depth;
         }
 
-        public Box3D(float x, float y, float z, float width, float height, float depth)
+        public Box3D(float x, float y, float z, float width, float height, float depth, BoxCollider boxCollider)
         {
-            this.xMax = x + width;
-            this.yMax = y + height;
-            this.zMax = z + depth;
+			position.x = x;
+			position.y = y;
+			position.z = z;
 
-	        this.xMin = x;
-	        this.yMin = y;
-	        this.zMin = z;
+	        this.width = width;
+	        this.height = height;
+	        this.depth = depth;
+
+			xMax = position.x + this.width;
+			yMax = position.y + this.height;
+			zMax = position.z + this.depth;
+
+	        this.boxCollider = boxCollider;
         }
 
+	    public void UpdateBox3D(GameObject gameObject)
+	    {
+			position = gameObject.transform.position;
 
+			position += boxCollider.center;
+			position.x -= (boxCollider.size.x * gameObject.transform.lossyScale.x) / 2;
+			position.y += (boxCollider.size.y * gameObject.transform.lossyScale.y) / 2;
+			position.z -= (boxCollider.size.z * gameObject.transform.lossyScale.z) / 2;
+
+		    xMax = xMin + width;
+		    yMax = yMin + height;
+		    zMax = zMin + depth;
+	    }
     }
 }

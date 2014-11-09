@@ -12,7 +12,7 @@ namespace Assets.Scripts.MediatorPattern
 {
 	public class PhysicsDirector : Director
 	{
-		private List<PhysicsMediator> physicsMediators = new List<PhysicsMediator>();
+		private List<MovablePhysicsMediator> physicsMediators = new List<MovablePhysicsMediator>();
 		private List<Ground> grounds = new List<Ground>();
 		private List<WeaponPickUpGameObject> weaponPickUpGameObjects = 
 			new List<WeaponPickUpGameObject>();
@@ -37,7 +37,7 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			for (int i = 0; i < abilityPickUps.Count; i++)
 			{
-				if (abilityPickUps[i].gameObject.CheckBounds(physicsMediators[0].gameObject))
+				if (abilityPickUps[i].CheckBounds(physicsMediators[0]))
 				{
 					abilityPickUps[i].PickUp(physicsMediators[0].gameObject);
 					abilityPickUps.RemoveAt(i);
@@ -49,7 +49,7 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			for(int i = 0; i < weaponPickUpGameObjects.Count; i++)
 			{
-				if (weaponPickUpGameObjects[i].gameObject.CheckBounds(physicsMediators[0].gameObject))
+				if (weaponPickUpGameObjects[i].CheckBounds(physicsMediators[0]))
 				{
 					weaponPickUpGameObjects[i].PickUp(physicsMediators[0].gameObject);
 					weaponPickUpGameObjects.RemoveAt(i);
@@ -65,7 +65,7 @@ namespace Assets.Scripts.MediatorPattern
 				{
 					foreach (var ground in grounds)
 					{
-						if (ground.gameObject.CheckBounds(physicsMed.gameObject))
+						if (ground.CheckBounds(physicsMed))
 						{
 							physicsMed.Gravity = Vector3.zero;
 							physicsMed.HasJumped = false;
@@ -73,7 +73,7 @@ namespace Assets.Scripts.MediatorPattern
 							break;
 						}
 
-						else if (!ground.gameObject.CheckBounds(physicsMed.gameObject))
+						else if (!ground.CheckBounds(physicsMed))
 						{
 							physicsMed.Gravity = gravity;
 							physicsMed.HasJumped = true;
@@ -87,7 +87,7 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			if (assignGravity)
 			{
-				foreach (PhysicsMediator physicsMed in physicsMediators)
+				foreach (MovablePhysicsMediator physicsMed in physicsMediators)
 				{
 					physicsMed.Gravity = gravity;
 				}
@@ -100,9 +100,9 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			if (telegram.Receiver == this)
 			{
-				if(telegram.Message is PhysicsMediator)
+				if(telegram.Message is MovablePhysicsMediator)
 				{
-					physicsMediators.Add((PhysicsMediator)telegram.Message);
+					physicsMediators.Add((MovablePhysicsMediator)telegram.Message);
 					assignGravity = true;
 				}
 				else if(telegram.Message is Ground)

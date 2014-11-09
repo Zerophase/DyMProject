@@ -16,7 +16,7 @@ using System.Collections;
 
 namespace Assets.Scripts.GameObjects
 {
-	public class Player : PhysicsMediator
+	public class Player : MovablePhysicsMediator
 	{
 		private IPlaneShift planeShift;
 		[Inject]
@@ -43,8 +43,10 @@ namespace Assets.Scripts.GameObjects
             
 		}
 
-		void Update()
+		protected override void Update()
 		{
+			base.Update();
+
 			if (Input.GetButtonDown("PlaneShiftDown"))
 			{
 				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4,

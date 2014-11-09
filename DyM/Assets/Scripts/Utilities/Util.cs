@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Schema;
+using Assets.Scripts.MediatorPattern;
 using UnityEngine;
 
 namespace Assets.Scripts.Utilities
@@ -48,17 +49,9 @@ namespace Assets.Scripts.Utilities
 			}
 		}
 		
-		
-		private static bool collided;
-
-		public static bool CheckBounds(this GameObject ground, GameObject player)
+		public static bool CheckBounds(this PhysicsMediator collidableObjectOne, PhysicsMediator collidableObjectTwo)
 		{
-            
-			collided = false;
-			Box3D aBox = ground.BoxToRect();
-			Box3D bBox = player.BoxToRect();
-
-			return Intersect(aBox, bBox);
+			return Intersect(collidableObjectOne.GetBox3D, collidableObjectTwo.GetBox3D);
 		}
 
 		private static bool Intersect(Box3D ground, Box3D player)
@@ -86,7 +79,7 @@ namespace Assets.Scripts.Utilities
 			aPos.y += (aCollider.size.y * a.transform.lossyScale.y) /2;
 		    aPos.z -= (aCollider.size.z * a.transform.lossyScale.z) /2;
 
-			return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x * a.transform.lossyScale.x, -aCollider.size.y * a.transform.lossyScale.y, aCollider.size.z * a.transform.lossyScale.z);
+			return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x * a.transform.lossyScale.x, -aCollider.size.y * a.transform.lossyScale.y, aCollider.size.z * a.transform.lossyScale.z, aCollider);
 		}
 
         private static float SweptAABB(Box3D b1, Box3D b2, ref float normalX, ref float normalY, ref float normalZ)
