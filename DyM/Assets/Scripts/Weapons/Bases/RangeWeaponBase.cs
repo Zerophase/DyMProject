@@ -87,7 +87,7 @@ namespace Assets.Scripts.Weapons.Bases
 			return bulletPool.GetPooledProjectile().Projectile;
 		}
 
-		public bool FireRate(float time)
+		public virtual bool FireRate(float time)
 		{
 			bool fire;
 			timeSinceLastShot += time;

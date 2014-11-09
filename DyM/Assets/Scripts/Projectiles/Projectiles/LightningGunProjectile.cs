@@ -14,11 +14,23 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		private Vector3 positionStorage;
 		private float smoothCurve = 0.0f;
 		private float bulletTimer = 0.0f;
-		private float smoothCurveChange = -0.5f;
+		private float smoothCurveChange = 10f;
+
+		private static int bulletLane = 0;
+		private int lane;
 
 		public LightningGunProjectile() :
-			base("LightningGunBullet", "Cube", 15f)
+			base("LightningGunBullet", "Cube", 20f)
 		{
+		}
+
+		public override void SetUpProjectile(Vector3 position)
+		{
+			if (bulletLane == 3)
+				bulletLane = 0;
+			lane = bulletLane++;
+
+			base.SetUpProjectile(position);
 		}
 
 		//There was a bug that caused the bullets to explode by using: 
@@ -30,17 +42,29 @@ namespace Assets.Scripts.Projectiles.Projectiles
 			bulletTimer += Time.deltaTime;
 			positionStorage = PhysicsFuncts.calculateVelocity(speed * fireDirection, Time.deltaTime);
 
-			if (smoothCurve < 1.0f)
+			if (lane == 2)
 			{
-				positionStorage.z = smoothCurve = smoothCurveChange * bulletTimer;
-
+				smoothCurveChange = -smoothCurveChange;
 			}
-			else if (smoothCurve > 1.0f)
+
+			if (lane == 2 || lane == 0)
+			{
+				determineCurve();
+			}
+			
+			return positionStorage;
+		}
+
+		private void determineCurve()
+		{
+			if (Mathf.Abs(smoothCurve) < 1.0f)
+			{
+				positionStorage.z = smoothCurve = smoothCurveChange*bulletTimer;
+			}
+			else if (Mathf.Abs(smoothCurve) > 1.0f)
 			{
 				positionStorage.z = 0.0f;
 			}
-
-			return positionStorage;
 		}
 
 		public override void DeactivateProjectile()
