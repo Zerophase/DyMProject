@@ -27,7 +27,11 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		public override void SetUpProjectile(Vector3 position)
 		{
 			if (bulletLane == 3)
+			{
+				if (smoothCurveChange < 0.0f)
+					smoothCurveChange = -smoothCurveChange;
 				bulletLane = 0;
+			}
 			lane = bulletLane++;
 
 			base.SetUpProjectile(position);
@@ -42,7 +46,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 			bulletTimer += Time.deltaTime;
 			positionStorage = PhysicsFuncts.calculateVelocity(speed * fireDirection, Time.deltaTime);
 
-			if (lane == 2)
+			if (lane == 2 && smoothCurveChange > 0.0f)
 			{
 				smoothCurveChange = -smoothCurveChange;
 			}

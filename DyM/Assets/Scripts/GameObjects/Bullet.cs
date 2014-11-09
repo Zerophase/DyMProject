@@ -31,7 +31,7 @@ namespace Assets.Scripts.GameObjects
 			if (projectile.ShouldProjectileDeactivate(transform.position))
 			{
 				projectile.DeactivateProjectile();
-				PooledBulletGameObjects.DeactivatePooledBullet(gameObject);
+				PooledBulletGameObjects.DeactivatePooledBullet(gameObject, projectile);
 			}
 		}
 	}

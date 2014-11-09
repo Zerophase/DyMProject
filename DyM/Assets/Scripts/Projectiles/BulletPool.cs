@@ -33,7 +33,7 @@ namespace Assets.Scripts.Projectiles
 
 		public void Initialize(IRangeWeapon rangeWeapon, Vector3 startPosition, int count)
 		{
-			projectile = rangeWeapon.Projectile;
+			changeProjectileType(rangeWeapon.Projectile);
 			for (int i = 0; i < count; i++)
 			{
 				addProjectile();
@@ -42,10 +42,16 @@ namespace Assets.Scripts.Projectiles
 
 		public void ChangeBullet(IRangeWeapon rangeWeapon)
 		{
+			changeProjectileType(rangeWeapon.Projectile);
 			for (int i = 0; i < projectiles.Count; i++)
 			{
 				projectiles[i] = pooledProjectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
 			}
+		}
+
+		private void changeProjectileType(IProjectile projectile)
+		{
+			this.projectile = projectile;
 		}
 
 		private void addProjectile()
@@ -90,9 +96,9 @@ namespace Assets.Scripts.Projectiles
 			}
 		}
 
-		public void DeactivatePooledProjectile(IPooledProjectile projectile)
+		public void DeactivatePooledProjectile(IProjectile projectile)
 		{
-			projectiles.Find(p => p == projectile).Active = false;
+			projectiles.Find(p => p.Projectile == projectile).Active = false;
 		}
 	}
 }

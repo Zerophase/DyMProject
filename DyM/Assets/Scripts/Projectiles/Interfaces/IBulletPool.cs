@@ -13,7 +13,7 @@ namespace Assets.Scripts.Projectiles.Interfaces
 		IPooledProjectile Projectile { set; }
 		List<IPooledProjectile> Projectiles { get; }
 		IPooledProjectile GetPooledProjectile();
-		void DeactivatePooledProjectile(IPooledProjectile projectile);
+		void DeactivatePooledProjectile(IProjectile projectile);
 		void ChangeBullet(IRangeWeapon rangeWeapon);
 	}
 }

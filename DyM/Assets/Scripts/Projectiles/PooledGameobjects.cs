@@ -12,7 +12,7 @@ namespace Assets.Scripts.Projectiles
 		void Initialize();
 
 		GameObject GetPooledBullet();
-		void DeactivatePooledBullet(GameObject bullet);
+		void DeactivatePooledBullet(GameObject bullet, IProjectile projectile);
 	}
 
 	public class PooledGameobjects : IPooledGameObjects
@@ -97,8 +97,9 @@ namespace Assets.Scripts.Projectiles
 			}
 		}
 
-		public void DeactivatePooledBullet(GameObject bullet)
+		public void DeactivatePooledBullet(GameObject bullet, IProjectile projectile)
 		{
+			bulletPool.DeactivatePooledProjectile(projectile);
 			pooledBullets.Find(b => b == bullet).SetActive(false);
 		}
 	}
