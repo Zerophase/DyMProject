@@ -19,6 +19,8 @@ namespace Assets.Scripts.MediatorPattern
 
 		public Vector3 Gravity { set { cardinalMovement.Gravity = value; } }
 
+		public bool HasJumped { set { cardinalMovement.HasJumped = value; } }
+
 		protected virtual void Start()
 		{
 			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
