@@ -1,4 +1,5 @@
 
+using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.Projectiles.Projectiles;
 using Assets.Scripts.Utilities;
 using Assets.Scripts.Weapons.Interfaces;

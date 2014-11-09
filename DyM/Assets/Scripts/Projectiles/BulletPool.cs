@@ -20,10 +20,11 @@ namespace Assets.Scripts.Projectiles
 
 		[Inject]
 		private PooledProjectileFactory pooledProjectileFactory;
-		private IPooledProjectile projectile;
+		private IPooledProjectile pooledProjectile;
+		private IProjectile projectile;
 
 		// For Tests
-		public IPooledProjectile Projectile { set { projectile = value; } }
+		public IPooledProjectile Projectile { set { pooledProjectile = value; } }
 
 		public List<IPooledProjectile> Projectiles
 		{
@@ -32,7 +33,7 @@ namespace Assets.Scripts.Projectiles
 
 		public void Initialize(IRangeWeapon rangeWeapon, Vector3 startPosition, int count)
 		{
-			projectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
+			projectile = rangeWeapon.Projectile;
 			for (int i = 0; i < count; i++)
 			{
 				addProjectile();
@@ -43,13 +44,13 @@ namespace Assets.Scripts.Projectiles
 		{
 			for (int i = 0; i < projectiles.Count; i++)
 			{
-				projectiles[i] = projectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
+				projectiles[i] = pooledProjectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
 			}
 		}
 
 		private void addProjectile()
 		{
-			projectiles.Add(projectile);
+			projectiles.Add(pooledProjectileFactory.Create(projectile));
 		}
 
 		public IPooledProjectile GetPooledProjectile()

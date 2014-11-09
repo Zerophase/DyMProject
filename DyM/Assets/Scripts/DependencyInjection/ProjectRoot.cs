@@ -95,6 +95,7 @@ namespace Assets.Scripts.DependencyInjection
 		{
 			_container.Bind<PlaneShiftFactory>().ToSingle();
 			_container.Bind<RangeWeaponFactory>().ToSingle();
+			_container.Bind<ProjectileFactory>().ToSingle();
 			_container.Bind<PooledProjectileFactory>().ToSingle();
 			_container.Bind<WeaponPickUpFactory>().ToSingle();
 		}

@@ -14,14 +14,17 @@ namespace Assets.Scripts.DependencyInjection
 		private IFactory<IPooledProjectile> factory;
 		private Instantiator instantiator;
 
+		private ProjectileFactory projectileFactory;
 		public PooledProjectileFactory(Instantiator instantiator)
 		{
 			this.instantiator = instantiator;
+			projectileFactory = instantiator.Instantiate<ProjectileFactory>();
 		}
 
 		public IPooledProjectile Create(IProjectile projectile)
 		{
-			return instantiator.Instantiate<PooledProjectile>(projectile);
+			return instantiator.Instantiate<PooledProjectile>(
+				projectileFactory.Create(projectile));
 		}
 	}
 }

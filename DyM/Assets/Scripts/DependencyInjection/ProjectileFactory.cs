@@ -20,7 +20,8 @@ namespace Assets.Scripts.DependencyInjection
 
 		public IProjectile Create(IProjectile projectile)
 		{
-			return instantiator.Instantiate<IProjectile>(projectile);
+			// TODO figure out how to replace, this is slow, but only gets hit at startup.
+			return (IProjectile)Activator.CreateInstance(projectile.GetType());
 		}
 	}
 }

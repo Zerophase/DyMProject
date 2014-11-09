@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Utilities;
 using UnityEngine;
 
 namespace Assets.Scripts.Projectiles.Projectiles
 {
-	public class MachineGunProjectile : IProjectile
+	public class MachineGunProjectile : ProjectileBase
 	{
-		protected Material material;
-		public Material GetMaterial { get { return material; } }
-
-		private Mesh mesh;
-		public Mesh GetMesh { get { return mesh; } }
-
-		public MachineGunProjectile()
+		public MachineGunProjectile() :
+			base("MachineGunBullet", "Sphere", 10f)
 		{
-			material = Resources.Load<Material>("Materials/MachineGunBullet");
-			//TODO once meshes are made replace with direct reference to mesh.
-			GameObject go = GameObject.Instantiate(Resources.Load<GameObject>("Meshes/Sphere")) as GameObject;
-			mesh = go.GetComponent<MeshFilter>().mesh;
+			
+		}
+
+		public override Vector3 ProjectilePattern()
+		{
+			return PhysicsFuncts.calculateVelocity(
+				speed*fireDirection, Time.deltaTime);
 		}
 	}
 }

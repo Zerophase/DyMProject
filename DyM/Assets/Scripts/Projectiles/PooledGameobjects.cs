@@ -10,6 +10,7 @@ namespace Assets.Scripts.Projectiles
 	public interface IPooledGameObjects
 	{
 		void Initialize();
+
 		GameObject GetPooledBullet();
 		void DeactivatePooledBullet(GameObject bullet);
 	}
