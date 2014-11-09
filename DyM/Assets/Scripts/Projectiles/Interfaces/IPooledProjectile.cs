@@ -7,7 +7,7 @@ namespace Assets.Scripts.Projectiles.Interfaces
 {
 	public interface IPooledProjectile
 	{
-		IProjectile Projectile { get; }
+		IProjectile Projectile { get; set; }
 		bool Active { get; set; }
 	}
 }
