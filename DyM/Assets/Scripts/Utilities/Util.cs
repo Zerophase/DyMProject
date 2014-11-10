@@ -49,23 +49,9 @@ namespace Assets.Scripts.Utilities
 			}
 		}
 		
-		public static bool CheckBounds(this PhysicsMediator collidableObjectOne, PhysicsMediator collidableObjectTwo)
+		public static bool CheckBounds(this PhysicsMediator physicsMediatorOne, PhysicsMediator physicsMediatorTwo)
 		{
-			return Intersect(collidableObjectOne.GetBox3D, collidableObjectTwo.GetBox3D);
-		}
-
-		private static bool Intersect(Box3D ground, Box3D player)
-		{	
-            bool comp1 = ground.xMin < player.xMax;
-			bool comp2 = ground.xMax > player.xMin;
-
-			bool comp3 = ground.yMin > player.yMax;
-			bool comp4 = ground.yMax < player.yMin;
-
-			bool comp5 = ground.zMin < player.zMax;
-			bool comp6 = ground.zMax > player.zMin;
-
-			return comp1 && comp2 && comp3 && comp4 && comp5 && comp6;
+			return IntersectAABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);
 		}
 
 		private static Box3D BoxToRect(this GameObject a)
@@ -82,42 +68,90 @@ namespace Assets.Scripts.Utilities
 			return new Box3D(aPos.x, aPos.y, aPos.z, aCollider.size.x * a.transform.lossyScale.x, -aCollider.size.y * a.transform.lossyScale.y, aCollider.size.z * a.transform.lossyScale.z, aCollider);
 		}
 
-        private static float SweptAABB(Box3D b1, Box3D b2, ref float normalX, ref float normalY, ref float normalZ)
+		// player is physicsMediatorOne Ground is two.
+		public static bool SweepTest(this PhysicsMediator physicsMediatorOne, PhysicsMediator physicsMediatorTwo)
+		{
+			Box3D broadphaseBox = sweptBroadPhaseBox(physicsMediatorOne.GetBox3D);
+			//if (IntersectAABB(broadphaseBox, physicsMediatorTwo.GetBox3D))
+			{
+				float normalX, normalY, normalZ;
+				float collisionTime = sweptAABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D, out normalX, out normalY, out normalZ);
+				physicsMediatorOne.GetBox3D.xMin += physicsMediatorOne.GetBox3D.xVelocity * collisionTime;
+				physicsMediatorOne.GetBox3D.yMin += physicsMediatorOne.GetBox3D.yVelocity * collisionTime;
+				physicsMediatorOne.GetBox3D.zMin += physicsMediatorOne.GetBox3D.zVelocity * collisionTime;
+
+				return IntersectAABB(physicsMediatorTwo.GetBox3D, physicsMediatorOne.GetBox3D);
+			}
+
+			return false;
+		}
+
+		private static bool IntersectAABB(Box3D box3DOne, Box3D box3DTwo)
+		{
+			bool xMinComp = box3DOne.xMin < box3DTwo.XMax;
+			bool xMaxComp = box3DOne.XMax > box3DTwo.xMin;
+
+			bool yMinComp = box3DOne.yMin > box3DTwo.YMax;
+			bool yMaxComp = box3DOne.YMax < box3DTwo.yMin;
+
+			bool zMinComp = box3DOne.zMin < box3DTwo.ZMax;
+			bool zMaxComp = box3DOne.ZMax > box3DTwo.zMin;
+
+			return xMinComp && xMaxComp && yMinComp && yMaxComp && zMinComp && zMaxComp;
+		}
+
+		private static Box3D sweptBroadPhaseBox(Box3D box)
+		{
+			Box3D broadPhaseBox = Box3D.Zero;
+			broadPhaseBox.xMin = box.xVelocity > 0 ? box.xMin : box.xMin + box.xVelocity;
+			broadPhaseBox.yMin = box.yVelocity > 0 ? box.yMin : box.yMin + box.yVelocity;
+			broadPhaseBox.zMin = box.zVelocity > 0 ? box.zMin : box.zMin + box.zVelocity;
+
+			broadPhaseBox.Width = box.xVelocity > 0 ? box.xVelocity + box.Width : box.Width - box.xVelocity;
+			broadPhaseBox.Height = box.yVelocity > 0 ? box.yVelocity + box.Height : box.Height - box.yVelocity;
+			broadPhaseBox.Depth = box.zVelocity > 0 ? box.zVelocity + box.Depth : box.Depth - box.zVelocity;
+
+			return broadPhaseBox;
+		}
+
+        private static float sweptAABB(Box3D b1, Box3D b2, out float normalX, out float normalY, out float normalZ)
         {
+	        normalX = normalY = normalZ = 0.0f;
+
             float xInvEntry, yInvEntry, zInvEntry;
             float xInvExit, yInvExit, zInvExit;
 
             if(b1.xVelocity > 0.0f)
             {
-                xInvEntry = b2.xMin - b1.xMax;
-                xInvExit = b2.xMax - b1.xMin;
+				xInvEntry = b2.xMin - b1.XMax;
+				xInvExit = b2.XMax - b1.xMin;
             }
             else
             {
-                xInvEntry = b2.xMax - b1.xMin;
-                xInvExit = b2.xMin - b1.xMax;
+				xInvEntry = b2.XMax - b1.xMin;
+				xInvExit = b2.xMin - b1.XMax;
             }
 
             if(b1.yVelocity > 0.0f)
             {
-                yInvEntry = b2.yMin - b1.yMax;
-                yInvExit = b2.yMax - b1.yMin;
+				yInvEntry = b2.yMin - b1.YMax;
+				yInvExit = b2.YMax - b1.yMin;
             }
             else
             {
-                yInvEntry = b2.yMax - b1.yMin;
-                yInvExit = b2.yMin - b1.yMax;
+				yInvEntry = b2.YMax - b1.yMin;
+				yInvExit = b2.yMin - b1.YMax;
             }
 
             if(b1.zVelocity > 0.0f)
             {
-                zInvEntry = b2.zMin - b1.zMax;
-                zInvExit = b2.zMax - b1.zMin;
+				zInvEntry = b2.zMin - b1.ZMax;
+				zInvExit = b2.ZMax - b1.zMin;
             }
             else 
             {
-                zInvEntry = b2.zMax - b1.zMin;
-                zInvExit = b2.zMin - b1.zMax;
+				zInvEntry = b2.ZMax - b1.zMin;
+				zInvExit = b2.zMin - b1.ZMax;
             }
 
 
@@ -157,65 +191,88 @@ namespace Assets.Scripts.Utilities
                 zExit = zInvExit / b1.zVelocity;
             }
 
+	        if (yEntry > 1.0f)
+		        yEntry = -float.MaxValue;
+	        if (xEntry > 1.0f)
+		        xEntry = -float.MaxValue;
+	        if (zEntry > 1.0f)
+		        zEntry = -float.MaxValue;
+
             float entryTime = Math.Max(xEntry, yEntry);
             entryTime = Math.Max(entryTime, zEntry);
             float exitTime = Math.Max(xExit, yExit);
-            exitTime = Math.Max(entryTime, zExit);
+            exitTime = Math.Max(exitTime, zExit);
 
-            if (entryTime > exitTime || xEntry < 0.0f && yEntry < 0.0f && zEntry < 0.0f ||
-                xEntry > 1.0f || yEntry > 1.0f || zEntry > 1.0f)
+	        if (entryTime > exitTime)
+		        return 1.0f;
+	        if (xEntry < 0.0f && yEntry < 0.0f && zEntry < 0.0f)
+		        return 1.0f;
+	        if (xEntry < 0.0f)
+	        {
+				if (b1.XMax < b2.xMin || b1.xMin > b2.XMax)
+			        return 1.0f;
+	        }
+	        if (yEntry < 0.0f)
+	        {
+				if (b1.YMax < b2.yMin || b1.yMin > b2.YMax)
+			        return 1.0f;
+	        }
+	        if (zEntry < 0.0f)
+	        {
+				if (b1.ZMax < b2.zMin || b1.zMin > b2.YMax)
+			        return 1.0f;
+	        }
+	        
+			//TODO delte if above checks work.
+			//if (entryTime > exitTime || xEntry < 0.0f && yEntry < 0.0f && zEntry < 0.0f ||
+			//	xEntry > 1.0f || yEntry > 1.0f || zEntry > 1.0f)
+			//{
+			//	return 1.0f;
+			//}
+			//else
+            if(xEntry > yEntry)
             {
-                normalX = 0.0f;
-                normalY = 0.0f;
-                normalZ = 0.0f;
-                return 1.0f;
+                if(xInvEntry < 0.0f)
+                {
+                    normalX = 1.0f;
+                    normalY = 0.0f;
+                    normalZ = 0.0f;
+                }
+                else
+                {
+                    normalX = -1.0f;
+                    normalY = 0.0f;
+                    normalZ = 0.0f;
+                }
             }
-            else
+            else if (xEntry > zEntry)
             {
-                if(xEntry > yEntry)
+                if (xInvEntry < 0.0f)
                 {
-                    if(xInvEntry < 0.0f)
-                    {
-                        normalX = 1.0f;
-                        normalY = 0.0f;
-                        normalZ = 0.0f;
-                    }
-                    else
-                    {
-                        normalX = -1.0f;
-                        normalY = 0.0f;
-                        normalZ = 0.0f;
-                    }
+                    normalX = 1.0f;
+                    normalY = 0.0f;
+                    normalZ = 0.0f;
                 }
-                else if (xEntry > zEntry)
+                else
                 {
-                    if (xInvEntry < 0.0f)
-                    {
-                        normalX = 1.0f;
-                        normalY = 0.0f;
-                        normalZ = 0.0f;
-                    }
-                    else
-                    {
-                        normalX = -1.0f;
-                        normalY = 0.0f;
-                        normalZ = 0.0f;
-                    }
+                    normalX = -1.0f;
+                    normalY = 0.0f;
+                    normalZ = 0.0f;
                 }
-                else if (yEntry > zEntry)
+            }
+            else if (yEntry > zEntry)
+            {
+                if (yInvEntry < 0.0f)
                 {
-                    if (yInvEntry < 0.0f)
-                    {
-                        normalX = 0.0f;
-                        normalY = 1.0f;
-                        normalZ = 0.0f;
-                    }
-                    else
-                    {
-                        normalX = 0.0f;
-                        normalY = -1.0f;
-                        normalZ = 0.0f;
-                    }
+                    normalX = 0.0f;
+                    normalY = 1.0f;
+                    normalZ = 0.0f;
+                }
+                else
+                {
+                    normalX = 0.0f;
+                    normalY = -1.0f;
+                    normalZ = 0.0f;
                 }
             }
             return entryTime;

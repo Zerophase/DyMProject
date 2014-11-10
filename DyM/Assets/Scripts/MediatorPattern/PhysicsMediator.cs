@@ -17,9 +17,12 @@ namespace Assets.Scripts.MediatorPattern
 		private Box3D box3D;
 		public Box3D GetBox3D { get { return box3D; } }
 
+		private Vector3 previousPosition;
+
 		protected virtual void Start()
 		{
 			constructBox3D();
+			previousPosition = transform.position;
 			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
 		}
 
@@ -48,6 +51,11 @@ namespace Assets.Scripts.MediatorPattern
 
 		protected virtual void Update()
 		{
+			var velocity = (transform.position - previousPosition)/Time.deltaTime;
+			previousPosition = transform.position;
+			box3D.xVelocity = velocity.x;
+			box3D.yVelocity = velocity.y;
+			box3D.zVelocity = velocity.z;
 			box3D.UpdateBox3D(gameObject);
 		}
 	}

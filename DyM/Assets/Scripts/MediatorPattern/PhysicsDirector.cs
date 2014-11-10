@@ -65,7 +65,7 @@ namespace Assets.Scripts.MediatorPattern
 				{
 					foreach (var ground in grounds)
 					{
-						if (ground.CheckBounds(physicsMed))
+						if (physicsMed.SweepTest(ground))
 						{
 							physicsMed.Gravity = Vector3.zero;
 							physicsMed.HasJumped = false;
@@ -73,7 +73,7 @@ namespace Assets.Scripts.MediatorPattern
 							break;
 						}
 
-						else if (!ground.CheckBounds(physicsMed))
+						else if (!physicsMed.SweepTest(ground))
 						{
 							physicsMed.Gravity = gravity;
 							physicsMed.HasJumped = true;
