@@ -68,6 +68,7 @@ namespace Assets.Scripts.MediatorPattern
 						if (ground.gameObject.CheckBounds(physicsMed.gameObject))
 						{
 							physicsMed.Gravity = Vector3.zero;
+							physicsMed.HasJumped = false;
 							// if gameobject is colliding with a ground stop checking for other grounds.
 							break;
 						}
@@ -75,6 +76,7 @@ namespace Assets.Scripts.MediatorPattern
 						else if (!ground.gameObject.CheckBounds(physicsMed.gameObject))
 						{
 							physicsMed.Gravity = gravity;
+							physicsMed.HasJumped = true;
 						}
 					}
 				}

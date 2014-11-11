@@ -61,7 +61,8 @@ namespace Assets.Scripts.Projectiles
 			{
 				for (int i = 0; i < pooledBullets.Count; i++)
 				{
-					SetArt(i);
+					if(!bulletPool.Projectiles[i].Active)
+						SetArt(i);
 				}
 			}
 

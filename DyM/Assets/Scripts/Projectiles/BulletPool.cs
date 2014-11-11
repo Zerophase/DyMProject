@@ -45,7 +45,8 @@ namespace Assets.Scripts.Projectiles
 			changeProjectileType(rangeWeapon.Projectile);
 			for (int i = 0; i < projectiles.Count; i++)
 			{
-				projectiles[i] = pooledProjectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
+				if(!projectiles[i].Active)
+					projectiles[i] = pooledProjectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
 			}
 		}
 

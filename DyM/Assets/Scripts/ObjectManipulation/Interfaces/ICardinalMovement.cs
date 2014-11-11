@@ -13,5 +13,6 @@ namespace Assets.Scripts.ObjectManipulation.Interfaces
 		Vector3 Jump(bool pressed, float playerPos);
 		bool Falling { get; }
 		Vector3 Gravity { set; }
+		bool HasJumped { set; }
 	}
 }
