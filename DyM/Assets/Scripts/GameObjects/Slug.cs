@@ -3,7 +3,7 @@ using Assets.Scripts.PathFinding;
 using UnityEngine;
 using System.Collections;
 
-public class Slug : PhysicsMediator 
+public class Slug : MovablePhysicsMediator 
 {
 	Vector3 acceleration = new Vector3(2f, 0f, 0f);
 	Vector3 maxPatrolDistance = new Vector3(10f, 0f, 0f);

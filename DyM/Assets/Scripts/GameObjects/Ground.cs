@@ -7,16 +7,8 @@ using  UnityEngine;
 
 namespace Assets.Scripts.GameObjects
 {
-	public class Ground : Mediator
+	public class Ground : PhysicsMediator
 	{	
-		private void Awake()
-		{
-			if (physicsDirector == null)
-				physicsDirector = FindObjectOfType<PhysicsDirector>();
-		}
-		void Start ()
-		{
-			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
-		}
+		
 	}
 }

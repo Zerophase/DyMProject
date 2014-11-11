@@ -64,5 +64,15 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		{
 			setUp = false;
 		}
+
+		public override bool Equals(object obj)
+		{
+			if(obj != null)
+				return  this.GetType() == obj.GetType();
+			else
+			{
+				return false;
+			}
+		}
 	}
 }

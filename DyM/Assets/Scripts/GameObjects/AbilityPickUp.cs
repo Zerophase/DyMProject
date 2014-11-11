@@ -9,7 +9,7 @@ using System.Collections;
 namespace Assets.Scripts.GameObjects
 {
 	//TODO Rename
-	public class AbilityPickUp : Mediator
+	public class AbilityPickUp : PhysicsMediator
 	{
 		[Inject] 
 		private IAbility ability;
