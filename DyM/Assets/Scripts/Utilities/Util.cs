@@ -51,7 +51,21 @@ namespace Assets.Scripts.Utilities
 		
 		public static bool CheckBounds(this PhysicsMediator physicsMediatorOne, PhysicsMediator physicsMediatorTwo)
 		{
-			return IntersectAABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);
+			return AABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);
+		}
+
+		private static bool AABB(Box3D box3DOne, Box3D box3DTwo)
+		{
+			bool xMinComp = box3DOne.xMin < box3DTwo.XMax;
+			bool xMaxComp = box3DOne.XMax > box3DTwo.xMin;
+
+			bool yMinComp = box3DOne.yMin > box3DTwo.YMax;
+			bool yMaxComp = box3DOne.YMax < box3DTwo.yMin;
+
+			bool zMinComp = box3DOne.zMin > box3DTwo.ZMax;
+			bool zMaxComp = box3DOne.ZMax < box3DTwo.zMin;
+
+			return xMinComp && xMaxComp && yMinComp && yMaxComp && zMinComp && zMaxComp;
 		}
 
 		private static Box3D BoxToRect(this GameObject a)
