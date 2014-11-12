@@ -45,7 +45,7 @@ namespace Assets.Scripts.GameObjects
 
 		protected override void Update()
 		{
-			base.Update();
+			
 
 			if (Input.GetButtonDown("PlaneShiftDown"))
 			{
@@ -81,7 +81,8 @@ namespace Assets.Scripts.GameObjects
 				character.Ability.Activate(character);
 //				Debug.Log("StatusEffect is: " + character.StatusEffect);
 			}
-				
+
+			base.Update();
 		}
 
 		private bool dodgeKeysToCheck()

@@ -59,7 +59,6 @@ namespace Assets.Scripts.ObjectManipulation
 
 		public Vector3 Jump(bool pressed, float distanceJumped)
 		{
-		    
 			if(Input.GetButtonDown("Jump") && hasJumped == false)
 			{
 			    jumpTimer = 0;
@@ -82,7 +81,7 @@ namespace Assets.Scripts.ObjectManipulation
             else if (Util.compareEachFloat(gravity.y, -1f))
             {
                 jumpTimer += Time.deltaTime;
-                jumpVelocity = gravity*jumpTimer;
+	            jumpVelocity = gravity * jumpTimer;
             }
 			else if (Util.compareEachFloat(gravity.y, 0.0f))
 			{

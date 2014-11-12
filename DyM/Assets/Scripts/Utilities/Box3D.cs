@@ -7,7 +7,12 @@ namespace Assets.Scripts.Utilities
     {
 	    private BoxCollider boxCollider;
 		public BoxCollider GetBoxCollider { get { return boxCollider; }}
+		public BoxCollider SetBoxCollider { set { boxCollider = value; } }
         private Vector3 position;
+		public Vector3 SetPosition { get { return position; } set { position = value; } }
+		public float setXPosition { get { return position.x; } set { position.x = value; } }
+		public float setYPosition { get { return position.y; } set { position.y = value; } }
+		public float setZPosition { get { return position.z; } set { position.z = value; } }
 
 	    private float width;
 
@@ -17,7 +22,6 @@ namespace Assets.Scripts.Utilities
 		    set
 		    {
 			    width = value;
-			    xMax = xMin + width;
 		    }
 	    }
 		private float height;
@@ -27,7 +31,6 @@ namespace Assets.Scripts.Utilities
 			set
 			{
 				height = value;
-				yMax = yMin + height;
 			}
 		}
         private float depth;
@@ -37,26 +40,24 @@ namespace Assets.Scripts.Utilities
 			set
 			{
 				depth = value;
-				zMax = zMin + depth;
 			}
 		}
 
 
 		public float xMin {get { return position.x; } set { position.x = value; }}
-	    private float xMax;
 		public float XMax { get { return xMin + width; } }
 
 		public float yMin { get { return position.y; } set { position.y = value; } }
-	    private float yMax;
-        public float YMax {get { return yMin + height; } }
+        public float YMax {get { return position.y + height; } }
 
 		public float zMin { get { return position.z; } set { position.z = value; } }
-        private float zMax;
 		public float ZMax { get { return zMin + depth; } }
 
         public float xVelocity;
         public float yVelocity;
         public float zVelocity;
+
+	    public Vector3 Velocity;
 
 	    public static Box3D Zero = new Box3D(Vector3.zero, 0f, 0f, 0f);
 
@@ -66,9 +67,6 @@ namespace Assets.Scripts.Utilities
             this.width = width;
             this.height = height;
             this.depth = depth;
-            xMax = position.x + width;
-            yMax = position.y + height;
-            zMax = position.z + depth;
         }
 
         public Box3D(float x, float y, float z, float width, float height, float depth, BoxCollider boxCollider)
@@ -81,12 +79,19 @@ namespace Assets.Scripts.Utilities
 	        this.height = height;
 	        this.depth = depth;
 
-			xMax = position.x + this.width;
-			yMax = position.y + this.height;
-			zMax = position.z + this.depth;
-
 	        this.boxCollider = boxCollider;
         }
+
+		public Box3D(float x, float y, float z, float width, float height, float depth)
+		{
+			position.x = x;
+			position.y = y;
+			position.z = z;
+
+			this.width = width;
+			this.height = height;
+			this.depth = depth;
+		}
 
 	    public void UpdateBox3D(GameObject gameObject)
 	    {
@@ -96,11 +101,14 @@ namespace Assets.Scripts.Utilities
 			position += boxCollider.center;
 			position.x -= (boxCollider.size.x * gameObject.transform.lossyScale.x) / 2;
 			position.y += (boxCollider.size.y * gameObject.transform.lossyScale.y) / 2;
-			position.z -= (boxCollider.size.z * gameObject.transform.lossyScale.z) / 2;
-
-		    xMax = position.x + width;
-		    yMax = position.y + height;
-		    zMax = position.z + depth;
+			position.z += (boxCollider.size.z * gameObject.transform.lossyScale.z) / 2;
+			
+			//To YMAX 
+			Debug.DrawLine(new Vector3(xMin, yMin, zMin), new Vector3(xMin, YMax, zMin), Color.blue, 1f);
+			//TO XMAX
+			Debug.DrawLine(new Vector3(xMin, yMin, zMin), new Vector3(XMax, yMin, zMin), Color.blue, 1f);
+			//TO ZMAX
+			Debug.DrawLine(new Vector3(xMin, yMin, zMin), new Vector3(xMin, yMin, ZMax), Color.blue, 1f);
 	    }
     }
 }

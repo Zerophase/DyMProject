@@ -35,12 +35,12 @@ namespace Assets.Scripts.MediatorPattern
 			aPos += aCollider.center;
 			aPos.x -= (aCollider.size.x * transform.lossyScale.x) / 2;
 			aPos.y += (aCollider.size.y * transform.lossyScale.y) / 2;
-			aPos.z -= (aCollider.size.z * transform.lossyScale.z) / 2;
+			aPos.z += (aCollider.size.z * transform.lossyScale.z) / 2;
 
 			box3D = new Box3D(aPos.x, aPos.y, aPos.z, 
 				aCollider.size.x * transform.lossyScale.x, 
 				-aCollider.size.y * transform.lossyScale.y, 
-				aCollider.size.z * transform.lossyScale.z, aCollider);
+				-aCollider.size.z * transform.lossyScale.z, aCollider);
 		}
 
 		protected virtual void Awake()
@@ -49,14 +49,17 @@ namespace Assets.Scripts.MediatorPattern
 				physicsDirector = FindObjectOfType<PhysicsDirector>();
 		}
 
+		private float Timer;
 		protected virtual void Update()
 		{
 			var velocity = (transform.position - previousPosition)/Time.deltaTime;
+			
 			previousPosition = transform.position;
+			box3D.UpdateBox3D(gameObject);
 			box3D.xVelocity = velocity.x;
 			box3D.yVelocity = velocity.y;
 			box3D.zVelocity = velocity.z;
-			box3D.UpdateBox3D(gameObject);
+			
 		}
 	}
 }
