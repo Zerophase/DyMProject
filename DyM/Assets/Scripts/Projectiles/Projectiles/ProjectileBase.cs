@@ -25,6 +25,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		protected float speed = 10.0f;
 		private float deactivationDistance;
 
+		protected int damage;
 		public ProjectileBase(string matterialName, string gameObjectName, float deactivationDistance)
 		{
 			material = Resources.Load<Material>("Materials/" + matterialName);
@@ -73,6 +74,11 @@ namespace Assets.Scripts.Projectiles.Projectiles
 			{
 				return false;
 			}
+		}
+
+		public int DealDamage()
+		{
+			return damage;
 		}
 	}
 }

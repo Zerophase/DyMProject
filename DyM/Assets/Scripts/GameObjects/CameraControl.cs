@@ -69,15 +69,19 @@ namespace Assets.Scripts.GameObjects
         {
             float displacementX, displacementY;
 
-            //Sets the current player position
-            cameraCurrentPosition = new Vector3(transform.position.x, transform.position.y, camera.OriginPosition.z);
+	        if (player != null)
+	        {
+				//Sets the current player position
+				cameraCurrentPosition = new Vector3(transform.position.x, transform.position.y, camera.OriginPosition.z);
 
-            //Finds the distance between the camera and player on both axes.
-            displacementX = cameraCurrentPosition.x - player.position.x;
-	        displacementY = cameraCurrentPosition.y - (player.position.y + cameraMidOffset);
-            displaceMentVector = new Vector3(displacementX, displacementY, camera.OriginPosition.z);
+				//Finds the distance between the camera and player on both axes.
+				displacementX = cameraCurrentPosition.x - player.position.x;
+				displacementY = cameraCurrentPosition.y - (player.position.y + cameraMidOffset);
+				displaceMentVector = new Vector3(displacementX, displacementY, camera.OriginPosition.z);
 
-            return (Mathf.Abs(displacementX) > XBoundary || Mathf.Abs(displacementY) > YBoundary);
+				return (Mathf.Abs(displacementX) > XBoundary || Mathf.Abs(displacementY) > YBoundary);
+	        }
+	        return false;
         }
 
         private void FollowPlayer()

@@ -40,6 +40,7 @@ namespace Assets.Scripts.MediatorPattern
 			slugCollision();
 		}
 
+		private int damage;
 		private void slugCollision()
 		{
 			for (int i = 0; i < physicsMediators.Count; i++)
@@ -48,7 +49,14 @@ namespace Assets.Scripts.MediatorPattern
 					continue;
 				if (physicsMediators[i].CheckBounds(player))
 				{
-					Debug.Log("I have collided with the player");
+					((Player)player).TakeDamage(((Slug) physicsMediators[i]).DealDamage());
+
+					if (((Player)player).Health <= 0)
+					{
+						PhysicsMediator removeMe = physicsMediators.Find(p => p == player);
+						physicsMediators.RemoveAt(i);
+						Destroy(removeMe.gameObject);
+					}
 				}
 			}	
 		}
@@ -65,9 +73,14 @@ namespace Assets.Scripts.MediatorPattern
 						continue;
 					if (bullets[i].CheckBounds(physicsMediators[i]))
 					{
-						PhysicsMediator removeMe = physicsMediators[i];
-						physicsMediators.RemoveAt(i);
-						Destroy(removeMe.gameObject);
+						((Slug)physicsMediators[i]).TakeDamge(((Bullet)bullets[i]).DealDamage());
+
+						if (((Slug) physicsMediators[i]).Health <= 0)
+						{
+							PhysicsMediator removeMe = physicsMediators[i];
+							physicsMediators.RemoveAt(i);
+							Destroy(removeMe.gameObject);
+						}
 					}
 				}
 			}

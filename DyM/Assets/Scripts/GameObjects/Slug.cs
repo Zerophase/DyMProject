@@ -10,6 +10,12 @@ public class Slug : MovablePhysicsMediator
 	private Vector3 target;
 
 	private PathFinder pathFinder;
+
+	private int health = 10;
+	public int Health { get { return health; } }
+
+	private int damage = 2;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -44,5 +50,15 @@ public class Slug : MovablePhysicsMediator
 		
 		// so the slug falls.
 		transform.Translate(cardinalMovement.Jump(false, -1f));
+	}
+
+	public void TakeDamge(int healthLost)
+	{
+		health -= healthLost;
+	}
+
+	public int DealDamage()
+	{
+		return damage;
 	}
 }

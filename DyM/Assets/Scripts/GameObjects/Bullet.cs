@@ -37,6 +37,11 @@ namespace Assets.Scripts.GameObjects
 
 			base.Update();
 		}
+
+		public int DealDamage()
+		{
+			return projectile.DealDamage();
+		}
 	}
 }
 

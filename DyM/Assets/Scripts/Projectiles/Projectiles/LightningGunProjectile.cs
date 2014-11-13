@@ -22,6 +22,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		public LightningGunProjectile() :
 			base("LightningGunBullet", "Cube", 20f)
 		{
+			damage = 1;
 		}
 
 		public override void SetUpProjectile(Vector3 position)

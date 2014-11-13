@@ -38,6 +38,8 @@ namespace Assets.Scripts.GameObjects
 
 		private float weaponSwitchTimer = 0.0f;
 
+		public int Health { get { return character.Health; } }
+
 		void Start()
 		{
 			planeShift = factory.Create(transform.position);
@@ -127,6 +129,11 @@ namespace Assets.Scripts.GameObjects
 			{
 				return false;
 			}
+		}
+
+		public void TakeDamage(int healthLost)
+		{
+			character.TakeDamage(healthLost);
 		}
 	} 
 }

@@ -21,6 +21,7 @@ namespace Assets.Scripts.Character.Interfaces
 		IAbility Ability { get; }
 		StatusEffect StatusEffect { get; }
 		Vector3 Position { get; set; }
+		int Health { get; }
 		bool EquippedRangeWeapon();
 		bool EquippedMeleeWeapon();
 		bool EquippedAbility();
@@ -29,5 +30,6 @@ namespace Assets.Scripts.Character.Interfaces
 		void Equip(IAbility ability);
 		void SwitchWeapon();
 		void AddWeapon(RangeWeaponBase weapon);
+		void TakeDamage(int healthLost);
 	}
 }

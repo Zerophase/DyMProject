@@ -51,6 +51,10 @@ namespace Assets.Scripts.Character
 		{
 			set { receiver = value; }
 		}
+
+		private int health = 20;
+		public int Health { get { return health; } }
+
 		public Vector3 Position { get; set; }
 
 		public TestCharacter()
@@ -127,6 +131,11 @@ namespace Assets.Scripts.Character
 		public void GainStatusEffect(StatusEffect statusEffect)
 		{
 			this.statusEffect |= statusEffect;
+		}
+
+		public void TakeDamage(int healthLost)
+		{
+			health -= healthLost;
 		}
 	}
 }

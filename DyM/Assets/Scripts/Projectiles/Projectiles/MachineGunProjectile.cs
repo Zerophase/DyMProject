@@ -13,7 +13,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		public MachineGunProjectile() :
 			base("MachineGunBullet", "Sphere", 30f)
 		{
-			
+			damage = 2;
 		}
 
 		public override Vector3 ProjectilePattern()
