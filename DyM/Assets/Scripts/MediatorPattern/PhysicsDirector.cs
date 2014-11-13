@@ -24,6 +24,8 @@ namespace Assets.Scripts.MediatorPattern
 
 		private Vector3 gravity = new Vector3(0f, -1f, 0f);
 
+		private PhysicsMediator player;
+
 		void Update()
 		{
 			gravityAssignment();
@@ -50,9 +52,10 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			for(int i = 0; i < weaponPickUpGameObjects.Count; i++)
 			{
-				if (weaponPickUpGameObjects[i].CheckBounds(physicsMediators[0]))
+				 
+				if (weaponPickUpGameObjects[i].CheckBounds(player))
 				{
-					weaponPickUpGameObjects[i].PickUp(physicsMediators[0].gameObject);
+					weaponPickUpGameObjects[i].PickUp(player.gameObject);
 					weaponPickUpGameObjects.RemoveAt(i);
 				}
 			}
@@ -66,7 +69,7 @@ namespace Assets.Scripts.MediatorPattern
 				{
 					foreach (var ground in grounds)
 					{
-						if (GJK.Instance.TestCollision(physicsMed.GetBox3D, ground.GetBox3D))
+						if (physicsMed.CheckBounds(ground))
 						{
 							//if (Util.compareEachFloat(physicsMed.GetBox3D.yVelocity, 0f))
 							{
@@ -76,7 +79,7 @@ namespace Assets.Scripts.MediatorPattern
 							// if gameobject is colliding with a ground stop checking for other grounds.
 							break;
 						}
-						else if (!GJK.Instance.TestCollision(physicsMed.GetBox3D, ground.GetBox3D))
+						else if (!physicsMed.CheckBounds(ground))
 						{
 							physicsMed.Gravity = gravity;
 							physicsMed.HasJumped = true;
@@ -106,6 +109,8 @@ namespace Assets.Scripts.MediatorPattern
 				if(telegram.Message is MovablePhysicsMediator)
 				{
 					physicsMediators.Add((MovablePhysicsMediator)telegram.Message);
+					if (telegram.Message is Player)
+						player = physicsMediators.Find(p => p is Player);
 					assignGravity = true;
 				}
 				else if(telegram.Message is Ground)

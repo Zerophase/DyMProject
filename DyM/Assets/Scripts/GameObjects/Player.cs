@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.MediatorPattern;
@@ -33,12 +32,17 @@ namespace Assets.Scripts.GameObjects
 
         private Vector3 acceleration = new Vector3(10f,0f,0f);
 
+		private Animator animator;
+
+		private float speed;
 		void Start()
 		{
 			planeShift = factory.Create(transform.position);
 			GunModel = GameObject.Find("Gun");
 			PooledBUlletGameObjects.Initialize();
-			
+
+			animator = GetComponentInChildren<Animator>();
+
 			base.Start();
             
 		}
@@ -59,11 +63,13 @@ namespace Assets.Scripts.GameObjects
 			}
 
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
-            transform.Translate(cardinalMovement.CalculateTotalMovement(Input.GetAxis("Horizontal"),
+			speed = Input.GetAxis("Horizontal");
+            transform.Translate(cardinalMovement.CalculateTotalMovement(speed,
 				acceleration,Input.GetButton("Jump"), 0f/*stand in for total distance jumped*/));
             //transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
             //transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
 
+			//animator.SetFloat("Speed", speed);
 			if (Input.GetAxis("Fire1") > 0 && 
 				character.EquippedRangeWeapon() && character.RangeWeapon.FireRate(Time.deltaTime))
 			{

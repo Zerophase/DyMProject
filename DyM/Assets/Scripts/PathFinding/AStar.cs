@@ -20,6 +20,11 @@ namespace Assets.Scripts.PathFinding
 		public List<Edge> ShortestPathTree { get { return shortestPathTree; } }
  		private List<Edge> searchFrontier = new List<Edge>();
 
+		public AStar()
+		{
+			
+		}
+
 		public AStar(SparseGraph graph, int source, int target)
 		{
 			sparseGraph = graph;
@@ -41,10 +46,34 @@ namespace Assets.Scripts.PathFinding
 			Search();
 		}
 
+		public void Reset(SparseGraph graph, int source, int target)
+		{
+			shortestPathTree.Clear();
+			searchFrontier.Clear();
+			gCosts.Clear();
+			fCosts.Clear();
+
+			sparseGraph = graph;
+			this.source = source;
+			this.target = target;
+
+			shortestPathTree.Capacity = sparseGraph.NumNodes();
+			searchFrontier.Capacity = sparseGraph.NumNodes();
+
+			for (int i = 0; i < sparseGraph.NumNodes(); i++)
+			{
+				shortestPathTree.Add(null);
+				searchFrontier.Add(null);
+
+				gCosts.Add(0);
+				fCosts.Add(0);
+			}
+		}
+
+		private IndexedPriorityQueue pq;
 		public void Search()
 		{
-			IndexedPriorityQueue pq = 
-				new IndexedPriorityQueue(fCosts, sparseGraph.NumNodes());
+			pq = new IndexedPriorityQueue(fCosts, sparseGraph.NumNodes());
 
 			pq.Insert(source);
 			while (!pq.Empty())
@@ -84,10 +113,9 @@ namespace Assets.Scripts.PathFinding
 			}
 		}
 
+		private List<int> path = new List<int>();
 		public List<int> PathToTarget()
 		{
-			List<int> path = new List<int>();
-
 			if (target < 0)
 				return path;
 

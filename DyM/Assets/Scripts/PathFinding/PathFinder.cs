@@ -46,12 +46,19 @@ namespace Assets.Scripts.PathFinding
 				sparseGraph.AddNode(new NavGraphNode(index, location));
 		}
 
+		public void Initialize()
+		{
+			aStar = new AStar();
+		}
+		private AStar aStar;
 		public Vector3 CreatePathAStarDistanceSquared(Vector3 position)
 		{
 			range = CalculateAverageGraphEdgeLength() + 1;
 
-			AStar aStar = new AStar(sparseGraph, GetSourceNode(), 
-				GetClosestNodeToPosition(position));
+			aStar = new AStar(sparseGraph, GetSourceNode(), GetClosestNodeToPosition(position));
+			//bugged if using the same a star for multiple path searches.
+			//aStar.Reset(sparseGraph,GetSourceNode(), GetClosestNodeToPosition(position));
+			//aStar.Search();
 
 			if (!FirstSearchDone)
 				FirstSearchDone = true;
@@ -139,6 +146,8 @@ namespace Assets.Scripts.PathFinding
 
 				Edge edge;
 				if(i == sparseGraph.NumEdges())
+					edge = new Edge(index, 0, distance);
+				else if(index == sparseGraph.NavNodes.Count - 1)
 					edge = new Edge(index, 0, distance);
 				else
 					edge = new Edge(index, index + i, distance);

@@ -59,20 +59,20 @@ namespace Assets.Scripts.ObjectManipulation
 
 		public Vector3 Jump(bool pressed, float distanceJumped)
 		{
-			if(Input.GetButtonDown("Jump") && hasJumped == false)
+			if(pressed && hasJumped == false)
 			{
 			    jumpTimer = 0;
 			    jumpVelocity = new Vector3(0f, 1.3f, 0f);
 			    falling = false;
 			    //hasJumped = true;
 			}
-            else if (Input.GetButton("Jump") && jumpVelocity.y > 0f)
+			else if (pressed && jumpVelocity.y > 0f)
             {
                 jumpTimer += Time.deltaTime;
                 jumpVelocity = (gravity*jumpTimer) + jumpVelocity;
                 falling = true;
             }
-            else if (Input.GetButtonUp("Jump"))
+			else if (pressed)
             {
                 jumpTimer = 0f;
                 jumpVelocity = gravity*jumpTimer;
