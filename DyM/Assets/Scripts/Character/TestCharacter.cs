@@ -112,7 +112,8 @@ namespace Assets.Scripts.Character
 		public void SwitchWeapon()
 		{
 			rangeWeapons.Sort();
-			Equip(rangeWeapons.Find(x => x != rangeWeapon));
+			if(rangeWeapons.Count > 1)
+				Equip(rangeWeapons.Find(x => x != rangeWeapon));
 		}
 
 		public void AddWeapon(RangeWeaponBase weapon)

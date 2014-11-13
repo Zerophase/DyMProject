@@ -35,6 +35,9 @@ namespace Assets.Scripts.GameObjects
 		private Animator animator;
 
 		private float speed;
+
+		private float weaponSwitchTimer = 0.0f;
+
 		void Start()
 		{
 			planeShift = factory.Create(transform.position);
@@ -88,9 +91,34 @@ namespace Assets.Scripts.GameObjects
 //				Debug.Log("StatusEffect is: " + character.StatusEffect);
 			}
 
+			if (pressAxisDown("SwitchWeapon") &&
+			    character.EquippedRangeWeapon())
+			{
+				character.SwitchWeapon();
+			}
+				
+
 			base.Update();
 		}
 
+		private bool pressed;
+		private float savedPress;
+		private float previousSavedPress;
+		private bool pressAxisDown(string name)
+		{
+			savedPress = Input.GetAxis(name);
+			if (!pressed && (savedPress > 0.0f || savedPress < 0.0f))
+			{
+				pressed = true;
+				return true;
+			}
+			else if (pressed && Util.compareEachFloat(savedPress, 0.0f))
+			{
+				pressed = false;
+			}
+
+			return false;
+		}
 		private bool dodgeKeysToCheck()
 		{
 			if (Input.GetButton("PlaneShiftDown") || Input.GetButton("PlaneShiftUp"))

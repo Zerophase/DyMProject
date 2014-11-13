@@ -19,6 +19,7 @@ namespace Assets.Scripts.MediatorPattern
 			new List<WeaponPickUpGameObject>();
 		private List<AbilityPickUp> abilityPickUps =
  			new List<AbilityPickUp>();
+		private List<PhysicsMediator> bullets = new List<PhysicsMediator>();  
 
 		private bool assignGravity;
 
@@ -34,6 +35,42 @@ namespace Assets.Scripts.MediatorPattern
 
 			WeaponPickUpCollision();
 			AbilityPickUpCollision();
+
+			bulletCollision();
+			slugCollision();
+		}
+
+		private void slugCollision()
+		{
+			for (int i = 0; i < physicsMediators.Count; i++)
+			{
+				if(physicsMediators[i] is Player)
+					continue;
+				if (physicsMediators[i].CheckBounds(player))
+				{
+					Debug.Log("I have collided with the player");
+				}
+			}	
+		}
+
+		private void bulletCollision()
+		{
+			if(!bullets.Any(aBullet => aBullet.enabled))
+				return;
+			for (int i = 0; i < bullets.Count; i++)
+			{
+				for (int j = 0; j < physicsMediators.Count; j++)
+				{
+					if (physicsMediators[i] is Player)
+						continue;
+					if (bullets[i].CheckBounds(physicsMediators[i]))
+					{
+						PhysicsMediator removeMe = physicsMediators[i];
+						physicsMediators.RemoveAt(i);
+						Destroy(removeMe.gameObject);
+					}
+				}
+			}
 		}
 
 		private void AbilityPickUpCollision()
@@ -119,6 +156,9 @@ namespace Assets.Scripts.MediatorPattern
 					weaponPickUpGameObjects.Add((WeaponPickUpGameObject)telegram.Message);
 				else if(telegram.Message is AbilityPickUp)
 					abilityPickUps.Add((AbilityPickUp)telegram.Message);
+				else if(telegram.Message is Bullet)
+					bullets.Add((Bullet)telegram.Message);
+
 			}
 		}
 	}
