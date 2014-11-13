@@ -104,11 +104,26 @@ namespace Assets.Scripts.Utilities
 			position.z += (boxCollider.size.z * gameObject.transform.lossyScale.z) / 2;
 			
 			//To YMAX 
-			Debug.DrawLine(new Vector3(xMin, yMin, zMin), new Vector3(xMin, YMax, zMin), Color.blue, 1f);
+			//Debug.DrawLine(new Vector3(xMin, yMin, zMin), new Vector3(xMin, YMax, zMin), Color.blue, 1f);
 			//TO XMAX
-			Debug.DrawLine(new Vector3(xMin, yMin, zMin), new Vector3(XMax, yMin, zMin), Color.blue, 1f);
+			//Debug.DrawLine(new Vector3(xMin, yMin, zMin), new Vector3(XMax, yMin, zMin), Color.blue, 1f);
 			//TO ZMAX
-			Debug.DrawLine(new Vector3(xMin, yMin, zMin), new Vector3(xMin, yMin, ZMax), Color.blue, 1f);
+			//Debug.DrawLine(new Vector3(xMin, yMin, zMin), new Vector3(xMin, yMin, ZMax), Color.blue, 1f);
+	    }
+
+	    public Vector3 Support(Box3D collided, Vector3 direction)
+	    {
+		    Vector3 pointOne = GetFarthestPointInDirection(direction);
+		    Vector3 pointTwo = collided.GetFarthestPointInDirection(-direction);
+
+		    Vector3 pointThree = pointOne - pointTwo;
+		    return pointThree;
+	    }
+
+	    public Vector3 GetFarthestPointInDirection(Vector3 direction)
+	    {
+			// calculate the furthest point in the direction.
+		    return new Vector3();
 	    }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Collision;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Utilities;
@@ -65,7 +66,7 @@ namespace Assets.Scripts.MediatorPattern
 				{
 					foreach (var ground in grounds)
 					{
-						if (physicsMed.CheckBounds( ground))
+						if (GJK.Instance.TestCollision(physicsMed.GetBox3D, ground.GetBox3D))
 						{
 							//if (Util.compareEachFloat(physicsMed.GetBox3D.yVelocity, 0f))
 							{
@@ -75,7 +76,7 @@ namespace Assets.Scripts.MediatorPattern
 							// if gameobject is colliding with a ground stop checking for other grounds.
 							break;
 						}
-						else if (!physicsMed.CheckBounds( ground))
+						else if (!GJK.Instance.TestCollision(physicsMed.GetBox3D, ground.GetBox3D))
 						{
 							physicsMed.Gravity = gravity;
 							physicsMed.HasJumped = true;

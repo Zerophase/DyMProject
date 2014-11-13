@@ -29,7 +29,7 @@ namespace Assets.Scripts.GameObjects
 			}
 		}
 
-		void OnCollisionEnter(Collision collision)
+		void OnCollisionEnter(UnityEngine.Collision collision)
 		{
 			if(this.tag == "EquippedSword")
 				return;

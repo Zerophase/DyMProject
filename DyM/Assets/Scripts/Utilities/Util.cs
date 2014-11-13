@@ -109,8 +109,8 @@ namespace Assets.Scripts.Utilities
 
 		private static bool IntersectAABB(Box3D box3DOne, Box3D box3DTwo)
 		{
-			//bool xMinComp = box3DOne.xMin < box3DTwo.XMax;
-			//bool xMaxComp = box3DOne.XMax > box3DTwo.xMin;
+			bool xMinComp = box3DOne.xMin < box3DTwo.XMax;
+			bool xMaxComp = box3DOne.XMax > box3DTwo.xMin;
 
 			bool yMinComp = box3DOne.yMin > box3DTwo.YMax;
 			bool yMaxComp = box3DOne.YMax < box3DTwo.yMin;
@@ -118,16 +118,16 @@ namespace Assets.Scripts.Utilities
 			//bool zMinComp = box3DOne.zMin > box3DTwo.ZMax;
 			//bool zMaxComp = box3DOne.ZMax < box3DTwo.zMin;
 
-			return /*xMinComp && xMaxComp &&*/ yMinComp && yMaxComp; //&& zMinComp && zMaxComp;
+			return xMinComp && xMaxComp && yMinComp && yMaxComp; //&& zMinComp && zMaxComp;
 		}
 
 		private static void sweptBroadPhaseBox(Box3D box, PhysicsMediator physicsMediator)
 		{
-			//broadPhaseBox.xMin = box.xVelocity > 0 ? box.xMin : box.xMin + box.xVelocity;
+			broadPhaseBox.xMin = box.xVelocity > 0 ? box.xMin : box.xMin + box.xVelocity;
 			broadPhaseBox.yMin = box.yVelocity > 0 ? box.yMin : box.yMin + box.yVelocity;
 			//broadPhaseBox.zMin = box.zVelocity > 0 ? box.zMin : box.zMin + box.zVelocity;
 
-			//broadPhaseBox.Width = box.xVelocity > 0 ? box.Width - box.xVelocity : box.Width + box.xVelocity;
+			broadPhaseBox.Width = box.xVelocity > 0 ? box.Width - box.xVelocity : box.Width + box.xVelocity;
 			broadPhaseBox.Height = box.yVelocity > 0 ?  box.Height - box.yVelocity : box.Height + box.yVelocity;
 			//broadPhaseBox.Depth = box.zVelocity > 0 ? box.zVelocity - box.Depth : box.Depth + box.zVelocity;
 
@@ -149,17 +149,17 @@ namespace Assets.Scripts.Utilities
             float xInvEntry, yInvEntry, zInvEntry;
             float xInvExit, yInvExit, zInvExit;
 
-			//if (b1.xVelocity > 0.0f)
-			//{
-			//	xInvEntry = b2.XMax - b1.xMin;
-			//	xInvExit = b2.xMin - b1.XMax;
-			//}
-			//else
-			//{
-			//	xInvEntry = b2.xMin - b1.XMax;
-			//	xInvExit = b2.XMax - b1.xMin;
-				
-			//}
+			if (b1.xVelocity > 0.0f)
+			{
+				xInvEntry = b2.XMax - b1.xMin;
+				xInvExit = b2.xMin - b1.XMax;
+			}
+			else
+			{
+				xInvEntry = b2.xMin - b1.XMax;
+				xInvExit = b2.XMax - b1.xMin;
+
+			}
 
             if(b1.yVelocity > 0.0f)
             {
@@ -188,16 +188,16 @@ namespace Assets.Scripts.Utilities
             float xEntry, yEntry, zEntry;
             float xExit, yExit, zExit;
 
-			//if (b1.xVelocity == 0.0f)
-			//{
-			//	xEntry = float.NegativeInfinity;
-			//	xExit = float.PositiveInfinity;
-			//}
-			//else
-			//{
-			//	xEntry = xInvEntry / b1.xVelocity;
-			//	xExit = xInvExit / b1.xVelocity;
-			//}
+			if (b1.xVelocity == 0.0f)
+			{
+				xEntry = float.NegativeInfinity;
+				xExit = float.PositiveInfinity;
+			}
+			else
+			{
+				xEntry = xInvEntry / b1.xVelocity;
+				xExit = xInvExit / b1.xVelocity;
+			}
 
             if(b1.yVelocity == 0.0f)
             {
@@ -223,27 +223,25 @@ namespace Assets.Scripts.Utilities
 
 			if (yEntry > 1.0f)
 				yEntry = -float.MaxValue;
-			//if (xEntry > 1.0f)
-			//	xEntry = -float.MaxValue;
+			if (xEntry > 1.0f)
+				xEntry = -float.MaxValue;
 			//if (zEntry > 1.0f)
 			//	zEntry = -float.MaxValue;
 
-	       float entryTime = yEntry;
-	       float exitTime = yExit;
-			//float entryTime = Math.Max(xEntry, yEntry);
+			float entryTime = Math.Max(xEntry, yEntry);
 			//entryTime = Math.Max(entryTime, zEntry);
-			//float exitTime = Math.Max(xExit, yExit);
+			float exitTime = Math.Min(xExit, yExit);
 			//exitTime = Math.Max(exitTime, zExit);
 
 			if (entryTime > exitTime)
 				return 1.0f;
-			if (/*xEntry < 0.0f &&*/ yEntry < 0.0f) //&& zEntry < 0.0f)
+			if (xEntry < 0.0f && yEntry < 0.0f) //&& zEntry < 0.0f)
 				return 1.0f;
-			//if (xEntry < 0.0f)
-			//{
-			//	if (b1.XMax < b2.xMin || b1.xMin > b2.XMax)
-			//		return 1.0f;
-			//}
+			if (xEntry < 0.0f)
+			{
+				if (b1.XMax < b2.xMin || b1.xMin > b2.XMax)
+					return 1.0f;
+			}
 			if (yEntry < 0.0f)
 			{
 				if (b1.YMax < b2.yMin || b1.yMin > b2.YMax)
