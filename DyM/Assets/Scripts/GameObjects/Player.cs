@@ -46,12 +46,13 @@ namespace Assets.Scripts.GameObjects
 			GunModel = GameObject.Find("Gun");
 			PooledBUlletGameObjects.Initialize();
 
-			animator = GetComponentInChildren<Animator>();
+			animator = GetComponent<Animator>();
 
 			base.Start();
             
 		}
 
+        private bool run = false;
 		protected override void Update()
 		{
 			
@@ -68,13 +69,17 @@ namespace Assets.Scripts.GameObjects
 			}
 
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
-			speed = Input.GetAxis("Horizontal");
+            speed = Input.GetAxis("Horizontal");
             transform.Translate(cardinalMovement.CalculateTotalMovement(speed,
 				acceleration,Input.GetButton("Jump"), 0f/*stand in for total distance jumped*/));
             //transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
             //transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
 
-			//animator.SetFloat("Speed", speed);
+            if (speed > 0.1f)
+            {
+                animator.SetFloat("Speed", 1f);
+            }
+               
 			if (Input.GetAxis("Fire1") > 0 && 
 				character.EquippedRangeWeapon() && character.RangeWeapon.FireRate(Time.deltaTime))
 			{

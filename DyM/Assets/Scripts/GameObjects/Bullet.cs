@@ -23,7 +23,7 @@ namespace Assets.Scripts.GameObjects
 		{
 			if (!projectile.IsProjectileSetup)
 			{
-				transform.position = Player.GunModel.transform.position;
+				transform.position = Player.GunModel.transform.position - Vector3.left * 5;
 				projectile.SetUpProjectile(transform.position);
 			}
 

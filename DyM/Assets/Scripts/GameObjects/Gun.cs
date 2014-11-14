@@ -10,31 +10,32 @@ using System.Collections;
 public class Gun : MonoBehaviour
 {
 	private Quaternion weaponOrigin;
-
+    private Quaternion rotationOrigin;
 	[HideInInspector]
 	public bool Rotated;
 
 	void Start()
 	{
-		weaponOrigin = gameObject.transform.rotation;
+        rotationOrigin = gameObject.transform.parent.rotation;
+        weaponOrigin = gameObject.transform.rotation;
 	}
 
 	
 
 	void Update ()
 	{
-		Vector3 direction = weaponOrigin.eulerAngles - new Vector3(Input.GetAxis("CameraHorizontalMovement"), Input.GetAxis("CameraVerticalMovement"));
+        Vector3 direction = rotationOrigin.eulerAngles - new Vector3(Input.GetAxis("CameraHorizontalMovement"), Input.GetAxis("CameraVerticalMovement"));
 
 		float rotate = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
 
-		if (direction.x > 0)
+		//if (direction.x > 0)
 		{
-			transform.rotation = Quaternion.Euler(0f, 0f, -rotate);
+            transform.parent.rotation = Quaternion.Euler(0f, 0f, -rotate);
 			Rotated = false;
 		}
-		else
+		//else
 		{
-			transform.rotation = Quaternion.Euler(0f, 0f, -rotate + 180);
+           // transform.parent.rotation = Quaternion.Euler(0f, 0f, -rotate + 180);
 			Rotated = true;
 		}
 	}
