@@ -90,7 +90,7 @@ namespace Assets.Scripts.GameObjects
 			temp.z = cameraCurrentPosition.z;
 
 	        Camera.main.transform.position = Vector3.Lerp(cameraCurrentPosition, temp,
-		        Time.deltaTime*25f);
+		        Time.deltaTime*2.5f);
 				//new Vector3(player.position.x, player.position.y, camera.OriginPosition.z);
         }
 

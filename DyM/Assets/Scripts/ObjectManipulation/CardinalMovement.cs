@@ -33,7 +33,14 @@ namespace Assets.Scripts.ObjectManipulation
 		{
 			get { return falling; }
 		}
-
+//		private delegate Vector3 JumpAnimations(bool pressed);
+//		
+//		private JumpAnimations[] jumpAnimations = 
+//		{OnPress, 
+//		Rising, 
+//		Released, 
+//		Dropping, 
+//		Landing};
 		public CardinalMovement()
 		{
 		}
@@ -56,35 +63,77 @@ namespace Assets.Scripts.ObjectManipulation
             //}
 			return velocity;
 		}
-
+//		private Vector3 OnPress(bool pressed)
+//		{
+//			jumpTimer = 0;
+//			jumpVelocity = new Vector3(0f, 1.0f, 0f);
+//			falling = false;
+//			return jumpVelocity;
+//		}
+//		private Vector3 Rising(bool pressed)
+//		{
+//			jumpTimer += Time.deltaTime;
+//			jumpVelocity = (gravity*jumpTimer) + jumpVelocity;
+//			falling = true;
+//			return jumpVelocity;
+//		}
+//		
+//		private Vector3 Released(bool pressed)
+//		{
+//			jumpTimer = 0f;
+//			jumpVelocity = gravity*jumpTimer;
+//			falling = true;
+//			return jumpVelocity;
+//		}
+//		
+//		private Vector3 Dropping(bool pressed)
+//		{
+//			jumpTimer += Time.deltaTime;
+//			jumpVelocity = gravity * jumpTimer;
+//			return jumpVelocity;
+//		}
+//		
+//		private Vector3 Landing(bool pressed)
+//		{
+//			jumpVelocity = Vector3.zero;
+//			jumpTimer = 0f;
+//			return jumpVelocity;
+//		}
+//		
 		public Vector3 Jump(bool pressed, float distanceJumped)
 		{
 			if(pressed && hasJumped == false)
 			{
+//				return jumpAnimations[0];
 			    jumpTimer = 0;
-			    jumpVelocity = new Vector3(0f, 1.3f, 0f);
+			    jumpVelocity = new Vector3(0f, 1.0f, 0f);
 			    falling = false;
-			    //hasJumped = true;
+			    
 			}
 			else if (pressed && jumpVelocity.y > 0f)
             {
+//            	return jumpAnimations[1];
                 jumpTimer += Time.deltaTime;
                 jumpVelocity = (gravity*jumpTimer) + jumpVelocity;
                 falling = true;
             }
-			else if (pressed)
+			else if (pressed && !falling)
             {
-                jumpTimer = 0f;
-                jumpVelocity = gravity*jumpTimer;
-                falling = true;
+//                return jumpAnimations[2];
+				jumpTimer += Time.deltaTime;
+				jumpVelocity = gravity * jumpTimer;
+				return jumpVelocity;
+                
             }
             else if (Util.compareEachFloat(gravity.y, -1f))
             {
-                jumpTimer += Time.deltaTime;
+//            	return jumpAnimations[3];
+              	jumpTimer += Time.deltaTime;
 	            jumpVelocity = gravity * jumpTimer;
             }
 			else if (Util.compareEachFloat(gravity.y, 0.0f))
 			{
+//				return jumpAnimations[4];
 				jumpVelocity = Vector3.zero;
 				jumpTimer = 0f;
 			}
