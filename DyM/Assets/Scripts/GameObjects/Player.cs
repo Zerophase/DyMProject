@@ -35,6 +35,7 @@ namespace Assets.Scripts.GameObjects
 		private Animator animator;
 
 		private float speed;
+		private bool idle;
 
 		private float weaponSwitchTimer = 0.0f;
 
@@ -69,17 +70,28 @@ namespace Assets.Scripts.GameObjects
 			}
 
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
-            speed = Input.GetAxis("Horizontal");
+            
+			speed = Input.GetAxis("Horizontal");
+			Debug.Log("Speed: " + speed);
+
+			if(Util.compareEachFloat(speed, 0.0f))
+			{
+				idle = true;
+
+			}
+			else
+				idle = false;
+
+			animator.SetBool("Idle", idle);
+			animator.SetFloat("Speed", speed);
+
             transform.Translate(cardinalMovement.CalculateTotalMovement(speed,
 				acceleration,Input.GetButton("Jump"), 0f/*stand in for total distance jumped*/));
             //transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
             //transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
 
-            if (speed > 0.1f)
-            {
-                animator.SetFloat("Speed", 1f);
-            }
-               
+            
+
 			if (Input.GetAxis("Fire1") > 0 && 
 				character.EquippedRangeWeapon() && character.RangeWeapon.FireRate(Time.deltaTime))
 			{
