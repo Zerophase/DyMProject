@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 29547348a1c78d949a8f5d62693604d3
+guid: d13ee387f8d23aa4a860c5e0f840c77a
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -34,7 +34,6 @@ ModelImporter:
     4300004: slug_main
     7400000: Walk
     9500000: //RootNode
-    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -66,7 +65,7 @@ ModelImporter:
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0

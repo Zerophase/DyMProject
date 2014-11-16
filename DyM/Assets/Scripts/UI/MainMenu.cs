@@ -1,7 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using Assets.Scripts.Utilities;
+using UnityEngine;
 using System.Collections;
 
-public class MainMenu : MonoBehaviour {
+public class MainMenu : MonoBehaviour
+{
+	private enum Menus
+	{
+		MAIN_MENU,
+		OPTIONS,
+		CREDITS,
+		CONTROLS
+	};
+
+	private Menus menus;
 
     public Texture2D logo;
 
@@ -9,7 +22,7 @@ public class MainMenu : MonoBehaviour {
 
     public GUISkin skin;
 
-    public string GUIMenu = "";
+    private Menus GUIMenu = Menus.MAIN_MENU;
 
     public float musicValue;
     public float soundValue;
@@ -17,9 +30,26 @@ public class MainMenu : MonoBehaviour {
     public GameObject musicManager;
     public GameObject soundManager;
 
+	bool[] mainMenuSelections = new bool[5] {false, false, false, false, false};
+	private bool backButton;
+	private bool keyPressed;
+
+	string[] mainMenuTexts = new string[5] { "Start", "Options", "controls", "credits", "exit" };
+	string[] optionMenuTexts = new string[3] { "Back", "", ""};
+	string[] miscTexts = new string[1] { "Back"};
+
+	private Dictionary<Menus, string[]> currentMenu = new Dictionary<Menus, string[]>(); 
+
+	private int selected = 0;
+
     void Start()
     {
-        GUIMenu = "MainMenu";
+		currentMenu.Add(Menus.MAIN_MENU, mainMenuTexts);
+		currentMenu.Add(Menus.OPTIONS, optionMenuTexts);
+		currentMenu.Add(Menus.CREDITS, miscTexts);
+		currentMenu.Add(Menus.CONTROLS, miscTexts);
+
+        GUIMenu = Menus.MAIN_MENU;
 
         PlayerPrefs.SetFloat("MusicVolume", 1.00f);
         musicValue = PlayerPrefs.GetFloat("MusicVolume");
@@ -28,100 +58,249 @@ public class MainMenu : MonoBehaviour {
         soundValue = PlayerPrefs.GetFloat("SoundVolume");
     }
 
+	void Update()
+	{
+		selected = menuSelection(currentMenu[GUIMenu], selected);
+
+		if (Input.GetButtonDown("Jump"))
+			keyPressed = true;
+	}
 
     void OnGUI()
     {
-        if (GUIMenu == "MainMenu")
-            MainMenuScreen();
+		GUI.skin = skin;
+		GUI.BeginGroup(new Rect(Screen.width / 2 - 300, Screen.height / 2 - 350, 615, 550));
 
-        if (GUIMenu == "Options")
-            OptionsScreen();
+	    switch (GUIMenu)
+	    {
+		    case Menus.MAIN_MENU:
+				MainMenuScreen();
+			    break;
+		    case Menus.OPTIONS:
+				OptionsScreen();
+			    break;
+		    case Menus.CREDITS:
+				Credits();
+			    break;
+		    case Menus.CONTROLS:
+				Controls();
+			    break;
+		    default:
+			    throw new ArgumentOutOfRangeException();
+	    }
 
-        if (GUIMenu == "Credits")
-            Credits();
-		
-		if (GUIMenu == "Controls")
-			Controls();
+		GUI.EndGroup();
     }
 
     void MainMenuScreen()
     {
-        GUI.skin = skin;
-
-        GUI.BeginGroup(new Rect(Screen.width / 2 - 300, Screen.height / 2 - 350, 615, 550));
-
-        //logo
         GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
+	    startMultiFocusArea(mainMenuSelections, mainMenuTexts);
 
-        //buttons
-        if (GUI.Button(new Rect(225, 210, 150, 50), "start"))
-        {
-			Application.LoadLevel("Level_01");
-        }
+		SetMenuSelectionTrue(mainMenuSelections);
 
-        if (GUI.Button(new Rect(225, 270, 150, 50), "options"))
-        {
-           GUIMenu = "Options";
-        }
-
-        if (GUI.Button(new Rect(225, 330, 150, 50), "controls"))
-        {
-            GUIMenu = "Controls";
-        }
-
-		if (GUI.Button(new Rect(225, 390, 150, 50), "credits"))
+		if (mainMenuSelections[0])
 		{
-			GUIMenu = "Credits";
+			resetSelected();
+			mainMenuSelections[0] = false;
+			Application.LoadLevel("Level_01");
 		}
 
-        if (GUI.Button(new Rect(225, 450, 150, 50), "exit"))
-        {
-            Application.Quit();
-        }
+		if (mainMenuSelections[1])
+		{
+			resetSelected();
+			mainMenuSelections[1] = false;
+			GUIMenu = Menus.OPTIONS;
+		}
 
-         GUI.EndGroup();
+		if (mainMenuSelections[2])
+		{
+			resetSelected();
+			mainMenuSelections[2] = false;
+			GUIMenu = Menus.CONTROLS;
+		}
+
+		if (mainMenuSelections[3])
+		{
+			resetSelected();
+			mainMenuSelections[3] = false;
+			GUIMenu = Menus.CREDITS;
+		}
+
+		if (mainMenuSelections[4])
+		{
+			Application.Quit();
+		}
+
+		endMultiFocusArea(mainMenuTexts);
     }
+
+	void startMultiFocusArea(bool[] menuSelection, string[] texts)
+	{
+		for (int i = 0; i < texts.Length; i++)
+		{
+			GUI.SetNextControlName(texts[i]);
+			menuSelection[i] = GUI.Button(new Rect(225, 210 + (60 * i), 150, 50), texts[i]);
+		}
+	}
+
+	void endMultiFocusArea(string[] texts)
+	{
+		GUI.FocusControl(texts[selected]);
+	}
+
+	private void resetSelected()
+	{
+		selected = 0;
+	}
+
+	private void SetMenuSelectionTrue(bool[] selection)
+	{
+		if (keyPressed)
+		{
+			selection[selected] = true;
+			keyPressed = false;
+		}
+	}
+
+	private void SetMenuSelectionTrue(ref bool selection)
+	{
+		if (keyPressed)
+		{
+			selection = true;
+			keyPressed = false;
+		}
+	}
+
+	private float timer;
+	float input;
+	private int menuSelection(string[] buttons, int selected)
+	{
+		bool inputCheck = ScrollUpThroughMenu();
+
+		if (inputCheck)
+			input = Input.GetAxis("Vertical");
+
+		if (input < 0f)
+		{
+			if (selected == 0)
+				selected = buttons.Length - 1;
+			else
+				selected -= 1;
+		}
+		else if (input > 0f)
+		{
+			if (selected == buttons.Length - 1)
+				selected = 0;
+			else
+				selected += 1;
+		}
+			
+		return selected;
+	}
+
+	private bool ScrollUpThroughMenu()
+	{
+		bool inputCheck = false;
+		if (Input.GetAxis("Vertical") > 0.1f || Input.GetAxis("Vertical") < -0.1f &&
+			(Input.GetAxis("Horizontal") < 0.1f && Input.GetAxis("Horizontal") > -0.1f))
+		{
+			if (timer > 0.5f)
+			{
+				timer = 0f;
+			}
+
+			if (Util.compareEachFloat(timer, 0.0f))
+			{
+				inputCheck = true;
+			}
+			else
+			{
+				input = 0f;
+			}
+
+			timer += Time.deltaTime;
+		}
+		
+		if (Input.GetAxis("Vertical") < 0.1f && Input.GetAxis("Vertical") > -0.1f)
+		{
+			input = 0f;
+			timer = 0f;
+			inputCheck = false;
+		}
+		return inputCheck;
+	}
 
     void OptionsScreen()
     {
-        GUI.skin = skin;
-
-		GUI.BeginGroup(new Rect(Screen.width / 2 - 300, Screen.height / 2 - 350, 615, 550));
-
-        //logo
         GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
 
-        //buttons
-		if (GUI.Button(new Rect(225, 450, 150, 50), "back"))
-		{
-			GUIMenu = "MainMenu";
-		}
+		startMultiFocusArea(optionMenuTexts);
+		SetMenuSelectionTrue(ref backButton);
 
-        //sliders        
+		if(selected == 2)
+			musicValue = AdjustSlider(musicValue);
+		else if (selected == 1)
+			soundValue = AdjustSlider(soundValue);
+
+		exitCurrentMenu();
+     
         musicValue = GUI.HorizontalSlider(new Rect(210, 235, 200, 20), musicValue, 0.0F, 1.00F);
         PlayerPrefs.SetFloat("MusicVolume", musicValue);
 
         GUI.Label(new Rect(185, 210, 254, 47), "Music");
-
 
         soundValue = GUI.HorizontalSlider(new Rect(210, 300, 200, 20), soundValue, 0.0F, 1.00F);
         PlayerPrefs.SetFloat("SoundVolume", soundValue);
 
         GUI.Label(new Rect(185, 275, 254, 47), "Sound");
 
-        GUI.EndGroup();
+		endMultiFocusArea(optionMenuTexts);
     }
 
-    void Credits()
+	private void exitCurrentMenu()
+	{
+		if (backButton)
+		{
+			resetSelected();
+			resetBackButton();
+			returnToMainMenu();
+		}
+	}
+
+	void startMultiFocusArea(string[] texts)
+	{
+		GUI.SetNextControlName(texts[0]);
+		backButton = GUI.Button(new Rect(225, 450, 150, 50), texts[0]);
+	}
+
+	private void returnToMainMenu()
+	{
+		GUIMenu = Menus.MAIN_MENU;
+	}
+
+	private void resetBackButton()
+	{
+		backButton = false;
+	}
+
+	private float AdjustSlider(float valueToAdjust)
+	{
+		if (Input.GetAxis("Horizontal") < 0.0f || Input.GetAxis("Horizontal") > 0.0f)
+			valueToAdjust += (Input.GetAxis("Horizontal") / 100f);
+
+		if (valueToAdjust > 1f)
+			valueToAdjust = 1f;
+		else if (valueToAdjust < 0f)
+			valueToAdjust = 0f;
+
+		return valueToAdjust;
+	}
+
+	void Credits()
     {
-        GUI.skin = skin;
-
-		GUI.BeginGroup(new Rect(Screen.width / 2 - 300, Screen.height / 2 - 350, 615, 550));
-
-        //logo
         GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
 
-		//credits
 		GUI.Label(new Rect(125, 225, 350, 150), " Alex Lueck - Lead Design");
 		GUI.Label(new Rect(53, 243, 500, 150), " Michael Lojkovic - Lead Programmer");
 		GUI.Label(new Rect(42, 261, 500, 150), " Justin Terry - Programmer");
@@ -130,38 +309,26 @@ public class MainMenu : MonoBehaviour {
 		GUI.Label(new Rect(28, 315, 500, 150), " Kanoa Doblin - Composer");
 		GUI.Label(new Rect(8, 333, 500, 150), " Jessica Borlovan - UI Scripting");
 
+		startMultiFocusArea(miscTexts);
+		SetMenuSelectionTrue(ref backButton);
 
-        //buttons
-		if (GUI.Button(new Rect(225, 450, 150, 50), "back"))
-		{
-			GUIMenu = "MainMenu";
-		}
+		exitCurrentMenu();
 
-        GUI.EndGroup();
-
+		endMultiFocusArea(miscTexts);
     }
 
 	void Controls()
 	{
-		GUI.skin = skin;
-		
-		GUI.BeginGroup(new Rect(Screen.width / 2 - 300, Screen.height / 2 - 350, 615, 550));
-		
-		//logo
 		GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
 
 		GUI.Label(new Rect(0, 215, controls.width, controls.height), controls);
 		GUI.Label(new Rect(350, 275, 250, 200), "To Plane Shift and Stay on the plane hold the Plane Shift Button down. To Dodge tap the plane Shift Button.");
-		
-		//buttons
-		if (GUI.Button(new Rect(225, 450, 150, 50), "back"))
-		{
-			GUIMenu = "MainMenu";
-		}
-		
-		GUI.EndGroup();
-		
+
+		startMultiFocusArea(miscTexts);
+		SetMenuSelectionTrue(ref backButton);
+
+		exitCurrentMenu();
+
+		endMultiFocusArea(miscTexts);
 	}
-
-
 }

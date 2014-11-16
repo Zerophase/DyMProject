@@ -5,7 +5,6 @@ using System.Text;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Utilities;
 using UnityEngine;
-using Physics = UnityEngine.Physics;
 
 namespace Assets.Scripts.ObjectManipulation
 {
@@ -92,6 +91,7 @@ namespace Assets.Scripts.ObjectManipulation
 			return jumpVelocity;
 		}
 
+		// Use if needed currently it is redundant
 		//private Vector3 Released()
 		//{
 		//	jumpTimer = 0f;
