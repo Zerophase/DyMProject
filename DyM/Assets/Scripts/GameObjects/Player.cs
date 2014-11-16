@@ -72,7 +72,6 @@ namespace Assets.Scripts.GameObjects
 			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
             
 			speed = Input.GetAxis("Horizontal");
-			Debug.Log("Speed: " + speed);
 
 			if(Util.compareEachFloat(speed, 0.0f))
 			{

@@ -33,16 +33,30 @@ namespace Assets.Scripts.ObjectManipulation
 		{
 			get { return falling; }
 		}
-//		private delegate Vector3 JumpAnimations(bool pressed);
-//		
-//		private JumpAnimations[] jumpAnimations = 
-//		{OnPress, 
-//		Rising, 
-//		Released, 
-//		Dropping, 
-//		Landing};
+		private delegate Vector3 JumpAnimations();
+		
+		private JumpAnimations[] jumpAnimations = new JumpAnimations[4];
+
 		public CardinalMovement()
 		{
+			for (int i = 0; i < jumpAnimations.Count(); i++)
+			{
+				switch (i)
+				{
+					case 0:
+						jumpAnimations[i] = OnPress;
+						break;
+					case 1:
+						jumpAnimations[i] = Rising;
+						break;
+					case 2:
+						jumpAnimations[i] = Dropping;
+						break;
+					case 3:
+						jumpAnimations[i] = Landing;
+						break;
+				}
+			}
 		}
 
 	    public Vector3 CalculateTotalMovement(float direction, Vector3 xVelocity, bool isJumping, float distanceJumped)
@@ -63,83 +77,63 @@ namespace Assets.Scripts.ObjectManipulation
             //}
 			return velocity;
 		}
-//		private Vector3 OnPress(bool pressed)
-//		{
-//			jumpTimer = 0;
-//			jumpVelocity = new Vector3(0f, 1.0f, 0f);
-//			falling = false;
-//			return jumpVelocity;
-//		}
-//		private Vector3 Rising(bool pressed)
-//		{
-//			jumpTimer += Time.deltaTime;
-//			jumpVelocity = (gravity*jumpTimer) + jumpVelocity;
-//			falling = true;
-//			return jumpVelocity;
-//		}
-//		
-//		private Vector3 Released(bool pressed)
-//		{
-//			jumpTimer = 0f;
-//			jumpVelocity = gravity*jumpTimer;
-//			falling = true;
-//			return jumpVelocity;
-//		}
-//		
-//		private Vector3 Dropping(bool pressed)
-//		{
-//			jumpTimer += Time.deltaTime;
-//			jumpVelocity = gravity * jumpTimer;
-//			return jumpVelocity;
-//		}
-//		
-//		private Vector3 Landing(bool pressed)
-//		{
-//			jumpVelocity = Vector3.zero;
-//			jumpTimer = 0f;
-//			return jumpVelocity;
-//		}
-//		
-		public Vector3 Jump(bool pressed, float distanceJumped)
+		private Vector3 OnPress()
 		{
-			if(pressed && hasJumped == false)
-			{
-//				return jumpAnimations[0];
-			    jumpTimer = 0;
-			    jumpVelocity = new Vector3(0f, 1.0f, 0f);
-			    falling = false;
-			    
-			}
-			else if (pressed && jumpVelocity.y > 0f)
-            {
-//            	return jumpAnimations[1];
-                jumpTimer += Time.deltaTime;
-                jumpVelocity = (gravity*jumpTimer) + jumpVelocity;
-                falling = true;
-            }
-			else if (pressed && !falling)
-            {
-//                return jumpAnimations[2];
-				jumpTimer += Time.deltaTime;
-				jumpVelocity = gravity * jumpTimer;
-				return jumpVelocity;
-                
-            }
-            else if (Util.compareEachFloat(gravity.y, -1f))
-            {
-//            	return jumpAnimations[3];
-              	jumpTimer += Time.deltaTime;
-	            jumpVelocity = gravity * jumpTimer;
-            }
-			else if (Util.compareEachFloat(gravity.y, 0.0f))
-			{
-//				return jumpAnimations[4];
-				jumpVelocity = Vector3.zero;
-				jumpTimer = 0f;
-			}
-            
+			jumpTimer = 0;
+			jumpVelocity = new Vector3(0f, 1.5f, 0f);
+			falling = false;
+			return jumpVelocity;
+		}
+		private Vector3 Rising()
+		{
+			jumpTimer += Time.deltaTime;
+			jumpVelocity = (gravity * jumpTimer) + jumpVelocity;
+			falling = true;
+			return jumpVelocity;
+		}
+
+		//private Vector3 Released()
+		//{
+		//	jumpTimer = 0f;
+		//	jumpVelocity = gravity * jumpTimer;
+		//	falling = true;
+		//	return jumpVelocity;
+		//}
+
+		private Vector3 Dropping()
+		{
+			jumpTimer += Time.deltaTime;
+			jumpVelocity = gravity * jumpTimer;
+			return jumpVelocity;
+		}
+
+		private Vector3 Landing()
+		{
+			jumpVelocity = Vector3.zero;
+			jumpTimer = 0f;
 			return jumpVelocity;
 		}
 		
+		public Vector3 Jump(bool pressed, float distanceJumped)
+		{
+			return jumpAnimations[jumpComparision(pressed)].Invoke();
+		}
+
+		private int returnValue;
+		private bool savedPress;
+		private int jumpComparision(bool pressed)
+		{
+			if (pressed && !savedPress && !hasJumped)
+				returnValue = 0;
+			else if (pressed && jumpVelocity.y > 0.0f)
+				returnValue = 1;
+			else if (Util.compareEachFloat(gravity.y, -1f))
+				returnValue = 2;
+			else if (Util.compareEachFloat(gravity.y, 0.0f))
+				returnValue = 3;
+			
+			savedPress = pressed;
+			return returnValue;
+		}
 	}
 }
