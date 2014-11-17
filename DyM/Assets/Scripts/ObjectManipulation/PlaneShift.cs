@@ -23,8 +23,8 @@ namespace Assets.Scripts.ObjectManipulation
 
 		private const int arrayIndexNotFound = -1;
 
-		private Vector3 planeShiftUpVector = new Vector3(0f, 0f, 1f);
-		private Vector3 planeShiftDownVector = new Vector3(0f, 0f, -1f);
+		private Vector3 planeShiftUpVector = new Vector3(0f, 0f, -1f);
+		private Vector3 planeShiftDownVector = new Vector3(0f, 0f, 1f);
 		private Vector3 PlaneShiftedTo;
 
 		private PlanePosition planePosition;
@@ -71,12 +71,12 @@ namespace Assets.Scripts.ObjectManipulation
 			if (activatePlaneShift == KeyCode.Joystick1Button4 &&
 				maxShift(currentPosition.z, 1f))
 			{
-				return planeShiftUpVector;
+				return planeShiftDownVector;
 			}
 			else if (activatePlaneShift == KeyCode.Joystick1Button5 &&
 				maxShift(currentPosition.z, -1f))
 			{
-				return planeShiftDownVector;
+				return planeShiftUpVector;
 			}
 			else
 			{
@@ -127,10 +127,10 @@ namespace Assets.Scripts.ObjectManipulation
 			{
 				if (savedKeyPress == KeyCode.Joystick1Button4 &&
 				    maxShift(PlaneShiftedTo.z))
-					temp = planeShiftDownVector;
+					temp = planeShiftUpVector;
 				else if (savedKeyPress == KeyCode.Joystick1Button5 &&
 				         maxShift(PlaneShiftedTo.z))
-					temp = planeShiftUpVector;
+					temp = planeShiftDownVector;
 
 				savedKeyPress = KeyCode.None;
 			}

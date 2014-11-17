@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Character;
+using Assets.Scripts.CustomInputManager;
 using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Utilities;
@@ -20,7 +21,7 @@ public class Gun : MonoBehaviour
 
 	public void Rotate()
 	{
-		Vector3 direction = new Vector3(Input.GetAxis("CameraHorizontalMovement"), Input.GetAxis("CameraVerticalMovement"));
+		Vector3 direction = new Vector3(InputManager.CameraHorizontalMovement(), InputManager.CameraVerticalMovement());
 
 		float rotate = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
 

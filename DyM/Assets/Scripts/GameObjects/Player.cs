@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts.Character.Interfaces;
+using Assets.Scripts.CustomInputManager;
 using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.MediatorPattern;
 using Assets.Scripts.ObjectManipulation;
@@ -21,14 +22,12 @@ namespace Assets.Scripts.GameObjects
 		[Inject]
 		private PlaneShiftFactory factory;
 
-		
 		[Inject]
 		public ICharacter character;
 
 		[Inject]
 		public IPooledGameObjects PooledBUlletGameObjects;
 		public static GameObject GunModel;
-		private GameObject bullet;
 
         private Vector3 acceleration = new Vector3(10f,0f,0f);
 
@@ -53,27 +52,24 @@ namespace Assets.Scripts.GameObjects
 			animator = GetComponent<Animator>();
 
 			base.Start();
-            
 		}
 
 		protected override void Update()
 		{
-			
-
-			if (Input.GetButtonDown("PlaneShiftDown"))
+			if (InputManager.PlaneShiftDown())
 			{
 				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4,
 					transform.position));
 			}
-			else if (Input.GetButtonDown("PlaneShiftUp"))
+			else if (InputManager.PlaneShiftUp())
 			{
 				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button5,
 					transform.position));
 			}
 
-			transform.Translate(planeShift.Dodge(transform.position, dodgeKeysToCheck(), Time.deltaTime));
-            
-			speed = Input.GetAxis("Horizontal");
+			transform.Translate(planeShift.Dodge(transform.position, InputManager.CheckDodgeKeys(), Time.deltaTime));
+
+			speed = InputManager.MovementHorizontal();
 
 			if(Util.compareEachFloat(speed, 0.0f))
 			{
@@ -87,31 +83,31 @@ namespace Assets.Scripts.GameObjects
 			animator.SetFloat("Speed", speed);
 
             transform.Translate(cardinalMovement.CalculateTotalMovement(speed,
-				acceleration,Input.GetButton("Jump"), 0f/*stand in for total distance jumped*/));
+				acceleration,InputManager.Jump(), 0f/*stand in for total distance jumped*/));
             //transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
             //transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
 
 			flip(speed);
 
-			if (Input.GetAxis("Fire1") > 0 && 
+			if (InputManager.Fire() && 
 				character.EquippedRangeWeapon() && character.RangeWeapon.FireRate(Time.deltaTime))
 			{
 				IProjectile bullet = character.RangeWeapon.Fire();
 				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = bullet;
 			}
 
-			if (Input.GetButtonDown("WeakAttack") && character.EquippedRangeWeapon())
+			if (InputManager.WeakAttack() && character.EquippedRangeWeapon())
 			{
 				character.MeleeWeapon.Attack();
 			}
 
-			if (Input.GetButtonDown("ActivateAbility") && character.EquippedAbility())
+			if (InputManager.ActivateAbility() && character.EquippedAbility())
 			{
 				character.Ability.Activate(character);
 //				Debug.Log("StatusEffect is: " + character.StatusEffect);
 			}
 
-			if (pressAxisDown("SwitchWeapon") &&
+			if (InputManager.SwitchWeapon() &&
 			    character.EquippedRangeWeapon())
 			{
 				character.SwitchWeapon();
@@ -119,34 +115,6 @@ namespace Assets.Scripts.GameObjects
 				
 
 			base.Update();
-		}
-
-		private bool pressed;
-		private float savedPress;
-		private float previousSavedPress;
-		private bool pressAxisDown(string name)
-		{
-			savedPress = Input.GetAxis(name);
-			if (!pressed && (savedPress > 0.0f || savedPress < 0.0f))
-			{
-				pressed = true;
-				return true;
-			}
-			else if (pressed && Util.compareEachFloat(savedPress, 0.0f))
-			{
-				pressed = false;
-			}
-
-			return false;
-		}
-		private bool dodgeKeysToCheck()
-		{
-			if (Input.GetButton("PlaneShiftDown") || Input.GetButton("PlaneShiftUp"))
-				return true;
-			else
-			{
-				return false;
-			}
 		}
 
 		public void TakeDamage(int healthLost)
