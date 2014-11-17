@@ -34,14 +34,13 @@ namespace Assets.Scripts.GameObjects
 
 		private Animator animator;
 
-		private float speed;
 		private bool idle;
 
 		private float weaponSwitchTimer = 0.0f;
 
 		public int Health { get { return character.Health; } }
 
-		void Start()
+		protected override void Start()
 		{
 			planeShift = factory.Create(transform.position);
 			GunModel = GameObject.Find("Gun");
@@ -49,11 +48,12 @@ namespace Assets.Scripts.GameObjects
 
 			animator = GetComponent<Animator>();
 
+			
+
 			base.Start();
             
 		}
 
-        private bool run = false;
 		protected override void Update()
 		{
 			
@@ -89,7 +89,7 @@ namespace Assets.Scripts.GameObjects
             //transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
             //transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
 
-            
+			flip(speed);
 
 			if (Input.GetAxis("Fire1") > 0 && 
 				character.EquippedRangeWeapon() && character.RangeWeapon.FireRate(Time.deltaTime))

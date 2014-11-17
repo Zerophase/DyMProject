@@ -9,6 +9,8 @@ public class Slug : MovablePhysicsMediator
 	Vector3 maxPatrolDistance = new Vector3(10f, 0f, 0f);
 	private Vector3 target;
 
+	private Vector3 comparisor;
+
 	private PathFinder pathFinder;
 
 	private int health = 10;
@@ -33,8 +35,6 @@ public class Slug : MovablePhysicsMediator
 		pathFinder.Initialize();
 	}
 
-	private Vector3 comparisor;
-	// Update is called once per frame
 	void Update ()
 	{
 		base.Update();
@@ -44,12 +44,21 @@ public class Slug : MovablePhysicsMediator
 
 		comparisor = target - transform.position;
 		if (Vector3.Dot(comparisor, Vector3.left) > 0f)
-			transform.Translate(cardinalMovement.Move(-1, acceleration, Time.deltaTime));
+		{
+			speed = -1f;
+			transform.Translate(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
+		}
+			
 		else if (Vector3.Dot(comparisor, Vector3.left) < 0f)
-			transform.Translate(cardinalMovement.Move(1, acceleration, Time.deltaTime));
+		{
+			speed = 1f;
+			transform.Translate(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
+		}
 		
 		// so the slug falls.
 		transform.Translate(cardinalMovement.Jump(false, -1f));
+
+		flip(speed);
 	}
 
 	public void TakeDamge(int healthLost)

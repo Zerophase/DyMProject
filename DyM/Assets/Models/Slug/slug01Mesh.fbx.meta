@@ -1,32 +1,45 @@
 fileFormatVersion: 2
-guid: 50677414bd214f44685d76d92d9ef015
+guid: 209015cba5e94a84c918ecb63f3ad306
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: bend1Handle
-    100002: l_slug_arm
-    100004: r_slug_arm
-    100006: Slug01_fullMesh
-    100008: //RootNode
-    100010: slug_main
-    100012: squash1Handle
-    400000: bend1Handle
-    400002: l_slug_arm
-    400004: r_slug_arm
-    400006: Slug01_fullMesh
-    400008: //RootNode
-    400010: slug_main
-    400012: squash1Handle
-    2300000: l_slug_arm
-    2300002: r_slug_arm
-    2300004: slug_main
-    3300000: l_slug_arm
-    3300002: r_slug_arm
-    3300004: slug_main
-    4300000: l_slug_arm
-    4300002: slug_main
+    100000: back1
+    100002: back2
+    100004: back3
+    100006: eye
+    100008: head
+    100010: hip_override
+    100012: l_arm
+    100014: l_shoulder
+    100016: l_slug_arm
+    100018: r_arm
+    100020: r_shoulder
+    100022: r_slug_arm
+    100024: root
+    100026: //RootNode
+    100028: slug_main
+    400000: back1
+    400002: back2
+    400004: back3
+    400006: eye
+    400008: head
+    400010: hip_override
+    400012: l_arm
+    400014: l_shoulder
+    400016: l_slug_arm
+    400018: r_arm
+    400020: r_shoulder
+    400022: r_slug_arm
+    400024: root
+    400026: //RootNode
+    400028: slug_main
+    4300000: slug_main
+    4300002: l_slug_arm
     4300004: r_slug_arm
     9500000: //RootNode
+    13700000: l_slug_arm
+    13700002: r_slug_arm
+    13700004: slug_main
   materials:
     importMaterials: 1
     materialName: 0

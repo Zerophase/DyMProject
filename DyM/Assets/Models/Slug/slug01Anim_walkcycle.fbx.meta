@@ -1,39 +1,46 @@
 fileFormatVersion: 2
-guid: d13ee387f8d23aa4a860c5e0f840c77a
+guid: 924abcb3353a25945a519232a8357f75
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: bend1Handle
-    100002: group1
-    100004: l_controller
-    100006: l_slug_arm
-    100008: r_controller
-    100010: r_slug_arm
-    100012: //RootNode
-    100014: slug_main
-    100016: squash1Handle
-    100018: squash2Handle
-    400000: bend1Handle
-    400002: group1
-    400004: l_controller
-    400006: l_slug_arm
-    400008: r_controller
-    400010: r_slug_arm
-    400012: //RootNode
-    400014: slug_main
-    400016: squash1Handle
-    400018: squash2Handle
-    2300000: l_slug_arm
-    2300002: r_slug_arm
-    2300004: slug_main
-    3300000: l_slug_arm
-    3300002: r_slug_arm
-    3300004: slug_main
-    4300000: l_slug_arm
-    4300002: r_slug_arm
-    4300004: slug_main
+    100000: back1
+    100002: back2
+    100004: back3
+    100006: eye
+    100008: head
+    100010: hip_override
+    100012: l_arm
+    100014: l_shoulder
+    100016: l_slug_arm
+    100018: r_arm
+    100020: r_shoulder
+    100022: r_slug_arm
+    100024: root
+    100026: //RootNode
+    100028: slug_main
+    400000: back1
+    400002: back2
+    400004: back3
+    400006: eye
+    400008: head
+    400010: hip_override
+    400012: l_arm
+    400014: l_shoulder
+    400016: l_slug_arm
+    400018: r_arm
+    400020: r_shoulder
+    400022: r_slug_arm
+    400024: root
+    400026: //RootNode
+    400028: slug_main
+    4300000: slug_main
+    4300002: l_slug_arm
+    4300004: r_slug_arm
     7400000: Walk
     9500000: //RootNode
+    13700000: l_slug_arm
+    13700002: r_slug_arm
+    13700004: slug_main
   materials:
     importMaterials: 1
     materialName: 0
@@ -43,7 +50,7 @@ ModelImporter:
     bakeSimulation: 0
     optimizeGameObjects: 0
     motionNodeName: 
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
@@ -54,7 +61,7 @@ ModelImporter:
       name: Walk
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 30
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -65,7 +72,7 @@ ModelImporter:
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
@@ -76,23 +83,33 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: bend1Handle
+      - path: hip_override
         weight: 1
-      - path: group1
+      - path: hip_override/head
         weight: 1
-      - path: group1/slug_main
+      - path: hip_override/head/eye
         weight: 1
-      - path: l_controller
+      - path: hip_override/l_shoulder
         weight: 1
-      - path: l_controller/l_slug_arm
+      - path: hip_override/l_shoulder/l_arm
         weight: 1
-      - path: r_controller
+      - path: hip_override/r_shoulder
         weight: 1
-      - path: r_controller/r_slug_arm
+      - path: hip_override/r_shoulder/r_arm
         weight: 1
-      - path: squash1Handle
+      - path: hip_override/root
         weight: 1
-      - path: squash2Handle
+      - path: hip_override/root/back1
+        weight: 1
+      - path: hip_override/root/back1/back2
+        weight: 1
+      - path: hip_override/root/back1/back2/back3
+        weight: 1
+      - path: l_slug_arm
+        weight: 1
+      - path: r_slug_arm
+        weight: 1
+      - path: slug_main
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}

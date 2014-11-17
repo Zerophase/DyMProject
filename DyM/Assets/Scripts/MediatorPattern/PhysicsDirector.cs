@@ -69,16 +69,16 @@ namespace Assets.Scripts.MediatorPattern
 			{
 				for (int j = 0; j < physicsMediators.Count; j++)
 				{
-					if (physicsMediators[i] is Player)
+					if (physicsMediators[j] is Player)
 						continue;
-					if (bullets[i].CheckBounds(physicsMediators[i]))
+					if (bullets[i].CheckBounds(physicsMediators[j]))
 					{
-						((Slug)physicsMediators[i]).TakeDamge(((Bullet)bullets[i]).DealDamage());
+						((Slug)physicsMediators[j]).TakeDamge(((Bullet)bullets[i]).DealDamage());
 
-						if (((Slug) physicsMediators[i]).Health <= 0)
+						if (((Slug) physicsMediators[j]).Health <= 0)
 						{
-							PhysicsMediator removeMe = physicsMediators[i];
-							physicsMediators.RemoveAt(i);
+							PhysicsMediator removeMe = physicsMediators[j];
+							physicsMediators.RemoveAt(j);
 							Destroy(removeMe.gameObject);
 						}
 					}
