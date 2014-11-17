@@ -8,16 +8,10 @@ using System.Collections;
 
 namespace Assets.Scripts.GameObjects
 {
-	//TODO Rename
 	public class AbilityPickUp : PhysicsMediator
 	{
 		[Inject] 
 		private IAbility ability;
-
-		public void Start()
-		{
-			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
-		}
 
 		public void PickUp(GameObject player)
 		{

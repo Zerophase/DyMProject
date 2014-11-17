@@ -44,10 +44,10 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		public virtual void SetUpProjectile(Vector3 position)
 		{
 			startPosition = position;
-			if (Player.GunModel.GetComponent<Gun>().Rotated)
-				fireDirection = -Player.GunModel.transform.up;
-			else
-				fireDirection = Player.GunModel.transform.up;
+
+			fireDirection = -Player.GunModel.transform.right;
+			fireDirection.z = 0f;
+
 			setUp = true;
 		}
 

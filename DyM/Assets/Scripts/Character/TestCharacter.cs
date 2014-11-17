@@ -123,8 +123,7 @@ namespace Assets.Scripts.Character
 		public void AddWeapon(RangeWeaponBase weapon)
 		{
 			rangeWeapons.Add(weapon);
-			//TODO reenable once change weapon button in place
-			//if(rangeWeapons.Count < 2)
+			if(rangeWeapons.Count < 2)
 				Equip(weapon);
 		}
 

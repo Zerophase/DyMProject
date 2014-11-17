@@ -40,15 +40,17 @@ namespace Assets.Scripts.GameObjects
 
 		public int Health { get { return character.Health; } }
 
+		private Gun gun;
+
 		protected override void Start()
 		{
 			planeShift = factory.Create(transform.position);
-			GunModel = GameObject.Find("Gun");
+			GunModel = GameObject.FindGameObjectWithTag("EquippedGun");
+			gun = GameObject.FindWithTag("GunRotator").GetComponent<Gun>();
+
 			PooledBUlletGameObjects.Initialize();
 
 			animator = GetComponent<Animator>();
-
-			
 
 			base.Start();
             
@@ -150,6 +152,11 @@ namespace Assets.Scripts.GameObjects
 		public void TakeDamage(int healthLost)
 		{
 			character.TakeDamage(healthLost);
+		}
+
+		void LateUpdate()
+		{
+			gun.Rotate();
 		}
 	} 
 }
