@@ -29,6 +29,10 @@ namespace Assets.Scripts.MediatorPattern
 
 		void Update()
 		{
+			if(player == null)
+			{
+				Application.LoadLevel("main_menu");
+			}
 			gravityAssignment();
 
 			GroundCollision();

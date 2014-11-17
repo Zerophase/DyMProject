@@ -56,6 +56,11 @@ namespace Assets.Scripts.GameObjects
 
 		protected override void Update()
 		{
+			if(transform.position.y < -40)
+			{
+				Application.LoadLevel("main_menu");
+			}
+			
 			if (InputManager.PlaneShiftDown())
 			{
 				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4,
