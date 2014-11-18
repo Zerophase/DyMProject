@@ -6,6 +6,7 @@ using Assets.Scripts.Character;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
 using ModestTree.Zenject;
+using UnityEngine;
 
 namespace Assets.Scripts.Utilities.Messaging
 {
@@ -32,15 +33,31 @@ namespace Assets.Scripts.Utilities.Messaging
 
 		public void HandleMessage(ITelegram telegram)
 		{
-			TestTelegram = telegram;
-			if (owner == telegram.Receiver)
+			if (!telegram.Global && owner == telegram.Receiver)
 				owner.Receive(telegram);
-
+			else if (telegram.Global && owner.GetType() == telegram.Receiver.GetType())
+				owner.Receive(telegram);
 		}
 
 		public void SubScribe()
 		{
 			messageDispatcher.SendMessage += HandleMessage;
 		}
+
+		//public override bool Equals(object obj)
+		//{
+		//	var other = obj as IOwner;
+		//	if (other != owner)
+		//		return false;
+		//	else if (other == null)
+		//		return false;
+
+		//	return Equals(obj);
+		//}
+
+		//public bool Equals(IOwner other)
+		//{
+			
+		//}
 	}
 }

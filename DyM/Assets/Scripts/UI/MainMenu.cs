@@ -42,6 +42,8 @@ public class MainMenu : MonoBehaviour
 
 	private int selected = 0;
 
+	private List<AudioSource> audioSources = new List<AudioSource>(); 
+
     void Start()
     {
 		currentMenu.Add(Menus.MAIN_MENU, mainMenuTexts);
@@ -56,11 +58,21 @@ public class MainMenu : MonoBehaviour
 
         PlayerPrefs.SetFloat("SoundVolume", 1.00f);
         soundValue = PlayerPrefs.GetFloat("SoundVolume");
+
+	    var audioSource = GetComponents<AudioSource>();
+	    for (int i = 0; i < audioSource.Length; i++)
+	    {
+		    audioSources.Add(audioSource[i]);
+	    }
     }
 
+	private int previousSelected;
 	void Update()
 	{
 		selected = menuSelection(currentMenu[GUIMenu], selected);
+		if (previousSelected != selected)
+			navigationSound();
+		previousSelected = selected;
 
 		if (Input.GetButtonDown("Jump"))
 			keyPressed = true;
@@ -101,6 +113,7 @@ public class MainMenu : MonoBehaviour
 
 		if (mainMenuSelections[0])
 		{
+			selection();
 			resetSelected();
 			mainMenuSelections[0] = false;
 			Application.LoadLevel("Level_01");
@@ -108,6 +121,7 @@ public class MainMenu : MonoBehaviour
 
 		if (mainMenuSelections[1])
 		{
+			selection();
 			resetSelected();
 			mainMenuSelections[1] = false;
 			GUIMenu = Menus.OPTIONS;
@@ -115,6 +129,7 @@ public class MainMenu : MonoBehaviour
 
 		if (mainMenuSelections[2])
 		{
+			selection();
 			resetSelected();
 			mainMenuSelections[2] = false;
 			GUIMenu = Menus.CONTROLS;
@@ -122,6 +137,7 @@ public class MainMenu : MonoBehaviour
 
 		if (mainMenuSelections[3])
 		{
+			selection();
 			resetSelected();
 			mainMenuSelections[3] = false;
 			GUIMenu = Menus.CREDITS;
@@ -129,11 +145,18 @@ public class MainMenu : MonoBehaviour
 
 		if (mainMenuSelections[4])
 		{
+			selection();
 			Application.Quit();
 		}
 
 		endMultiFocusArea(mainMenuTexts);
     }
+
+	private void selection()
+	{
+		if(!audioSources[2].isPlaying)
+			audioSources[2].Play();
+	}
 
 	void startMultiFocusArea(bool[] menuSelection, string[] texts)
 	{
@@ -161,6 +184,12 @@ public class MainMenu : MonoBehaviour
 			selection[selected] = true;
 			keyPressed = false;
 		}
+	}
+
+	private void navigationSound()
+	{
+		if(!audioSources[1].isPlaying)
+			audioSources[1].Play();
 	}
 
 	private void SetMenuSelectionTrue(ref bool selection)
@@ -262,10 +291,17 @@ public class MainMenu : MonoBehaviour
 	{
 		if (backButton)
 		{
+			goBackSound();
 			resetSelected();
 			resetBackButton();
 			returnToMainMenu();
 		}
+	}
+
+	private void goBackSound()
+	{
+		if(!audioSources[0].isPlaying)
+			audioSources[0].Play();
 	}
 
 	void startMultiFocusArea(string[] texts)

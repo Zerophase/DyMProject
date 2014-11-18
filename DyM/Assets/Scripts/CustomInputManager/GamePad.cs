@@ -33,9 +33,14 @@ namespace Assets.Scripts.CustomInputManager
 			return Input.GetAxis("Horizontal");
 		}
 
-		public bool Jump()
+		public bool Jumping()
 		{
 			return Input.GetButton("Jump");
+		}
+
+		public bool Jump()
+		{
+			return Input.GetButtonDown("Jump");
 		}
 
 		public bool Fire()

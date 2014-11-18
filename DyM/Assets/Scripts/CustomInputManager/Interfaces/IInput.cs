@@ -11,6 +11,7 @@ namespace Assets.Scripts.CustomInputManager.Interfaces
 		bool PlaneShiftDown();
 		bool PlaneShiftUp();
 		float MovementHorizontal();
+		bool Jumping();
 		bool Jump();
 		bool Fire();
 		bool WeakAttack();

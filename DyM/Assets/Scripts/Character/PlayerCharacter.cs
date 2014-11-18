@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Character
 {
-	public class TestCharacter : ICharacter
+	public class PlayerCharacter : ICharacter
 	{
 		private List<RangeWeaponBase> rangeWeapons = new List<RangeWeaponBase>();
 
@@ -45,8 +45,8 @@ namespace Assets.Scripts.Character
 
 		private StatusEffect statusEffect;
 		public StatusEffect StatusEffect { get { return statusEffect; } }
-		private IReceiver receiver;
 
+		private IReceiver receiver;
 		public IReceiver Receiver
 		{
 			set { receiver = value; }
@@ -57,13 +57,13 @@ namespace Assets.Scripts.Character
 
 		public Vector3 Position { get; set; }
 
-		public TestCharacter()
+		public PlayerCharacter()
 		{
 			
 		}
 
 		[Inject]
-		public TestCharacter(IReceiver receiver)
+		public PlayerCharacter(IReceiver receiver)
 		{
 			this.receiver = receiver;
 			this.receiver.Owner = this;
@@ -108,7 +108,7 @@ namespace Assets.Scripts.Character
 			else if(telegram.Message is MeleeWeaponBase)
 				Equip((TestMeleeWeapon)telegram.Message);
 			else if(telegram.Message is AbilityBase)
-				Equip((Ability)telegram.Message);
+				Equip((AbilityBase)telegram.Message);
 			else if(telegram.Message is StatusEffect)
 				GainStatusEffect((StatusEffect)telegram.Message);
 		}
@@ -135,6 +135,11 @@ namespace Assets.Scripts.Character
 		public void TakeDamage(int healthLost)
 		{
 			health -= healthLost;
+		}
+
+		public void RemoveStatusEffect()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

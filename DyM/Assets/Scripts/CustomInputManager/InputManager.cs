@@ -38,6 +38,11 @@ namespace Assets.Scripts.CustomInputManager
 			return input.MovementHorizontal();
 		}
 
+		public static bool Jumping()
+		{
+			return input.Jumping();
+		}
+
 		public static bool Jump()
 		{
 			return input.Jump();

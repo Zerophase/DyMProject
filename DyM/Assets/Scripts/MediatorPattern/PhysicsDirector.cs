@@ -17,8 +17,8 @@ namespace Assets.Scripts.MediatorPattern
 		private List<Ground> grounds = new List<Ground>();
 		private List<WeaponPickUpGameObject> weaponPickUpGameObjects = 
 			new List<WeaponPickUpGameObject>();
-		private List<AbilityPickUp> abilityPickUps =
- 			new List<AbilityPickUp>();
+		private List<AbilityPickUpGameObject> abilityPickUps =
+ 			new List<AbilityPickUpGameObject>();
 		private List<PhysicsMediator> bullets = new List<PhysicsMediator>();  
 
 		private bool assignGravity;
@@ -94,9 +94,9 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			for (int i = 0; i < abilityPickUps.Count; i++)
 			{
-				if (abilityPickUps[i].CheckBounds(physicsMediators[0]))
+				if (abilityPickUps[i].CheckBounds(player))
 				{
-					abilityPickUps[i].PickUp(physicsMediators[0].gameObject);
+					abilityPickUps[i].PickUp(player.gameObject);
 					abilityPickUps.RemoveAt(i);
 				}
 			}
@@ -171,8 +171,8 @@ namespace Assets.Scripts.MediatorPattern
 					grounds.Add((Ground)telegram.Message);
 				else if(telegram.Message is WeaponPickUpGameObject)
 					weaponPickUpGameObjects.Add((WeaponPickUpGameObject)telegram.Message);
-				else if(telegram.Message is AbilityPickUp)
-					abilityPickUps.Add((AbilityPickUp)telegram.Message);
+				else if(telegram.Message is AbilityPickUpGameObject)
+					abilityPickUps.Add((AbilityPickUpGameObject)telegram.Message);
 				else if(telegram.Message is Bullet)
 					bullets.Add((Bullet)telegram.Message);
 

@@ -1,9 +1,11 @@
 ﻿using System.Runtime.Remoting.Messaging;
 using Assets.Scripts.Abilities.Interfaces;
+using Assets.Scripts.Character;
 using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Character.Interfaces;
+using UnityEngine;
 
 namespace Assets.Scripts.Abilities
 {
@@ -12,6 +14,14 @@ namespace Assets.Scripts.Abilities
 		private IMessageDispatcher messageDispatcher;
 		protected StatusEffect statusEffect;
 
+		private EnemyCharacter enemyCharacter = new EnemyCharacter();
+
+		private float cooldown = 5f;
+		private float cooldownLeft = 5f;
+
+		private float timeLimit = 2f;
+		private float timeLimitLeft = 2f;
+
 		public AbilityBase(IMessageDispatcher messageDispatcher)
 		{
 			this.messageDispatcher = messageDispatcher;
@@ -19,12 +29,37 @@ namespace Assets.Scripts.Abilities
 
 		public void Activate(ICharacter character)
 		{
-			messageDispatcher.DispatchMessage(new Telegram(character, statusEffect));
+			cooldownLeft = 0f;
+			timeLimitLeft = 0f;
+			messageDispatcher.DispatchMessage(new Telegram(enemyCharacter, statusEffect, true));
 		}
 
-		public void PickUp(ICharacter character)
+
+		public bool CoolDown()
 		{
-			messageDispatcher.DispatchMessage(new Telegram(character, this));
+			if (cooldown <= cooldownLeft)
+			{
+				return true;
+			}
+			else if(cooldownLeft < cooldown)
+			{
+				cooldownLeft += Time.deltaTime;
+				return false;
+			}
+
+			return false;
+		}
+
+		public void TimeLimit()
+		{
+			if (timeLimit <= timeLimitLeft)
+			{
+				
+			}
+			else if(timeLimitLeft < timeLimit)
+			{
+				timeLimitLeft += Time.deltaTime;
+			}
 		}
 	}
 }

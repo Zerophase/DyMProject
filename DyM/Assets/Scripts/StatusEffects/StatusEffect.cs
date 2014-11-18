@@ -10,6 +10,7 @@ namespace Assets.Scripts.StatusEffects
 	{
 		NONE = 0,
 		TEST = 2,
-		TESTTWO = 4
+		TESTTWO = 4,
+		SLOW_TIME = 6
 	};
 }

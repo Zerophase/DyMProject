@@ -23,6 +23,7 @@ namespace Assets.Scripts.GameObjects
 		{
 			if (!projectile.IsProjectileSetup)
 			{
+				audio.Play();
 				transform.position = Player.GunModel.transform.position;
 				projectile.SetUpProjectile(transform.position);
 			}

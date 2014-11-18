@@ -9,5 +9,6 @@ namespace Assets.Scripts.Utilities.Messaging.Interfaces
 	{
 		IOwner Receiver { get; }
 		object Message { get; }
+		bool Global { get; }
 	}
 }
