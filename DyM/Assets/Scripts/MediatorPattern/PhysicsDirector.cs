@@ -31,7 +31,7 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			if(player == null)
 			{
-				Application.LoadLevel("main_menu");
+				Application.LoadLevel("GameOver");
 			}
 			gravityAssignment();
 

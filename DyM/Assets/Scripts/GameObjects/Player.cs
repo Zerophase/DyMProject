@@ -58,9 +58,14 @@ namespace Assets.Scripts.GameObjects
 		{
 			if(transform.position.y < -40)
 			{
-				Application.LoadLevel("main_menu");
+				Application.LoadLevel("GameOver");
 			}
-			
+
+		    if (transform.position.x > 27)
+		    {
+		        Application.LoadLevel("WinScreen");
+		    }
+
 			if (InputManager.PlaneShiftDown())
 			{
 				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4,
