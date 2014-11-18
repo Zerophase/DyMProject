@@ -5,6 +5,7 @@ namespace Assets.Scripts.Abilities.Interfaces
 	public interface IAbility
 	{
 		void Activate(ICharacter character);
-		void PickUp(ICharacter character);
+		bool CoolDown();
+		void TimeLimit();
 	}
 }

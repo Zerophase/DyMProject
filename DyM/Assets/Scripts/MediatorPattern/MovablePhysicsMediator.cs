@@ -27,6 +27,7 @@ namespace Assets.Scripts.MediatorPattern
 		private const int preventDeformation = 0;
 
 		protected float speed;
+		protected float movementMultiplier;
 
 		protected override void Start()
 		{

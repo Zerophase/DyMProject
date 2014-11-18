@@ -56,11 +56,36 @@ namespace Assets.Scripts.GameObjects
 
 		protected override void Update()
 		{
-			if(transform.position.y < -40)
+			death();
+			
+			switchPlane();
+
+			move();
+
+			flip(speed);
+
+			rangeAttack();
+
+			weakAttack();
+
+			activateAbility();
+
+			switchWeapon();
+				
+
+			base.Update();
+		}
+
+		private void death()
+		{
+			if (transform.position.y < -40)
 			{
 				Application.LoadLevel("main_menu");
 			}
-			
+		}
+
+		private void switchPlane()
+		{
 			if (InputManager.PlaneShiftDown())
 			{
 				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4,
@@ -73,13 +98,15 @@ namespace Assets.Scripts.GameObjects
 			}
 
 			transform.Translate(planeShift.Dodge(transform.position, InputManager.CheckDodgeKeys(), Time.deltaTime));
+		}
 
+		private void move()
+		{
 			speed = InputManager.MovementHorizontal();
 
-			if(Util.compareEachFloat(speed, 0.0f))
+			if (Util.compareEachFloat(speed, 0.0f))
 			{
 				idle = true;
-
 			}
 			else
 				idle = false;
@@ -87,39 +114,44 @@ namespace Assets.Scripts.GameObjects
 			animator.SetBool("Idle", idle);
 			animator.SetFloat("Speed", speed);
 
-            transform.Translate(cardinalMovement.CalculateTotalMovement(speed,
-				acceleration,InputManager.Jump(), 0f/*stand in for total distance jumped*/));
-            //transform.Translate(cardinalMovement.Move(Input.GetAxis("Horizontal"), acceleration, Time.deltaTime));
-            //transform.Translate(cardinalMovement.Jump(Input.GetButton("Jump"), 0f));
+			transform.Translate(cardinalMovement.CalculateTotalMovement(speed,
+				acceleration, InputManager.Jump(), 0f /*stand in for total distance jumped*/));
+		}
 
-			flip(speed);
-
-			if (InputManager.Fire() && 
-				character.EquippedRangeWeapon() && character.RangeWeapon.FireRate(Time.deltaTime))
+		private void rangeAttack()
+		{
+			if (InputManager.Fire() &&
+			    character.EquippedRangeWeapon() && character.RangeWeapon.FireRate(Time.deltaTime))
 			{
 				IProjectile bullet = character.RangeWeapon.Fire();
 				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = bullet;
 			}
+		}
 
+		private void weakAttack()
+		{
 			if (InputManager.WeakAttack() && character.EquippedRangeWeapon())
 			{
 				character.MeleeWeapon.Attack();
 			}
+		}
 
-			if (InputManager.ActivateAbility() && character.EquippedAbility())
+		private void activateAbility()
+		{
+			if (character.EquippedAbility() && character.Ability.CoolDown() && 
+				InputManager.ActivateAbility())
 			{
 				character.Ability.Activate(character);
-//				Debug.Log("StatusEffect is: " + character.StatusEffect);
 			}
+		}
 
+		private void switchWeapon()
+		{
 			if (InputManager.SwitchWeapon() &&
 			    character.EquippedRangeWeapon())
 			{
 				character.SwitchWeapon();
 			}
-				
-
-			base.Update();
 		}
 
 		public void TakeDamage(int healthLost)

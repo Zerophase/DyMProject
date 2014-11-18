@@ -8,6 +8,7 @@ using Assets.Scripts.CameraControl;
 using Assets.Scripts.CameraControl.Interfaces;
 using Assets.Scripts.Character;
 using Assets.Scripts.Character.Interfaces;
+using Assets.Scripts.GameObjects;
 using Assets.Scripts.ObjectManipulation;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Projectiles;
@@ -50,7 +51,7 @@ namespace Assets.Scripts.DependencyInjection
 
 		private void abilityBindings()
 		{
-			_container.Bind<IAbility>().ToTransient<Ability>();
+			_container.Bind<IAbility>().ToTransient<SlowTime>();
 		}
 
 		private void rangeWeaponBindings()
@@ -72,7 +73,10 @@ namespace Assets.Scripts.DependencyInjection
 
 		private void characterBindings()
 		{
-			_container.Bind<ICharacter>().ToTransient<TestCharacter>();
+			_container.Bind<ICharacter>().ToTransient<PlayerCharacter>().
+				WhenInjectedInto<Player>();
+			_container.Bind<ICharacter>().ToTransient<EnemyCharacter>().
+				WhenInjectedInto<Slug>();
 		}
 
 		private void messengerBindings()
@@ -98,6 +102,9 @@ namespace Assets.Scripts.DependencyInjection
 			_container.Bind<ProjectileFactory>().ToSingle();
 			_container.Bind<PooledProjectileFactory>().ToSingle();
 			_container.Bind<WeaponPickUpFactory>().ToSingle();
+
+			_container.Bind<AbilityFactory>().ToSingle();
+			_container.Bind<AbilityPickUpFactory>().ToSingle();
 		}
 
 		private void dependencyFrameworkBindings()
