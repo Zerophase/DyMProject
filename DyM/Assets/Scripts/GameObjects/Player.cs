@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.CustomInputManager;
 using Assets.Scripts.DependencyInjection;
@@ -9,6 +10,7 @@ using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Utilities;
 using ModestTree.Zenject;
+using UnityEditorInternal;
 using UnityEngine;
 using System.Collections;
 
@@ -41,6 +43,8 @@ namespace Assets.Scripts.GameObjects
 
 		private Gun gun;
 
+		private List<AudioSource> audioSources = new List<AudioSource>();
+
 		protected override void Start()
 		{
 			planeShift = factory.Create(transform.position);
@@ -50,6 +54,12 @@ namespace Assets.Scripts.GameObjects
 			PooledBUlletGameObjects.Initialize();
 
 			animator = GetComponent<Animator>();
+
+			var aSources = GetComponents<AudioSource>();
+			for (int i = 0; i < aSources.Length; i++)
+			{
+				audioSources.Add(aSources[i]);
+			}
 
 			base.Start();
 		}
@@ -100,6 +110,8 @@ namespace Assets.Scripts.GameObjects
 			transform.Translate(planeShift.Dodge(transform.position, InputManager.CheckDodgeKeys(), Time.deltaTime));
 		}
 
+		private bool jumped;
+		private float previousYPosition;
 		private void move()
 		{
 			speed = InputManager.MovementHorizontal();
@@ -114,8 +126,31 @@ namespace Assets.Scripts.GameObjects
 			animator.SetBool("Idle", idle);
 			animator.SetFloat("Speed", speed);
 
+			if (!audioSources[0].isPlaying && (speed > 0.1f || speed < -0.1f))
+				audioSources[0].Play();
+			if(!audioSources[1].isPlaying && InputManager.Jump())
+				audioSources[1].Play();
+
+			
+			if (!audioSources[2].isPlaying && InputManager.Jumping() && !Util.compareEachFloat(transform.position.y, previousYPosition))
+			{
+				audioSources[2].Play();
+				jumped = audioSources[2].isPlaying;
+			}
+			else if (audioSources[2].isPlaying && Util.compareEachFloat(transform.position.y, previousYPosition))
+			{
+				audioSources[2].Stop();
+				if (!audioSources[3].isPlaying && jumped && Util.compareEachFloat(transform.position.y, previousYPosition))
+				{
+					jumped = false;
+					audioSources[3].Play();
+				}
+			}
+
+			previousYPosition = transform.position.y;
+
 			transform.Translate(cardinalMovement.CalculateTotalMovement(speed,
-				acceleration, InputManager.Jump(), 0f /*stand in for total distance jumped*/));
+				acceleration, InputManager.Jumping(), 0f /*stand in for total distance jumped*/));
 		}
 
 		private void rangeAttack()
