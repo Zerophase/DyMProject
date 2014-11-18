@@ -10,11 +10,8 @@ using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Utilities;
 using ModestTree.Zenject;
-using UnityEditorInternal;
 using UnityEngine;
 using System.Collections;
-
-//TODO add dependencyInjection
 
 namespace Assets.Scripts.GameObjects
 {
