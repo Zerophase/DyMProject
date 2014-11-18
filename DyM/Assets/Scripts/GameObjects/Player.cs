@@ -66,7 +66,7 @@ namespace Assets.Scripts.GameObjects
 
 		protected override void Update()
 		{
-			death();
+			endScreen();
 			
 			switchPlane();
 
@@ -86,12 +86,17 @@ namespace Assets.Scripts.GameObjects
 			base.Update();
 		}
 
-		private void death()
+		private void endScreen()
 		{
 			if (transform.position.y < -40)
 			{
-				Application.LoadLevel("main_menu");
+				Application.LoadLevel("GameOver");
 			}
+
+		    if (transform.position.x > 27)
+		    {
+		        Application.LoadLevel("WinScreen");
+		    }
 		}
 
 		private void switchPlane()
