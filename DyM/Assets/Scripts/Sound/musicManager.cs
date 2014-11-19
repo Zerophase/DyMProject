@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class musicManager : MonoBehaviour {
+public class MusicManager : MonoBehaviour {
 
     private float musicVolume;
     public float currentVolume;

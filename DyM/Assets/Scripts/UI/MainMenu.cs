@@ -21,6 +21,7 @@ public class MainMenu : MonoBehaviour
 	public Texture2D controls;
 
     public GUISkin skin;
+	public GUISkin Label;
 
     private Menus GUIMenu = Menus.MAIN_MENU;
 
@@ -31,18 +32,19 @@ public class MainMenu : MonoBehaviour
     public GameObject soundManager;
 
 	bool[] mainMenuSelections = new bool[5] {false, false, false, false, false};
+	bool[] optionMenuSelections = new bool[3] {false, false, false};
 	private bool backButton;
 	private bool keyPressed;
 
 	string[] mainMenuTexts = new string[5] { "Start", "Options", "controls", "credits", "exit" };
-	string[] optionMenuTexts = new string[3] { "Back", "", ""};
+	string[] optionMenuTexts = new string[3] { "Back", "Music", "Sound"};
 	string[] miscTexts = new string[1] { "Back"};
 
 	private Dictionary<Menus, string[]> currentMenu = new Dictionary<Menus, string[]>(); 
 
 	private int selected = 0;
 
-	private List<AudioSource> audioSources = new List<AudioSource>(); 
+	private MenuSounds menuSounds;
 
     void Start()
     {
@@ -59,11 +61,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetFloat("SoundVolume", 1.00f);
         soundValue = PlayerPrefs.GetFloat("SoundVolume");
 
-	    var audioSource = GetComponents<AudioSource>();
-	    for (int i = 0; i < audioSource.Length; i++)
-	    {
-		    audioSources.Add(audioSource[i]);
-	    }
+		menuSounds = GameObject.Find("MainMenuSounds").GetComponent<MenuSounds>();
     }
 
 	private int previousSelected;
@@ -154,8 +152,8 @@ public class MainMenu : MonoBehaviour
 
 	private void selection()
 	{
-		if(!audioSources[2].isPlaying)
-			audioSources[2].Play();
+		if(!menuSounds.AudioSources[0].isPlaying)
+			menuSounds.AudioSources[0].Play();
 	}
 
 	void startMultiFocusArea(bool[] menuSelection, string[] texts)
@@ -188,8 +186,8 @@ public class MainMenu : MonoBehaviour
 
 	private void navigationSound()
 	{
-		if(!audioSources[1].isPlaying)
-			audioSources[1].Play();
+		if(!menuSounds.AudioSources[2].isPlaying)
+			menuSounds.AudioSources[2].Play();
 	}
 
 	private void SetMenuSelectionTrue(ref bool selection)
@@ -264,12 +262,17 @@ public class MainMenu : MonoBehaviour
     {
         GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
 
-		startMultiFocusArea(optionMenuTexts);
-		SetMenuSelectionTrue(ref backButton);
+		startMultiFocusArea(optionMenuSelections, optionMenuTexts, Label);
+		SetMenuSelectionTrue(optionMenuSelections);
 
-		if(selected == 2)
+		if(optionMenuSelections[0])
+		{
+			goBackSound();
+			returnToMainMenu();
+		}
+		if(selected == 1)
 			musicValue = AdjustSlider(musicValue);
-		else if (selected == 1)
+		else if (selected == 2)
 			soundValue = AdjustSlider(soundValue);
 
 		exitCurrentMenu();
@@ -277,15 +280,28 @@ public class MainMenu : MonoBehaviour
         musicValue = GUI.HorizontalSlider(new Rect(210, 235, 200, 20), musicValue, 0.0F, 1.00F);
         PlayerPrefs.SetFloat("MusicVolume", musicValue);
 
-        GUI.Label(new Rect(185, 210, 254, 47), "Music");
+	
+        //GUI.Label(new Rect(185, 210, 254, 47), "Music", skin.button);
 
-        soundValue = GUI.HorizontalSlider(new Rect(210, 300, 200, 20), soundValue, 0.0F, 1.00F);
+		soundValue = GUI.HorizontalSlider(new Rect(210, 300, 200, 20), soundValue, 0.0F, 1.00F);
         PlayerPrefs.SetFloat("SoundVolume", soundValue);
 
-        GUI.Label(new Rect(185, 275, 254, 47), "Sound");
+        //GUI.Label(new Rect(185, 275, 254, 47), "Sound");
 
 		endMultiFocusArea(optionMenuTexts);
     }
+
+	void startMultiFocusArea(bool[] menuSelection, string[] texts, GUISkin skin)
+	{
+		for (int i = 0; i < texts.Length; i++)
+		{
+			GUI.SetNextControlName(texts[i]);
+			if(i > 0)
+				menuSelection[i] = GUI.Button(new Rect(235, 150 + (60 * i), 150, 50), texts[i], skin.label);
+			else
+				menuSelection[i] = GUI.Button(new Rect(225, 450, 150, 50), texts[i]);
+		}
+	}
 
 	private void exitCurrentMenu()
 	{
@@ -300,8 +316,8 @@ public class MainMenu : MonoBehaviour
 
 	private void goBackSound()
 	{
-		if(!audioSources[0].isPlaying)
-			audioSources[0].Play();
+		if(!menuSounds.AudioSources[1].isPlaying)
+			menuSounds.AudioSources[1].Play();
 	}
 
 	void startMultiFocusArea(string[] texts)
