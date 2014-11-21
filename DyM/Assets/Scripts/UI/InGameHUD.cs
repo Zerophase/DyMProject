@@ -35,8 +35,8 @@ public class InGameHUD : MonoBehaviour {
 		
 	}
 
-	void handMessage(ITelegram telegram)
-	{
-
-	}
+//	void handMessage(ITelegram telegram)
+//	{
+//
+//	}
 }

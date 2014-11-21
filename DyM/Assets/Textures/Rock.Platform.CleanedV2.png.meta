@@ -52,8 +52,8 @@ TextureImporter:
     - name: Rock.Platform.CleanedV2_0
       rect:
         serializedVersion: 2
-        x: 220
-        y: 1252
+        x: 165
+        y: 1235
         width: 371
         height: 157
       alignment: 0
@@ -62,8 +62,8 @@ TextureImporter:
     - name: Rock.Platform.CleanedV2_1
       rect:
         serializedVersion: 2
-        x: 203
-        y: 998
+        x: 157
+        y: 990
         width: 532
         height: 150
       alignment: 0
@@ -72,7 +72,7 @@ TextureImporter:
     - name: Rock.Platform.CleanedV2_2
       rect:
         serializedVersion: 2
-        x: 183
+        x: 107
         y: 700
         width: 643
         height: 184
@@ -82,8 +82,8 @@ TextureImporter:
     - name: Rock.Platform.CleanedV2_3
       rect:
         serializedVersion: 2
-        x: 1090
-        y: 1215
+        x: 1031
+        y: 1211
         width: 358
         height: 171
       alignment: 0
@@ -92,8 +92,8 @@ TextureImporter:
     - name: Rock.Platform.CleanedV2_4
       rect:
         serializedVersion: 2
-        x: 966
-        y: 931
+        x: 929
+        y: 927
         width: 566
         height: 174
       alignment: 0
@@ -102,8 +102,8 @@ TextureImporter:
     - name: Rock.Platform.CleanedV2_5
       rect:
         serializedVersion: 2
-        x: 919
-        y: 727
+        x: 839
+        y: 718
         width: 666
         height: 184
       alignment: 0
