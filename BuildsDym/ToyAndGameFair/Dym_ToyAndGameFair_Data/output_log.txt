@@ -2,35 +2,35 @@ Initialize engine version: 4.5.3f3 (fca41a4fabea)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
-    Renderer: NVIDIA Quadro K2000 (ID=0xffe)
+    Renderer: NVIDIA GeForce GTX 660 Ti (ID=0x1183)
     Vendor:   NVIDIA
-    VRAM:     1974 MB
+    VRAM:     1989 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\alex.lueck\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\alex.lueck\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\alex.lueck\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\alex.lueck\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-- Completed reload, in  0.042 seconds
-desktop: 1920x1200 59Hz; virtual: 3840x1200 at 0,0
+Platform assembly: C:\Users\Zerophase\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Zerophase\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Zerophase\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Zerophase\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+- Completed reload, in  0.078 seconds
+desktop: 1920x1080 60Hz; virtual: 5760x1080 at -1920,0
 <RI> Initializing input.
 <RI> Input initialized.
-Platform assembly: C:\Users\alex.lueck\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\alex.lueck\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\System.dll (this message is harmless)
-UnloadTime: 6.534324 ms
+Platform assembly: C:\Users\Zerophase\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Zerophase\Desktop\DyMProject\BuildsDym\ToyAndGameFair\Dym_ToyAndGameFair_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 0.513029 ms
 Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2256.
-Total: 2.072324 ms (FindLiveObjects: 0.067860 ms CreateObjectMapping: 0.015111 ms MarkObjects: 0.274009 ms  DeleteObjects: 1.237464 ms)
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2262.
+Total: 4.205612 ms (FindLiveObjects: 0.121345 ms CreateObjectMapping: 0.024576 ms MarkObjects: 0.408580 ms  DeleteObjects: 2.669596 ms)
 
-UnloadTime: 4.093896 ms
+UnloadTime: 3.672615 ms
 Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 105 unused Assets to reduce memory usage. Loaded Objects now: 287.
-Total: 12.166497 ms (FindLiveObjects: 0.025946 ms CreateObjectMapping: 0.030794 ms MarkObjects: 0.941784 ms  DeleteObjects: 9.848960 ms)
+Unloading 119 unused Assets to reduce memory usage. Loaded Objects now: 290.
+Total: 10.010219 ms (FindLiveObjects: 0.013824 ms CreateObjectMapping: 0.024960 ms MarkObjects: 0.451588 ms  DeleteObjects: 8.484954 ms)
 
-UnloadTime: 0.329040 ms
+UnloadTime: 0.360195 ms
 Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 314.
-Total: 1.437910 ms (FindLiveObjects: 0.016822 ms CreateObjectMapping: 0.015111 ms MarkObjects: 0.636695 ms  DeleteObjects: 0.011405 ms)
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 322.
+Total: 1.292557 ms (FindLiveObjects: 0.013824 ms CreateObjectMapping: 0.017664 ms MarkObjects: 0.521093 ms  DeleteObjects: 0.010368 ms)
 

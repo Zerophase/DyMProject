@@ -31,6 +31,7 @@ namespace Assets.Scripts.Character.Interfaces
 		void SwitchWeapon();
 		void AddWeapon(RangeWeaponBase weapon);
 		void TakeDamage(int healthLost);
+		void SendOutStats();
 		void RemoveStatusEffect();
 	}
 }

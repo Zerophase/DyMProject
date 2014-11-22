@@ -59,7 +59,6 @@ namespace Assets.Scripts.MediatorPattern
 			box3D.xVelocity = velocity.x;
 			box3D.yVelocity = velocity.y;
 			box3D.zVelocity = velocity.z;
-			
 		}
 	}
 }

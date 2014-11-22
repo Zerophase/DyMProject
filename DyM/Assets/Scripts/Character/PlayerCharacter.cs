@@ -52,10 +52,13 @@ namespace Assets.Scripts.Character
 			set { receiver = value; }
 		}
 
-		private int health = 20;
+		private int health = 300;
 		public int Health { get { return health; } }
 
 		public Vector3 Position { get; set; }
+
+		[Inject]
+		private IMessageDispatcher messageDispatcher;
 
 		public PlayerCharacter()
 		{
@@ -135,6 +138,12 @@ namespace Assets.Scripts.Character
 		public void TakeDamage(int healthLost)
 		{
 			health -= healthLost;
+			SendOutStats();
+		}
+
+		public void SendOutStats()
+		{
+			messageDispatcher.DispatchMessage(new Telegram(InGameHUD.Instance, health));
 		}
 
 		public void RemoveStatusEffect()

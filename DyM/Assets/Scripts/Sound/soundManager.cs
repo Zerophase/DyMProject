@@ -16,11 +16,10 @@ public class SoundManager : MonoBehaviour {
 	void Update () 
 	{
 		soundVolume = PlayerPrefs.GetFloat("SoundVolume");
-		currentVolume = (soundVolume * 0.1f);
 
 		for (int i = 0; i < menuSounds.AudioSources.Count; i++) 
 		{
-			menuSounds.AudioSources[i].volume = currentVolume;
+			menuSounds.AudioSources[i].volume = soundVolume;
 		}
 
 	}

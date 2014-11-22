@@ -43,21 +43,5 @@ namespace Assets.Scripts.Utilities.Messaging
 		{
 			messageDispatcher.SendMessage += HandleMessage;
 		}
-
-		//public override bool Equals(object obj)
-		//{
-		//	var other = obj as IOwner;
-		//	if (other != owner)
-		//		return false;
-		//	else if (other == null)
-		//		return false;
-
-		//	return Equals(obj);
-		//}
-
-		//public bool Equals(IOwner other)
-		//{
-			
-		//}
 	}
 }

@@ -150,5 +150,11 @@ namespace Assets.Scripts.Character
 
 			return false;
 		}
+
+
+		public void SendOutStats()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

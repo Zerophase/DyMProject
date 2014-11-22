@@ -58,6 +58,8 @@ namespace Assets.Scripts.GameObjects
 				audioSources.Add(aSources[i]);
 			}
 
+			character.SendOutStats();
+
 			base.Start();
 		}
 
@@ -79,7 +81,6 @@ namespace Assets.Scripts.GameObjects
 
 			switchWeapon();
 				
-
 			base.Update();
 		}
 

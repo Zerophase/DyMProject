@@ -106,7 +106,6 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			for(int i = 0; i < weaponPickUpGameObjects.Count; i++)
 			{
-				 
 				if (weaponPickUpGameObjects[i].CheckBounds(player))
 				{
 					weaponPickUpGameObjects[i].PickUp(player.gameObject);

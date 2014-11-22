@@ -22,7 +22,6 @@ namespace Assets.Scripts.GameObjects
 			base.Start();
 		}
 
-		// Use this for initialization
 		public void PickUp(GameObject player)
 		{
 			weaponPickUp.PickUp(player.GetComponent<Player>().character);
