@@ -69,7 +69,7 @@ public class Slug : MovablePhysicsMediator
 		}
 		
 		// so the slug falls.
-		transform.Translate(cardinalMovement.Jump(false, -1f));
+		transform.Translate(cardinalMovement.Jump(false, Vector3.zero));
 
 		flip(speed);
 	}

@@ -23,12 +23,14 @@ namespace Assets.Scripts.MediatorPattern
 
 		private bool assignGravity;
 
-		private Vector3 gravity = new Vector3(0f, -1f, 0f);
+		private Vector3 gravity = new Vector3(0f, -7f, 0f);
 
 		private PhysicsMediator player;
 
 		void Update()
 		{
+			if(Input.GetKey(KeyCode.Escape))
+				Application.Quit();
 			if(player == null)
 			{
 				Application.LoadLevel("GameOver");
