@@ -153,7 +153,7 @@ namespace Assets.Scripts.GameObjects
 			previousYPosition = transform.position.y;
 
 			transform.Translate(cardinalMovement.CalculateTotalMovement(speed,
-				acceleration, InputManager.Jumping(), transform.position));
+				acceleration, InputManager.Jumping(), transform.localPosition));
 		}
 
 		private void rangeAttack()
