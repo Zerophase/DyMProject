@@ -16,16 +16,19 @@ public class Gun : MonoBehaviour
 	[HideInInspector]
 	public bool Rotated;
 
+    public Vector3 Direction;
+    public Vector3 PreviousDirection;
+
 	private readonly Vector3EqualityComparerWithTolerance equalityComparer =
 		new Vector3EqualityComparerWithTolerance();
 
 	public void Rotate()
 	{
-		Vector3 direction = new Vector3(InputManager.CameraHorizontalMovement(), InputManager.CameraVerticalMovement());
+		Direction = new Vector3(InputManager.CameraHorizontalMovement(), InputManager.CameraVerticalMovement());
 
-		float rotate = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
+		float rotate = Mathf.Atan2(-Direction.y, -Direction.x) * Mathf.Rad2Deg;
 
-		if(!equalityComparer.Equals(direction, Vector3.zero))
+		if(!equalityComparer.Equals(Direction, Vector3.zero))
 			transform.rotation = Quaternion.Euler(0f, 0f, -rotate);
 	}
 }

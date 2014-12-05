@@ -15,11 +15,12 @@ namespace Assets.Scripts.PathFinding.Heuristics
 				sparseGraph.GetNode(index2).Position);
 		}
 
+        //TODO  Make seperate Distance squareds for each axis and a total one 
 		public static float vec3DDistanceSquared(Vector3 v1, Vector3 v2)
 		{
-			float ySeperation = v2.y - v1.y;
+			float ySeperation = 0f;
 			float xSeperation = v2.x - v1.x;
-			float zSeperation = v2.z - v1.z;
+			float zSeperation = 0f;
 
 			return ySeperation*ySeperation + xSeperation*xSeperation +
 			       zSeperation*zSeperation;
