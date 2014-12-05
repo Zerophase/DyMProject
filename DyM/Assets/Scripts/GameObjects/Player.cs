@@ -71,7 +71,10 @@ namespace Assets.Scripts.GameObjects
 
 			move();
 
-			flip(speed);
+            if (Vector3.Dot(gun.Direction, Vector3.left) > 0f)
+                flip(-1f);
+            else if (Vector3.Dot(gun.Direction, Vector3.left) < 0f)
+                flip(1f);
 
 			rangeAttack();
 
@@ -127,7 +130,7 @@ namespace Assets.Scripts.GameObjects
 				idle = false;
 
 			animator.SetBool("Idle", idle);
-			animator.SetFloat("Speed", speed);
+            animator.SetFloat("Speed", speed);
 
 			if (!audioSources[0].isPlaying && (speed > 0.1f || speed < -0.1f))
 				audioSources[0].Play();
