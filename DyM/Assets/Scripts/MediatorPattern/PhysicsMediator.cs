@@ -5,6 +5,7 @@ using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
+using Assets.Scripts.GameObjects;
 
 namespace Assets.Scripts.MediatorPattern
 {
@@ -19,11 +20,17 @@ namespace Assets.Scripts.MediatorPattern
 
 		private Vector3 previousPosition;
 
+        protected virtual void Awake()
+        {
+            if (physicsDirector == null)
+                physicsDirector = FindObjectOfType<PhysicsDirector>();
+        }
+
 		protected virtual void Start()
 		{
 			constructBox3D();
 			previousPosition = transform.position;
-			messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
+            messageDispatcher.DispatchMessage(new Telegram(physicsDirector, this));
 		}
 
 		private void constructBox3D()
@@ -41,12 +48,6 @@ namespace Assets.Scripts.MediatorPattern
 				aCollider.size.x * transform.lossyScale.x, 
 				-aCollider.size.y * transform.lossyScale.y, 
 				-aCollider.size.z * transform.lossyScale.z, aCollider);
-		}
-
-		protected virtual void Awake()
-		{
-			if (physicsDirector == null)
-				physicsDirector = FindObjectOfType<PhysicsDirector>();
 		}
 
 		private float Timer;

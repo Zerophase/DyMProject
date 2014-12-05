@@ -122,26 +122,26 @@ namespace Assets.Scripts.MediatorPattern
 			{
 				foreach (var physicsMed in physicsMediators)
 				{
-					foreach (var ground in grounds)
-					{
-						if (physicsMed.CheckBounds(ground))
-						{
-							//if (Util.compareEachFloat(physicsMed.GetBox3D.yVelocity, 0f))
-							{
-								physicsMed.Gravity = Vector3.zero;
-								physicsMed.HasJumped = false;
-							}
-							// if gameobject is colliding with a ground stop checking for other grounds.
-							break;
-						}
-						else if (!physicsMed.CheckBounds(ground))
-						{
-							physicsMed.Gravity = gravity;
-							physicsMed.HasJumped = true;
-						}
-					}
+                        foreach (var ground in grounds)
+                        {
+                            if (physicsMed.CheckBounds(ground))
+                            {
+                                //if (Util.compareEachFloat(physicsMed.GetBox3D.yVelocity, 0f))
+                                {
+                                    physicsMed.Gravity = Vector3.zero;
+                                    physicsMed.HasJumped = false;
+                                }
+                                // if gameobject is colliding with a ground stop checking for other grounds.
+                                break;
+                            }
+                            else if (!physicsMed.CheckBounds(ground))
+                            {
+                                physicsMed.Gravity = gravity;
+                                physicsMed.HasJumped = true;
+                            }
+                        }
+                    }
 				}
-			}
 		}
 
 		private void gravityAssignment()
