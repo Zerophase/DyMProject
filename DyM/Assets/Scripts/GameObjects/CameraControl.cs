@@ -4,6 +4,7 @@ using Assets.Scripts.Utilities.CustomEditor;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
+using Assets.Scripts.GameObjects;
 
 namespace Assets.Scripts.GameObjects
 {
@@ -11,14 +12,11 @@ namespace Assets.Scripts.GameObjects
 	{
 		[Inject]
 		private ICameraLogic camera;
-        public float cameraSpeed = 0f;
 
         private Vector3 cameraCurrentPosition;
-		private Vector3 displaceMentVector;
 
-		private const float cameraMidOffset = 2f;
-
-        public Transform player;
+        public GameObject player;
+		public float cameraSpeed = 0f;
         public int XBoundary = 5;
         public int YBoundary = 3;
 
@@ -45,15 +43,15 @@ namespace Assets.Scripts.GameObjects
 
 		private void Update()
 		{
-			//Debug.Log("Right Stick Magnitude: " + new Vector2(Input.GetAxis("CameraHorizontalMovement"),
-			//		Input.GetAxis("CameraVerticalMovement")).magnitude);
-
-            //As long as the player is within the box set in the check function,
-            //the camera should remain still.
-            //HOWEVER, since the camera is attached to the parent character game object,
-            //Unity moves the camera regardless.
-			checkCenterBoundary();
-         	FollowPlayer();     
+		
+		if(checkDistance())
+		{
+			moveCamera();
+		}
+		
+		//Old camera style 12/5/14
+//			checkCenterBoundary();
+//         	FollowPlayer();     
 
             //Debug.Log("Boundary Check: " + checkCenterBoundary());
             //Debug.Log("Character Position: " + new Vector3(transform.parent.position.x, transform.parent.position.y));
@@ -64,35 +62,63 @@ namespace Assets.Scripts.GameObjects
 
 
 		}
-
-        private bool checkCenterBoundary()
-        {
-            float displacementX, displacementY;
-
-	        if (player != null)
-	        {
-				//Sets the current player position
-				cameraCurrentPosition = new Vector3(transform.position.x, transform.position.y, camera.OriginPosition.z);
-
-				//Finds the distance between the camera and player on both axes.
-				displacementX = cameraCurrentPosition.x - player.position.x;
-				displacementY = cameraCurrentPosition.y - (player.position.y + cameraMidOffset);
-				displaceMentVector = new Vector3(displacementX, displacementY, camera.OriginPosition.z);
-
-				return (Mathf.Abs(displacementX) > XBoundary || Mathf.Abs(displacementY) > YBoundary);
-	        }
-	        return false;
-        }
-
-        private void FollowPlayer()
-        {
-			Vector3 temp = cameraCurrentPosition - displaceMentVector;
-			temp.z = cameraCurrentPosition.z;
-
-	        Camera.main.transform.position = Vector3.Lerp(cameraCurrentPosition, temp,
-		        Time.deltaTime*2.5f);
-				//new Vector3(player.position.x, player.position.y, camera.OriginPosition.z);
-        }
+		private bool checkDistance()
+		{
+			float displacementX, displacementY;
+			if(player != null)
+			{
+				displacementX = transform.position.x - player.transform.position.x;
+				displacementY = transform.position.y - player.transform.position.y;
+				if(displacementX > 30f)
+				{
+					return false;
+				}
+				if(displacementX < -30f)
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
+		}
+		
+		private void moveCamera()
+		{
+			Vector3 playerVelocity = player.GetComponent<Player>().velocity;
+			float tempX = transform.position.x + playerVelocity.x*0.8f*Time.deltaTime*2.5f;
+			float tempY = transform.position.y + playerVelocity.y*0.145f*Time.deltaTime*2.5f;
+			Vector3 newPosition = new Vector3(tempX,tempY,camera.OriginPosition.z);
+			Camera.main.transform.position = newPosition;
+		}
+	//Old Camera Style 12/5/14
+//        private bool checkCenterBoundary()
+//        {
+//            float displacementX, displacementY;
+//
+//	        if (player != null)
+//	        {
+//				//Sets the current player position
+//				transform.position = new Vector3(transform.position.x, transform.position.y, camera.OriginPosition.z);
+//
+//				//Finds the distance between the camera and player on both axes.
+//				displacementX = cameraCurrentPosition.x - player.position.x;
+//				displacementY = cameraCurrentPosition.y - (player.position.y + cameraMidOffset);
+//				displaceMentVector = new Vector3(displacementX, displacementY, camera.OriginPosition.z);
+//
+//				return (Mathf.Abs(displacementX) > XBoundary || Mathf.Abs(displacementY) > YBoundary);
+//	        }
+//	        return false;
+//        }
+//
+//        private void FollowPlayer()
+//        {
+//			Vector3 temp = cameraCurrentPosition - displaceMentVector;
+//			temp.z = cameraCurrentPosition.z;
+//
+//	        Camera.main.transform.position = Vector3.Lerp(cameraCurrentPosition, temp,
+//		        Time.deltaTime*2.5f);
+//				//new Vector3(player.position.x, player.position.y, camera.OriginPosition.z);
+//        }
 
 	}
 }

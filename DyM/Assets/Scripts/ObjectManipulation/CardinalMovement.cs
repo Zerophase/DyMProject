@@ -74,12 +74,10 @@ namespace Assets.Scripts.ObjectManipulation
 		public Vector3 Move(float direction, Vector3 acceleration, float deltaTime)
 		{
 		    velocity = PhysicsFuncts.calculateVelocity(acceleration, deltaTime) * direction;
-            //Mapped a sprint button for testing, that kind of works.
-            //Worth looking into if we decide to add sprint, very easy.
-            //if (Input.GetAxis("Sprint") > .5)
-            //{
-            //    velocity+= PhysicsFuncts.calculateVelocity(new Vector3(5,0,0), deltaTime) * direction;
-            //}
+            if (Input.GetButton("Sprint"))
+            {
+                velocity+= PhysicsFuncts.calculateVelocity(new Vector3(20,0,0), deltaTime) * direction;
+            }
 			return velocity;
 		}
 

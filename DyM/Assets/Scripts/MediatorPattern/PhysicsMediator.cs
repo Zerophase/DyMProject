@@ -16,7 +16,9 @@ namespace Assets.Scripts.MediatorPattern
 
 		private Box3D box3D;
 		public Box3D GetBox3D { get { return box3D; } }
-
+		
+		public Vector3 velocity = Vector3.zero;
+		
 		private Vector3 previousPosition;
 
 		protected virtual void Start()
@@ -52,7 +54,7 @@ namespace Assets.Scripts.MediatorPattern
 		private float Timer;
 		protected virtual void Update()
 		{
-			var velocity = (transform.position - previousPosition)/Time.deltaTime;
+			velocity = (transform.position - previousPosition)/Time.deltaTime;
 			
 			previousPosition = transform.position;
 			box3D.UpdateBox3D(gameObject);
