@@ -19,6 +19,8 @@ namespace Assets.Scripts.Character
 {
 	public class PlayerCharacter : ICharacter
 	{
+        private IEntityManager entityManager;
+
 		private List<RangeWeaponBase> rangeWeapons = new List<RangeWeaponBase>();
 
 		[Inject]
@@ -52,6 +54,8 @@ namespace Assets.Scripts.Character
 			set { receiver = value; }
 		}
 
+        private IIds id;
+
 		private int health = 300;
 		public int Health { get { return health; } }
 
@@ -66,10 +70,16 @@ namespace Assets.Scripts.Character
 		}
 
 		[Inject]
-		public PlayerCharacter(IReceiver receiver)
+		public PlayerCharacter(IReceiver receiver, IIds id, IEntityManager entityManager)
 		{
-			this.receiver = receiver;
+            this.id = id;
+            this.entityManager = entityManager;
+            this.receiver = receiver;
 			this.receiver.Owner = this;
+
+
+            id.CreateId();
+            entityManager.Add(Entities.CHARACTER, id.ObjectId, this);
 			receiver.SubScribe();
 		}
 
@@ -143,7 +153,7 @@ namespace Assets.Scripts.Character
 
 		public void SendOutStats()
 		{
-			messageDispatcher.DispatchMessage(new Telegram(InGameHUD.Instance, health));
+			messageDispatcher.DispatchMessage(new Telegram(entityManager.GetEntityFromID(Entities.HUD, 1), health));
 		}
 
 		public void RemoveStatusEffect()

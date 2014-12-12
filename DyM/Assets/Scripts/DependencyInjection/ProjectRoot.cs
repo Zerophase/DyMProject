@@ -81,6 +81,8 @@ namespace Assets.Scripts.DependencyInjection
 
 		private void messengerBindings()
 		{
+            _container.Bind<IIds>().ToTransient<Ids>();
+            _container.Bind<IEntityManager>().ToSingle<EntityManager>();
 			_container.Bind<IMessageDispatcher>().ToSingle<MessageDispatcher>();
 			_container.Bind<IReceiver>().ToTransient<Receiver>();
 		}
