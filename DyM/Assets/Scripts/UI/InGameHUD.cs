@@ -2,11 +2,12 @@
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Utilities.Messaging;
 
 public class InGameHUD : MonoBehaviour, IOwner
 {
-	[HideInInspector] 
-	public static InGameHUD Instance;
+    [Inject]
+    private IEntityManager entityManager;
 
 	public Texture2D EmptyHealthBar;
 	public Texture2D FullHealthBar;
@@ -28,11 +29,16 @@ public class InGameHUD : MonoBehaviour, IOwner
 		set { receiver = value; }
 	}
 
+    [Inject]
+    private IIds id;
+
 	void Start ()
 	{
-		Instance = this;
 		receiver.Owner = this;
 		receiver.SubScribe();
+        id.CreateId();
+
+        entityManager.Add(Entities.HUD, id.ObjectId, this);
 
 		backgroundHealthBar = new Rect(0f, 0f, 300f, size.y);
 		interfaceArea = new Rect(50f, Screen.height / 2 - 200, size.x, size.y);
