@@ -49,6 +49,14 @@ namespace Assets.Scripts.Utilities
 			}
 		}
 		
+		public static float checkDirection(this Vector3 position)
+		{
+			if (Vector3.Dot(position, Vector3.left) > 0f)
+				return -1f;
+			else if (Vector3.Dot(position, Vector3.left) < 0f)
+				return 1f;
+			else return 0f;
+		}
 		public static bool CheckBounds(this PhysicsMediator physicsMediatorOne, PhysicsMediator physicsMediatorTwo)
 		{
 			return AABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);

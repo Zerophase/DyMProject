@@ -5,6 +5,7 @@ using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
 using Assets.Scripts.GameObjects;
+using Assets.Scripts.Utilities;
 
 namespace Assets.Scripts.GameObjects
 {
@@ -43,11 +44,8 @@ namespace Assets.Scripts.GameObjects
 
 		private void Update()
 		{
+			moveCamera(checkDistance());
 		
-		if(checkDistance())
-		{
-			moveCamera();
-		}
 		
 		//Old camera style 12/5/14
 //			checkCenterBoundary();
@@ -62,18 +60,20 @@ namespace Assets.Scripts.GameObjects
 
 
 		}
+		
 		private bool checkDistance()
 		{
+			Vector3 playerVelocity = player.GetComponent<Player>().velocity;
 			float displacementX, displacementY;
 			if(player != null)
 			{
 				displacementX = transform.position.x - player.transform.position.x;
 				displacementY = transform.position.y - player.transform.position.y;
-				if(displacementX > 30f)
+				if(displacementX > 25f && playerVelocity.checkDirection() == 1)
 				{
 					return false;
 				}
-				if(displacementX < -30f)
+				if(displacementX < -30f && playerVelocity.checkDirection() == -1)
 				{
 					return false;
 				}
@@ -82,11 +82,20 @@ namespace Assets.Scripts.GameObjects
 			return false;
 		}
 		
-		private void moveCamera()
+		private void moveCamera(bool cameraAtBoundary)
 		{
 			Vector3 playerVelocity = player.GetComponent<Player>().velocity;
-			float tempX = transform.position.x + playerVelocity.x*0.8f*Time.deltaTime*2.5f;
-			float tempY = transform.position.y + playerVelocity.y*0.145f*Time.deltaTime*2.5f;
+			float tempX, tempY;
+			if(cameraAtBoundary == false)
+			{
+				tempX = transform.position.x + playerVelocity.x*.75f*Time.deltaTime;
+				tempY = transform.position.y + playerVelocity.y*0.145f*Time.deltaTime;
+			}
+			else
+			{
+				tempX = transform.position.x + playerVelocity.x;
+				tempY = transform.position.y + playerVelocity.y;
+			}
 			Vector3 newPosition = new Vector3(tempX,tempY,camera.OriginPosition.z);
 			Camera.main.transform.position = newPosition;
 		}
