@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 467f59d3edf7c474fa2394c6f209bb5d
+guid: 590a3f88cff685342839fb9934ce384f
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Ruins_WALLS-CLEANED_0
-    21300002: Ruins_WALLS-CLEANED_1
-    21300004: Ruins_WALLS-CLEANED_2
-    21300006: Ruins_WALLS-CLEANED_3
+    21300000: Rock-Platforms-EXTENDED_0
+    21300002: Rock-Platforms-EXTENDED_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -47,43 +45,23 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Ruins_WALLS-CLEANED_0
+    - name: Rock-Platforms-EXTENDED_0
       rect:
         serializedVersion: 2
-        x: 976
-        y: 623
-        width: 864
-        height: 441
+        x: 424
+        y: 1081
+        width: 579
+        height: 204
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Ruins_WALLS-CLEANED_1
+    - name: Rock-Platforms-EXTENDED_1
       rect:
         serializedVersion: 2
-        x: 1398
-        y: 139
-        width: 510
-        height: 429
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Ruins_WALLS-CLEANED_2
-      rect:
-        serializedVersion: 2
-        x: 786
-        y: 88
-        width: 477
-        height: 490
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Ruins_WALLS-CLEANED_3
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 97
-        width: 548
-        height: 477
+        x: 1284
+        y: 891
+        width: 405
+        height: 210
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
