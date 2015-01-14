@@ -1,0 +1,26 @@
+Initialize engine version: 4.5.5f1 (7684ad0c5a44)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 660   (ID=0x11c0)
+    Vendor:   NVIDIA
+    VRAM:     1989 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Alex\Desktop\DyMProject\BuildsDym\1-13-2015\Dym(UpdatedBuild)_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Alex\Desktop\DyMProject\BuildsDym\1-13-2015\Dym(UpdatedBuild)_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Alex\Desktop\DyMProject\BuildsDym\1-13-2015\Dym(UpdatedBuild)_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Alex\Desktop\DyMProject\BuildsDym\1-13-2015\Dym(UpdatedBuild)_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+- Completed reload, in  0.057 seconds
+desktop: 1920x1080 60Hz; virtual: 3600x1260 at 0,-180
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: C:\Users\Alex\Desktop\DyMProject\BuildsDym\1-13-2015\Dym(UpdatedBuild)_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Alex\Desktop\DyMProject\BuildsDym\1-13-2015\Dym(UpdatedBuild)_Data\Managed\System.dll (this message is harmless)
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1633)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1633)
+
