@@ -21,6 +21,9 @@ namespace Assets.Scripts.GameObjects
         public int XBoundary = 5;
         public int YBoundary = 3;
 
+        public Vector3 screenBounds;
+        public Vector3 screenCenter;
+        public Vector3 playerPosOnScreen;
 		[ExposeProperty]
 		public float Speed
 		{
@@ -44,7 +47,13 @@ namespace Assets.Scripts.GameObjects
 
 		private void Update()
 		{
-			moveCamera(checkDistance());
+            //TODO Organize and change logic to behave properly.
+            screenBounds = new Vector3(Screen.width, Screen.height, 0);
+            screenCenter = new Vector3(screenBounds.x / 2, screenBounds.y / 2, 0);
+            playerPosOnScreen = Camera.main.WorldToScreenPoint(player.transform.position);
+
+            moveCamera();
+            //moveCamera(checkDistance());
 		
 		
 		//Old camera style 12/5/14
@@ -60,45 +69,52 @@ namespace Assets.Scripts.GameObjects
 
 
 		}
+
+        private void moveCamera()
+        {
+            //TODO Look in CameraLogic and create elastic movement properties.
+            Vector3 playerVelocity = player.GetComponent<Player>().velocity;
+            Vector3 cameraSpeed = playerVelocity;
+        }
 		
-		private bool checkDistance()
-		{
-			Vector3 playerVelocity = player.GetComponent<Player>().velocity;
-			float displacementX, displacementY;
-			if(player != null)
-			{
-				displacementX = transform.position.x - player.transform.position.x;
-				displacementY = transform.position.y - player.transform.position.y;
-				if(displacementX > 25f && playerVelocity.checkDirection() == 1)
-				{
-					return false;
-				}
-				if(displacementX < -30f && playerVelocity.checkDirection() == -1)
-				{
-					return false;
-				}
-				return true;
-			}
-			return false;
-		}
+        //private bool checkDistance()
+        //{
+        //    Vector3 playerVelocity = player.GetComponent<Player>().velocity;
+        //    float displacementX, displacementY;
+        //    if(player != null)
+        //    {
+        //        displacementX = transform.position.x - player.transform.position.x;
+        //        displacementY = transform.position.y - player.transform.position.y;
+        //        if(displacementX > 25f && playerVelocity.checkDirection() == 1)
+        //        {
+        //            return false;
+        //        }
+        //        if(displacementX < -30f && playerVelocity.checkDirection() == -1)
+        //        {
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //    return false;
+        //}
 		
-		private void moveCamera(bool cameraAtBoundary)
-		{
-			Vector3 playerVelocity = player.GetComponent<Player>().velocity;
-			float tempX, tempY;
-			if(cameraAtBoundary == false)
-			{
-				tempX = transform.position.x + playerVelocity.x*.75f*Time.deltaTime;
-				tempY = transform.position.y + playerVelocity.y*0.145f*Time.deltaTime;
-			}
-			else
-			{
-				tempX = transform.position.x + playerVelocity.x;
-				tempY = transform.position.y + playerVelocity.y;
-			}
-			Vector3 newPosition = new Vector3(tempX,tempY,camera.OriginPosition.z);
-			Camera.main.transform.position = newPosition;
-		}
+        //private void moveCamera(bool cameraAtBoundary)
+        //{
+        //    Vector3 playerVelocity = player.GetComponent<Player>().velocity;
+        //    float tempX, tempY;
+        //    if(cameraAtBoundary == false)
+        //    {
+        //        tempX = transform.position.x + playerVelocity.x*.75f*Time.deltaTime;
+        //        tempY = transform.position.y + playerVelocity.y*0.145f*Time.deltaTime;
+        //    }
+        //    else
+        //    {
+        //        tempX = transform.position.x + playerVelocity.x;
+        //        tempY = transform.position.y + playerVelocity.y;
+        //    }
+        //    Vector3 newPosition = new Vector3(tempX,tempY,camera.OriginPosition.z);
+        //    Camera.main.transform.position = newPosition;
+        //}
 	//Old Camera Style 12/5/14
 //        private bool checkCenterBoundary()
 //        {
