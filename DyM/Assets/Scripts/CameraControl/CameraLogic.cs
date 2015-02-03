@@ -71,6 +71,7 @@ namespace Assets.Scripts.CameraControl
 
 		private bool checkForIdle(Vector3 position)
 		{
+            
             //Calculates difference in position from previous to current frame.
 		    float tempX = Mathf.Abs(position.x - previousPlayerPosition.x);
             float tempY = Mathf.Abs(position.y - previousPlayerPosition.y);
