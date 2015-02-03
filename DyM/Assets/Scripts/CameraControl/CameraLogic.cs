@@ -1,5 +1,7 @@
 ﻿using System;
 using Assets.Scripts.CameraControl.Interfaces;
+using Assets.Scripts.Character;
+using Assets.Scripts.GameObjects;
 using Assets.Scripts.Utilities;
 using ModestTree.Zenject;
 using UnityEngine;
@@ -17,22 +19,17 @@ namespace Assets.Scripts.CameraControl
 
 		private float totalTime = 0f;
 
-		private const float deadzone = 0.50f;
+		private const float deadzone = 0.30f;
 
 		private Vector3 originPosition;
 		private Vector3 cameraFuturePosition;
         
-		private Vector2 previousStickPosition = new Vector2(0f, 0f);
-
-        //private const float maxPositionX = 10f;
-        //private const float maxPositionYDown = -.5f;
-        //private const float maxPositionYUp = 2f;
-
-        //FANCY DESIGNER CIRCLE VARIABLES
-        private double maxRadius = 1;
-        private double radius = 0f;
+		private Vector3 previousPlayerPosition = new Vector3(0f,0f,0f);
         
 		private float debugTimer = 0f;
+
+        private Vector3 screenBounds = new Vector3(Screen.width, Screen.height, 0);
+	    private Vector3 screenCenter;
 
 		public Vector3 OriginPosition
 		{
@@ -42,83 +39,51 @@ namespace Assets.Scripts.CameraControl
 
 		public CameraLogic()
 		{
+            screenCenter = new Vector3(screenBounds.x / 2, screenBounds.y / 2, 0);  
 		}
 
-		public Vector3 Move(Vector2 position, Vector3 cameraPosition, float time)
+		public Vector3 Move(Vector3 playerPosition, Vector3 playerVelocity, Vector3 cameraPosition, float time)
 		{
-			if (checkForDeadZone(position))
+		    Debug.Log("Idle? " + checkForIdle(playerPosition));
+
+			if (checkForIdle(playerPosition))
 			{
-				return bounceCameraBack(cameraPosition, time);
+				return bounceCameraBack(cameraPosition, playerPosition, time);
 			}
 			else
 			{
-                //position = lockToAxis(position);
-                double posXSquared = position.x * position.x;
-                double posYSquared = position.y * position.y;
-                radius = Math.Sqrt(posXSquared + posYSquared);
-                if (Math.Abs(radius) < maxRadius)
-                {
-	                debugTimer += Time.deltaTime;
-	                if (debugTimer > 1f)
-	                {
-		                debugTimer = 0f;
-		                Debug.Log("Camera boundary radius: " + radius);
-	                }
-                    return move(position, cameraPosition, time);
-                }
-                return cameraPosition;
+			    return moveCamera(cameraPosition, playerVelocity, time);
 			}
 		}
 
-		private Vector3 move(Vector2 position, Vector3 cameraPosition, float time)
+	    private Vector3 moveCamera(Vector3 cameraPos, Vector3 playerVelocity, float time)
+	    {
+	        Vector3 newPosition = Vector3.zero;
+	        newPosition = cameraPos + playerVelocity*time;
+	        newPosition = newPosition*1.5f;
+	        return newPosition;
+	    }
+
+		private Vector3 bounceCameraBack(Vector3 cameraPosition, Vector3 playerPosition, float time)
 		{
-			calculateCameraFuturePosition(position, cameraPosition);
-
-			//cameraFuturePosition.x = cameraFuturePosition.x.Clamp(-maxPositionX, maxPositionX);
-			//cameraFuturePosition.y = cameraFuturePosition.y.Clamp(maxPositionYDown, maxPositionYUp);
-
-			return Vector3.Lerp(cameraPosition, cameraFuturePosition, speed * time);
-			
+            return playerPosition;
 		}
 
-		private void calculateCameraFuturePosition(Vector2 position, Vector3 cameraPosition)
+		private bool checkForIdle(Vector3 position)
 		{
-			if (!position.CompareVectors(previousStickPosition))
-			{
-				previousStickPosition = position;
-				cameraFuturePosition =
-					new Vector3(cameraPosition.x + position.x*speed,
-						cameraPosition.y - position.y*speed, cameraPosition.z);
-			}
-		}
+            //Calculates difference in position from previous to current frame.
+		    float tempX = Mathf.Abs(position.x - previousPlayerPosition.x);
+            float tempY = Mathf.Abs(position.y - previousPlayerPosition.y);
+            float tempZ = Mathf.Abs(position.z - previousPlayerPosition.z);
 
-        //private Vector2 lockToAxis(Vector2 position)
-        //{
-        //    double posXSquared = position.x * position.x;
-        //    double posYSquared = position.y * position.y;
-        //    radius = Math.Sqrt(posXSquared + posYSquared);
-        //    if(Math.Abs(radius) < 1)
-        //        { 
-        //            return position; 
-        //        }
-            
-        //}
-        //{
-        //    if (Math.Abs(position.x) < deadzone)
-        //        position.x = 0f;
-        //    else if (Math.Abs(position.y) < deadzone)
-        //        position.y = 0f;
-        //    return position;
-        //}
+            //If idle, all differences are 0. Leaving z out for the time being.
+		    bool isIdle = tempX == 0 && tempY == 0;
 
-		private Vector3 bounceCameraBack(Vector3 cameraPosition, float time)
-		{
-			return Vector3.Lerp(cameraPosition, originPosition, (speed / 2) * time);
-		}
+            //Sets the current frame to previous position.
+            previousPlayerPosition = new Vector3(position.x, position.y, position.z);
 
-		private bool checkForDeadZone(Vector2 position)
-		{
-			return position.magnitude < deadzone;
+            //Return result.
+		    return isIdle;
 		}
 
 
