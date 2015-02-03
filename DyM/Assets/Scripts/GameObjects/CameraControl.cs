@@ -51,7 +51,7 @@ namespace Assets.Scripts.GameObjects
             Vector3 playerPosOnScreen = Camera.main.WorldToScreenPoint(player.transform.position);
             Vector3 playerVelocity = player.GetComponent<Player>().velocity;
             Vector3 tempVector = Vector3.zero;
-            tempVector = camera.Move(player.transform.position, playerVelocity, transform.position,
+            tempVector = camera.Move(player.transform.localPosition, playerVelocity, transform.position,
                 Time.deltaTime);
             transform.localPosition = new Vector3(tempVector.x, tempVector.y, camera.OriginPosition.z);
             Debug.Log("Camera Pos: " + transform.localPosition);
