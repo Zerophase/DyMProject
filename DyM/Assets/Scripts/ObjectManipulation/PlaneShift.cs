@@ -11,9 +11,9 @@ namespace Assets.Scripts.ObjectManipulation
 
 	public enum PlanePosition
 	{
-		UP = -1,
+		UP = -10,
 		CENTER = 0,
-		DOWN = 1
+		DOWN = 10
 	}
 	
 	public class PlaneShift : IPlaneShift
@@ -23,18 +23,20 @@ namespace Assets.Scripts.ObjectManipulation
 
 		private const int arrayIndexNotFound = -1;
 
-		private Vector3 planeShiftUpVector = new Vector3(0f, 0f, -1f);
-		private Vector3 planeShiftDownVector = new Vector3(0f, 0f, 1f);
+		private Vector3 planeShiftUpVector = new Vector3(0f, 0f, -10f);
+		private Vector3 planeShiftDownVector = new Vector3(0f, 0f, 10f);
 		private Vector3 PlaneShiftedTo;
 
 		private PlanePosition planePosition;
 
 		private float[] shiftPlanePosition = new float[3]
 		{
-			-1f, // down
+			-10f, // down
 			0f, // center
-			1f // up
+			10f // up
 		};
+
+		private const float directionShifted = 10.0f;
 
 		public PlaneShift()
 		{
@@ -69,12 +71,12 @@ namespace Assets.Scripts.ObjectManipulation
 			setPlaneShiftedTo(currentPosition.z);
 
 			if (activatePlaneShift == KeyCode.Joystick1Button4 &&
-				maxShift(currentPosition.z, 1f))
+				maxShift(currentPosition.z, directionShifted))
 			{
 				return planeShiftDownVector;
 			}
 			else if (activatePlaneShift == KeyCode.Joystick1Button5 &&
-				maxShift(currentPosition.z, -1f))
+				maxShift(currentPosition.z, -directionShifted))
 			{
 				return planeShiftUpVector;
 			}
@@ -103,10 +105,10 @@ namespace Assets.Scripts.ObjectManipulation
 			switch (savedKeyPress)
 			{
 				case KeyCode.Joystick1Button4:
-					PlaneShiftedTo = new Vector3(0f, 0f, plane + 1f);
+					PlaneShiftedTo = new Vector3(0f, 0f, plane + directionShifted);
 					break;
 				case KeyCode.Joystick1Button5:
-					PlaneShiftedTo = new Vector3(0f, 0f, plane - 1f);
+					PlaneShiftedTo = new Vector3(0f, 0f, plane - directionShifted);
 					break;
 			}
 
