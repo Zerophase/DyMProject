@@ -24,6 +24,7 @@ namespace Assets.Scripts.GameObjects
         public Vector3 screenCenter;
         public Vector3 playerPosOnScreen;
 
+		private Vector3 cameraPositionUp;
         [ExposeProperty]
         public float Speed
         {
@@ -42,7 +43,8 @@ namespace Assets.Scripts.GameObjects
 
         private void Start()
         {
-            camera.OriginPosition = transform.position;
+			camera.OriginPosition = transform.localPosition;
+			cameraPositionUp = camera.OriginPosition - player.transform.localPosition;
             
         }
 
@@ -53,92 +55,9 @@ namespace Assets.Scripts.GameObjects
             Vector3 tempVector = Vector3.zero;
             tempVector = camera.Move(player.transform.localPosition, playerVelocity, transform.position,
                 Time.deltaTime);
-            transform.localPosition = new Vector3(tempVector.x, tempVector.y, camera.OriginPosition.z);
+            transform.localPosition = new Vector3(tempVector.x, tempVector.y + cameraPositionUp.y, camera.OriginPosition.z);
             Debug.Log("Camera Pos: " + transform.localPosition);
-            //moveCamera(checkDistance());
-
-
-            //Old camera style 12/5/14
-//			checkCenterBoundary();
-//         	FollowPlayer();     
-
-            //Debug.Log("Boundary Check: " + checkCenterBoundary());
-            //Debug.Log("Character Position: " + new Vector3(transform.parent.position.x, transform.parent.position.y));
-            //transform.localPosition = camera.Move(
-            //    new Vector2(Input.GetAxis("CameraHorizontalMovement"),
-            //        Input.GetAxis("CameraVerticalMovement")),
-            //    transform.localPosition, Time.deltaTime);
-
 
         }
-
     }
-
-    //private bool checkDistance()
-    //{
-    //    Vector3 playerVelocity = player.GetComponent<Player>().velocity;
-    //    float displacementX, displacementY;
-    //    if(player != null)
-    //    {
-    //        displacementX = transform.position.x - player.transform.position.x;
-    //        displacementY = transform.position.y - player.transform.position.y;
-    //        if(displacementX > 25f && playerVelocity.checkDirection() == 1)
-    //        {
-    //            return false;
-    //        }
-    //        if(displacementX < -30f && playerVelocity.checkDirection() == -1)
-    //        {
-    //            return false;
-    //        }
-    //        return true;
-    //    }
-    //    return false;
-    //}
-
-    //private void moveCamera(bool cameraAtBoundary)
-    //{
-    //    Vector3 playerVelocity = player.GetComponent<Player>().velocity;
-    //    float tempX, tempY;
-    //    if(cameraAtBoundary == false)
-    //    {
-    //        tempX = transform.position.x + playerVelocity.x*.75f*Time.deltaTime;
-    //        tempY = transform.position.y + playerVelocity.y*0.145f*Time.deltaTime;
-    //    }
-    //    else
-    //    {
-    //        tempX = transform.position.x + playerVelocity.x;
-    //        tempY = transform.position.y + playerVelocity.y;
-    //    }
-    //    Vector3 newPosition = new Vector3(tempX,tempY,camera.OriginPosition.z);
-    //    Camera.main.transform.position = newPosition;
-    //}
-    //Old Camera Style 12/5/14
-//        private bool checkCenterBoundary()
-//        {
-//            float displacementX, displacementY;
-//
-//	        if (player != null)
-//	        {
-//				//Sets the current player position
-//				transform.position = new Vector3(transform.position.x, transform.position.y, camera.OriginPosition.z);
-//
-//				//Finds the distance between the camera and player on both axes.
-//				displacementX = cameraCurrentPosition.x - player.position.x;
-//				displacementY = cameraCurrentPosition.y - (player.position.y + cameraMidOffset);
-//				displaceMentVector = new Vector3(displacementX, displacementY, camera.OriginPosition.z);
-//
-//				return (Mathf.Abs(displacementX) > XBoundary || Mathf.Abs(displacementY) > YBoundary);
-//	        }
-//	        return false;
-//        }
-//
-//        private void FollowPlayer()
-//        {
-//			Vector3 temp = cameraCurrentPosition - displaceMentVector;
-//			temp.z = cameraCurrentPosition.z;
-//
-//	        Camera.main.transform.position = Vector3.Lerp(cameraCurrentPosition, temp,
-//		        Time.deltaTime*2.5f);
-//				//new Vector3(player.position.x, player.position.y, camera.OriginPosition.z);
-//        }
 }
