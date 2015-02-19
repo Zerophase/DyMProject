@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Collision;
+using Assets.Scripts.Collision.IntersectionTests;
+using Assets.Scripts.Collision.SweepTests;
+using Assets.Scripts.CollisionBoxes.ThreeD;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Utilities;
@@ -13,7 +16,7 @@ namespace Assets.Scripts.MediatorPattern
 {
 	public class PhysicsDirector : Director
 	{
-		private List<MovablePhysicsMediator> physicsMediators = new List<MovablePhysicsMediator>();
+		private List<MovablePhysicsMediator> movablePhysicsMediators = new List<MovablePhysicsMediator>();
 		private List<Ground> grounds = new List<Ground>();
 		private List<WeaponPickUpGameObject> weaponPickUpGameObjects = 
 			new List<WeaponPickUpGameObject>();
@@ -23,9 +26,11 @@ namespace Assets.Scripts.MediatorPattern
 
 		private bool assignGravity;
 
-		private Vector3 gravity = new Vector3(0f, -7f, 0f);
+		private Vector3 gravity = new Vector3(0f, -10f, 0f);
 
 		private PhysicsMediator player;
+
+		private AABBIntersection aabbIntersection = new AABBIntersection();
 
 		void Update()
 		{
@@ -49,18 +54,18 @@ namespace Assets.Scripts.MediatorPattern
 		private int damage;
 		private void slugCollision()
 		{
-			for (int i = 0; i < physicsMediators.Count; i++)
+			for (int i = 0; i < movablePhysicsMediators.Count; i++)
 			{
-				if(physicsMediators[i] is Player)
+				if(movablePhysicsMediators[i] is Player)
 					continue;
-				if (physicsMediators[i].CheckBounds(player))
+				if (aabbIntersection.Intersect(player.BoundingBox, movablePhysicsMediators[i].BoundingBox))
 				{
-					((Player)player).TakeDamage(((Slug) physicsMediators[i]).DealDamage());
+					((Player)player).TakeDamage(((Slug) movablePhysicsMediators[i]).DealDamage());
 
 					if (((Player)player).Health <= 0)
 					{
-						PhysicsMediator removeMe = physicsMediators.Find(p => p == player);
-						physicsMediators.RemoveAt(i);
+						PhysicsMediator removeMe = movablePhysicsMediators.Find(p => p == player);
+						movablePhysicsMediators.RemoveAt(i);
 						Destroy(removeMe.gameObject);
 					}
 				}
@@ -73,18 +78,18 @@ namespace Assets.Scripts.MediatorPattern
 				return;
 			for (int i = 0; i < bullets.Count; i++)
 			{
-				for (int j = 0; j < physicsMediators.Count; j++)
+				for (int j = 0; j < movablePhysicsMediators.Count; j++)
 				{
-					if (physicsMediators[j] is Player)
+					if (movablePhysicsMediators[j] is Player)
 						continue;
-					if (bullets[i].CheckBounds(physicsMediators[j]))
+					if (aabbIntersection.Intersect(bullets[i].BoundingBox, movablePhysicsMediators[j].BoundingBox))
 					{
-						((Slug)physicsMediators[j]).TakeDamge(((Bullet)bullets[i]).DealDamage());
+						((Slug)movablePhysicsMediators[j]).TakeDamge(((Bullet)bullets[i]).DealDamage());
 
-						if (((Slug) physicsMediators[j]).Health <= 0)
+						if (((Slug) movablePhysicsMediators[j]).Health <= 0)
 						{
-							PhysicsMediator removeMe = physicsMediators[j];
-							physicsMediators.RemoveAt(j);
+							PhysicsMediator removeMe = movablePhysicsMediators[j];
+							movablePhysicsMediators.RemoveAt(j);
 							Destroy(removeMe.gameObject);
 						}
 					}
@@ -96,7 +101,7 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			for (int i = 0; i < abilityPickUps.Count; i++)
 			{
-				if (abilityPickUps[i].CheckBounds(player))
+				if (aabbIntersection.Intersect(abilityPickUps[i].BoundingBox, player.BoundingBox))
 				{
 					abilityPickUps[i].PickUp(player.gameObject);
 					abilityPickUps.RemoveAt(i);
@@ -108,7 +113,7 @@ namespace Assets.Scripts.MediatorPattern
 		{
 			for(int i = 0; i < weaponPickUpGameObjects.Count; i++)
 			{
-				if (weaponPickUpGameObjects[i].CheckBounds(player))
+				if (aabbIntersection.Intersect(weaponPickUpGameObjects[i].BoundingBox, player.BoundingBox))
 				{
 					weaponPickUpGameObjects[i].PickUp(player.gameObject);
 					weaponPickUpGameObjects.RemoveAt(i);
@@ -116,39 +121,68 @@ namespace Assets.Scripts.MediatorPattern
 			}
 		}
 
+		// TODO move into Seperate class
+		private AABB3D playerBoundingBox;
+		private AABB3D groundBoundingBox;
+		private Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
+
+		private Sweep sweep = new Sweep();
+
 		private void GroundCollision()
 		{
 			if (grounds != null)
 			{
-				foreach (var physicsMed in physicsMediators)
+				float hitTime = 0f;
+				//sweep.ResetRectangles();
+				for (int k = 0; k < movablePhysicsMediators.Count; k++)
 				{
-                        foreach (var ground in grounds)
-                        {
-                            if (physicsMed.CheckBounds(ground))
-                            {
-                                //if (Util.compareEachFloat(physicsMed.GetBox3D.yVelocity, 0f))
-                                {
-                                    physicsMed.Gravity = Vector3.zero;
-                                    physicsMed.HasJumped = false;
-                                }
-                                // if gameobject is colliding with a ground stop checking for other grounds.
-                                break;
-                            }
-                            else if (!physicsMed.CheckBounds(ground))
-                            {
-                                physicsMed.Gravity = gravity;
-                                physicsMed.HasJumped = true;
-                            }
-                        }
-                    }
+					movablePhysicsMediators[k].UpdateVelocity(gravity);
+					for (int i = 0; i < grounds.Count; i++)
+					{
+						playerBoundingBox = movablePhysicsMediators[k].BoundingBox;
+						groundBoundingBox = grounds[i].BoundingBox;
+						if (sweep.TestMovingAABB(playerBoundingBox,
+							playerBoundingBox.Velocity * Time.deltaTime, 0f, 1f,
+							groundBoundingBox, ref hitTime))
+						{
+							float actualHittime = 1.0f - hitTime;
+							if (playerBoundingBox.NormalCollision[0].x > 0.0f)
+							{
+								velocity.x = playerBoundingBox.Velocity.x;
+								velocity.y = 0.0f;
+								velocity.z = 0.0f;
+								movablePhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
+							}
+							else if (playerBoundingBox.NormalCollision[0].x < 0.0f)
+							{
+								velocity.x = playerBoundingBox.Velocity.x;
+								velocity.y = 0.0f;
+								velocity.z = 0.0f;
+								movablePhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
+							}
+																				 // TODO find out if better way for avoiding getting caught in platforms
+							if (playerBoundingBox.NormalCollision[1].y < 0.0f && playerBoundingBox.Velocity.y < 0.0f)
+							{
+								velocity.x = 0.0f;
+								velocity.y = playerBoundingBox.Velocity.y;
+								velocity.z = 0.0f;
+								movablePhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
+							}
+
+						}
+					}
+
+					movablePhysicsMediators[k].UpdatePosition();
+					movablePhysicsMediators[k].ResetVelocity();
 				}
+			}
 		}
 
 		private void gravityAssignment()
 		{
 			if (assignGravity)
 			{
-				foreach (MovablePhysicsMediator physicsMed in physicsMediators)
+				foreach (MovablePhysicsMediator physicsMed in movablePhysicsMediators)
 				{
 					physicsMed.Gravity = gravity;
 				}
@@ -163,9 +197,9 @@ namespace Assets.Scripts.MediatorPattern
 			{
 				if(telegram.Message is MovablePhysicsMediator)
 				{
-					physicsMediators.Add((MovablePhysicsMediator)telegram.Message);
+					movablePhysicsMediators.Add((MovablePhysicsMediator)telegram.Message);
 					if (telegram.Message is Player)
-						player = physicsMediators.Find(p => p is Player);
+						player = movablePhysicsMediators.Find(p => p is Player);
 					assignGravity = true;
 				}
 				else if(telegram.Message is Ground)

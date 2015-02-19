@@ -56,7 +56,6 @@ namespace Assets.Scripts.GameObjects
             tempVector = camera.Move(player.transform.localPosition, playerVelocity, transform.position,
                 Time.deltaTime);
             transform.localPosition = new Vector3(tempVector.x, tempVector.y + cameraPositionUp.y, camera.OriginPosition.z);
-            Debug.Log("Camera Pos: " + transform.localPosition);
 
         }
     }

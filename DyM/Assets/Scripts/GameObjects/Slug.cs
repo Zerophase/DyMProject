@@ -59,17 +59,14 @@ public class Slug : MovablePhysicsMediator
 		if (Vector3.Dot(comparisor, Vector3.left) > 0f)
 		{
 			speed = -1f*movementMultiplier;
-			transform.Translate(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
+			UpdateVelocity(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
 		}
 			
 		else if (Vector3.Dot(comparisor, Vector3.left) < 0f)
 		{
 			speed = 1f*movementMultiplier;
-			transform.Translate(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
+			UpdateVelocity(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
 		}
-		
-		// so the slug falls.
-		transform.Translate(cardinalMovement.Jump(false, Vector3.zero) * Time.deltaTime);
 
 		flip(speed);
 	}

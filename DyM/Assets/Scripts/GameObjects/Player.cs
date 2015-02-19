@@ -85,7 +85,7 @@ namespace Assets.Scripts.GameObjects
 
 			switchWeapon();
 				
-			base.Update();
+			//base.Update();
 		}
 
 		private void endScreen()
@@ -105,16 +105,18 @@ namespace Assets.Scripts.GameObjects
 		{
 			if (InputManager.PlaneShiftDown())
 			{
-				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button4,
-					transform.position));
+				var changePlane = planeShift.ShiftPlane(KeyCode.Joystick1Button4,
+					transform.position);
+				UpdatePlane(changePlane);
 			}
 			else if (InputManager.PlaneShiftUp())
 			{
-				transform.Translate(planeShift.ShiftPlane(KeyCode.Joystick1Button5,
-					transform.position));
+				var changePlane = planeShift.ShiftPlane(KeyCode.Joystick1Button5,
+					transform.position);
+				UpdatePlane(changePlane);
 			}
 
-			transform.Translate(planeShift.Dodge(transform.position, InputManager.CheckDodgeKeys(), Time.deltaTime));
+			UpdatePlane(planeShift.Dodge(transform.position, InputManager.CheckDodgeKeys(), Time.deltaTime));
 		}
 
 		private bool jumped;
@@ -156,7 +158,7 @@ namespace Assets.Scripts.GameObjects
 
 			previousYPosition = transform.position.y;
 
-            transform.Translate(cardinalMovement.CalculateTotalMovement(speed,
+            UpdateVelocity(cardinalMovement.CalculateTotalMovement(speed,
                 acceleration, InputManager.Jumping(), transform.localPosition));
 		}
 
