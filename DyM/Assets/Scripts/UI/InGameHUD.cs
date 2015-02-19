@@ -11,15 +11,19 @@ public class InGameHUD : MonoBehaviour, IOwner
 
 	public Texture2D EmptyHealthBar;
 	public Texture2D FullHealthBar;
+    public Texture2D EmptyTimeBar;
+    public Texture2D FullTimeBar;
+    public Texture2D BarFrame;
 
 	public GameObject Player;
 	
-	private int healthBarDisplay;	
-	public Vector2 size = new Vector2(800, 40);
-	public Vector2 pos = new Vector2(1400, 50);
+	private int healthBarDisplay;
+    private int timeBarDisplay;
 
-	private Rect healthBar = new Rect(0f, 0f, 100, 35f);
+	private Rect healthBar = new Rect(5f, 0f, 100, 35f);
+    private Rect timeBar = new Rect(5f, 40f, 100, 25f);
 	private Rect backgroundHealthBar;
+    private Rect backgroundTimeBar;
 	private Rect interfaceArea;
 
 	[Inject]
@@ -40,15 +44,24 @@ public class InGameHUD : MonoBehaviour, IOwner
 
         entityManager.Add(Entities.HUD, id.ObjectId, this);
 
-		backgroundHealthBar = new Rect(0f, 0f, 300f, size.y);
-		interfaceArea = new Rect(50f, Screen.height / 2 - 200, size.x, size.y);
+		backgroundHealthBar = new Rect(5f, 0f, 300f, 35);
+        backgroundTimeBar = new Rect(5f, 40f, 300f, 25);
+		interfaceArea = new Rect(50f, Screen.height / 2 - 200, 400, 200);
 	}
 
 	void OnGUI ()
-	{	
+	{
+        
+
 		GUI.BeginGroup(interfaceArea);
 			GUI.DrawTexture(backgroundHealthBar, EmptyHealthBar);
 			GUI.DrawTexture(healthBar, FullHealthBar);
+
+            GUI.DrawTexture(backgroundTimeBar, EmptyTimeBar);
+            GUI.DrawTexture(timeBar, FullTimeBar);
+
+            GUI.DrawTexture(new Rect(-5, -2, 250, 100), BarFrame);
+
 		GUI.EndGroup();
 	}
 
@@ -56,5 +69,8 @@ public class InGameHUD : MonoBehaviour, IOwner
 	{
 		healthBarDisplay = (int) telegram.Message;
 		healthBar.width = healthBarDisplay;
+
+        timeBarDisplay = (int)telegram.Message;
+        timeBar.width = timeBarDisplay;
 	}
 }
