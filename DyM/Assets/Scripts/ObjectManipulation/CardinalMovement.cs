@@ -68,15 +68,15 @@ namespace Assets.Scripts.ObjectManipulation
 		    positionPassedIn = currentPosition;
 	        Vector3 total = Vector3.zero;
 	        total += Move(direction, xVelocity, Time.deltaTime);
-	        total += Jump(isJumping, currentPosition) * Time.deltaTime;
+	        total += Jump(isJumping, currentPosition);
 		    return total;
 	    }
 		public Vector3 Move(float direction, Vector3 acceleration, float deltaTime)
 		{
-		    velocity = PhysicsFuncts.calculateVelocity(acceleration, deltaTime) * direction;
+		    velocity = acceleration * direction;
             if (Input.GetButton("Sprint"))
             {
-                velocity+= PhysicsFuncts.calculateVelocity(new Vector3(20,0,0), deltaTime) * direction;
+                velocity+= new Vector3(20f, 0f, 0f) * direction;
             }
 			return velocity;
 		}
@@ -101,16 +101,16 @@ namespace Assets.Scripts.ObjectManipulation
 			if(timeSinceJump < .5f)
 			{
 				Debug.Log("Rise");
-				jumpHeight = .9f *jumpVelocity + (.9f)*jumpHeight +  .5f * gravity + (.1f) * -jumpHeight;
+				jumpHeight = .9f *jumpVelocity + (.9f)*jumpHeight;
 			}
 			else
 			{
 				Debug.Log("Fall");
-				jumpHeight = 0.11f * jumpVelocity + ( 0.05f) * jumpHeight + .9f * gravity + (0.9f) * jumpHeight;
+				jumpHeight = 0.11f * jumpVelocity + ( 0.05f) * jumpHeight;
 
 			}
 
-			Debug.Log("Jump Height: " + jumpHeight);
+			//Debug.Log("Jump Height: " + jumpHeight);
 			return jumpHeight;
 		}
 
@@ -122,17 +122,17 @@ namespace Assets.Scripts.ObjectManipulation
 		
 		private Vector3 Dropping()
 		{
-			Debug.Log("Time Since Jump " + timeSinceJump);
+			//Debug.Log("Time Since Jump " + timeSinceJump);
 			if (jumpFromPlatform)
-				jumpHeight = 0.11f*jumpVelocity + (0.05f)*jumpHeight + .9f*gravity + (0.9f)*jumpHeight;
+				jumpHeight = 0.11f*jumpVelocity + (0.05f)*jumpHeight;
 			else
 			{
 				if(Util.compareEachFloat(timeAtDrop, 0f))
 					timeAtDrop = Time.time;
 
 				timeSinceDropping = Time.time - timeAtDrop;
-				Debug.Log("Drop from platform time: " + timeSinceDropping);
-				jumpHeight = 0.11f * jumpVelocity + (0.05f) * jumpHeight + .9f * gravity + (0.75f) * jumpHeight;
+				//Debug.Log("Drop from platform time: " + timeSinceDropping);
+				jumpHeight = 0.11f * jumpVelocity + (0.05f) * jumpHeight;
 			}
 				
 			return jumpHeight;
@@ -161,7 +161,7 @@ namespace Assets.Scripts.ObjectManipulation
 				returnValue = (int)JumpComparison.ON_Press;
 			else if (pressed && jumpHeight.y >= 0f )
 				returnValue = (int)JumpComparison.RISING;
-			else if (Util.compareEachFloat(gravity.y, -7f))
+			else if (Util.compareEachFloat(gravity.y, -10f))
 				returnValue = (int)JumpComparison.DROPPING;
 			else if (Util.compareEachFloat(gravity.y, 0.0f))
 				returnValue = (int)JumpComparison.LANDING;

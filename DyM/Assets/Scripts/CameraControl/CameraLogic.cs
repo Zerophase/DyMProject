@@ -44,8 +44,7 @@ namespace Assets.Scripts.CameraControl
 
 		public Vector3 Move(Vector3 playerPosition, Vector3 playerVelocity, Vector3 cameraPosition, float time)
 		{
-		    Debug.Log("Idle? " + checkForIdle(playerPosition));
-
+			checkForIdle(playerPosition);
 			if (checkForIdle(playerPosition))
 			{
 				return bounceCameraBack(cameraPosition, playerPosition, time);

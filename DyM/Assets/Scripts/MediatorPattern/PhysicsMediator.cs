@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.CollisionBoxes.ThreeD;
 using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.Utilities;
 using Assets.Scripts.Utilities.Messaging;
@@ -15,8 +16,13 @@ namespace Assets.Scripts.MediatorPattern
 		protected IMessageDispatcher messageDispatcher;
 		protected static PhysicsDirector physicsDirector;
 
-		private Box3D box3D;
-		public Box3D GetBox3D { get { return box3D; } }
+		private AABB3D boundingBox;
+
+		public AABB3D BoundingBox
+		{
+			get { return boundingBox; }
+			set { boundingBox = value; }
+		}
 		
 		public Vector3 velocity = Vector3.zero;
 		
@@ -37,31 +43,52 @@ namespace Assets.Scripts.MediatorPattern
 
 		private void constructBox3D()
 		{
-			BoxCollider aCollider = gameObject.GetComponent<BoxCollider>();
-
-			Vector3 aPos = transform.position;
-
-			aPos += aCollider.center;
-			aPos.x -= (aCollider.size.x * transform.lossyScale.x) / 2;
-			aPos.y += (aCollider.size.y * transform.lossyScale.y) / 2;
-			aPos.z += (aCollider.size.z * transform.lossyScale.z) / 2;
-
-			box3D = new Box3D(aPos.x, aPos.y, aPos.z, 
-				aCollider.size.x * transform.lossyScale.x, 
-				-aCollider.size.y * transform.lossyScale.y, 
-				-aCollider.size.z * transform.lossyScale.z, aCollider);
+			var boxCollider = gameObject.GetComponent<BoxCollider>();
+			boundingBox = new AABB3D(transform.position,
+				boxCollider.size.x * transform.lossyScale.x,
+				boxCollider.size.y * transform.lossyScale.y,
+				boxCollider.size.z * transform.lossyScale.z);
 		}
 
-		private float Timer;
-		protected virtual void Update()
+		public void UpdateVelocity(Vector3 velocity)
 		{
-			velocity = (transform.position - previousPosition)/Time.deltaTime;
-			
-			previousPosition = transform.position;
-			box3D.UpdateBox3D(gameObject);
-			box3D.xVelocity = velocity.x;
-			box3D.yVelocity = velocity.y;
-			box3D.zVelocity = velocity.z;
+			boundingBox.Velocity += velocity;
 		}
+
+		public void ResetVelocity()
+		{
+			boundingBox.Velocity = Vector3.zero;
+		}
+
+		public void UpdatePosition()
+		{
+			var framePosition = boundingBox.Velocity*Time.deltaTime;
+			boundingBox.Center += framePosition;
+			transform.Translate(framePosition, Space.World);
+		}
+
+		public void UpdatePlane(Vector3 planeChange)
+		{
+			boundingBox.Center += planeChange;
+			transform.Translate(planeChange, Space.World);
+		}
+
+		public void UpdatePlane(float zPosition)
+		{
+			var updatedPosition = new Vector3(0.0f, 0.0f, zPosition);
+			boundingBox.Center += updatedPosition;
+		}
+		//private float Timer;
+		//protected virtual void Update()
+		//{
+		//	boundingBox.Center = transform.position;
+		//	//velocity = (transform.position - previousPosition) / Time.deltaTime;
+
+		//	//previousPosition = transform.position;
+		//	//box3D.UpdateBox3D(gameObject);
+		//	//box3D.xVelocity = velocity.x;
+		//	//box3D.yVelocity = velocity.y;
+		//	//box3D.zVelocity = velocity.z;
+		//}
 	}
 }

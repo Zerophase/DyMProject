@@ -57,10 +57,10 @@ namespace Assets.Scripts.Utilities
 				return 1f;
 			else return 0f;
 		}
-		public static bool CheckBounds(this PhysicsMediator physicsMediatorOne, PhysicsMediator physicsMediatorTwo)
-		{
-			return AABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);
-		}
+		//public static bool CheckBounds(this PhysicsMediator physicsMediatorOne, PhysicsMediator physicsMediatorTwo)
+		//{
+		//	return AABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);
+		//}
 
 		private static bool AABB(Box3D box3DOne, Box3D box3DTwo)
 		{
@@ -92,28 +92,28 @@ namespace Assets.Scripts.Utilities
 
 		static Box3D broadPhaseBox = Box3D.Zero;
 		// player is physicsMediatorOne Ground is two.
-		public static bool SweepTest(this PhysicsMediator physicsMediatorOne, PhysicsMediator physicsMediatorTwo)
-		{
-			sweptBroadPhaseBox(physicsMediatorOne.GetBox3D, physicsMediatorOne);
-			if (IntersectAABB(broadPhaseBox, physicsMediatorTwo.GetBox3D))
-			{
-				float normalX, normalY, normalZ;
-				float collisionTime = sweptAABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D, out normalX, out normalY, out normalZ);
+		//public static bool SweepTest(this PhysicsMediator physicsMediatorOne, PhysicsMediator physicsMediatorTwo)
+		//{
+		//	sweptBroadPhaseBox(physicsMediatorOne.GetBox3D, physicsMediatorOne);
+		//	if (IntersectAABB(broadPhaseBox, physicsMediatorTwo.GetBox3D))
+		//	{
+		//		float normalX, normalY, normalZ;
+		//		float collisionTime = sweptAABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D, out normalX, out normalY, out normalZ);
 
-				physicsMediatorOne.GetBox3D.xMin -= physicsMediatorOne.GetBox3D.xVelocity * collisionTime;
-				physicsMediatorOne.GetBox3D.yMin += physicsMediatorOne.GetBox3D.yVelocity * collisionTime;
-				physicsMediatorOne.GetBox3D.zMin += physicsMediatorOne.GetBox3D.zVelocity * collisionTime;
+		//		physicsMediatorOne.GetBox3D.xMin -= physicsMediatorOne.GetBox3D.xVelocity * collisionTime;
+		//		physicsMediatorOne.GetBox3D.yMin += physicsMediatorOne.GetBox3D.yVelocity * collisionTime;
+		//		physicsMediatorOne.GetBox3D.zMin += physicsMediatorOne.GetBox3D.zVelocity * collisionTime;
 
-				if (collisionTime < 1.0f)
-				{
-					return IntersectAABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);
-				}
+		//		if (collisionTime < 1.0f)
+		//		{
+		//			return IntersectAABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);
+		//		}
 
-				return IntersectAABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);
-			}
+		//		return IntersectAABB(physicsMediatorOne.GetBox3D, physicsMediatorTwo.GetBox3D);
+		//	}
 
-			return  false;
-		}
+		//	return  false;
+		//}
 
 		private static bool IntersectAABB(Box3D box3DOne, Box3D box3DTwo)
 		{

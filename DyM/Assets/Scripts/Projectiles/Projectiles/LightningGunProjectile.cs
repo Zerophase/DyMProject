@@ -45,7 +45,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		public override Vector3 ProjectilePattern()
 		{
 			bulletTimer += Time.deltaTime;
-			positionStorage = PhysicsFuncts.calculateVelocity(speed * fireDirection, Time.deltaTime);
+			positionStorage = speed * fireDirection;
 
 			if (lane == 2 && smoothCurveChange > 0.0f)
 			{

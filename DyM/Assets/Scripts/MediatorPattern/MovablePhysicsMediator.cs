@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security;
 using System.Text;
+using Assets.Scripts.CollisionBoxes.ThreeD;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Utilities;
 using Assets.Scripts.Utilities.Messaging;
