@@ -44,7 +44,7 @@ namespace Assets.Scripts.CameraControl
 
 		public Vector3 Move(Vector3 playerPosition, Vector3 playerVelocity, Vector3 cameraPosition, float time)
 		{
-			checkForIdle(playerPosition);
+			previousPlayerPosition = new Vector3(playerPosition.x, playerPosition.y, playerPosition.z);
 			if (checkForIdle(playerPosition))
 			{
 				return bounceCameraBack(cameraPosition, playerPosition, time);
@@ -53,13 +53,14 @@ namespace Assets.Scripts.CameraControl
 			{
 			    return moveCamera(cameraPosition, playerVelocity, time);
 			}
+
 		}
 
 	    private Vector3 moveCamera(Vector3 cameraPos, Vector3 playerVelocity, float time)
 	    {
 	        Vector3 newPosition = Vector3.zero;
 	        newPosition = cameraPos + playerVelocity*time;
-	        newPosition = newPosition*1.5f;
+	        
 	        return newPosition;
 	    }
 
@@ -80,7 +81,7 @@ namespace Assets.Scripts.CameraControl
 		    bool isIdle = tempX == 0 && tempY == 0;
 
             //Sets the current frame to previous position.
-            previousPlayerPosition = new Vector3(position.x, position.y, position.z);
+			previousPlayerPosition = new Vector3(position.x, position.y, position.z);
 
             //Return result.
 		    return isIdle;
