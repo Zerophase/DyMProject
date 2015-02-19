@@ -42,7 +42,6 @@ public class Slug : MovablePhysicsMediator
 
 	void Update ()
 	{
-		base.Update();
 
 		if (character.StatusEffect == StatusEffect.SLOW_TIME)
 		{

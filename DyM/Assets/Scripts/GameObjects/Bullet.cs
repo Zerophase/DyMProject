@@ -21,14 +21,19 @@ namespace Assets.Scripts.GameObjects
 
 		void Update()
 		{
+			ResetVelocity();
 			if (!projectile.IsProjectileSetup)
 			{
 				audio.Play();
 				transform.position = Player.GunModel.transform.position;
 				projectile.SetUpProjectile(transform.position);
+				BoundingBox.Center = transform.position;
 			}
 
-			transform.Translate(projectile.ProjectilePattern());
+			var projectilePosition = projectile.ProjectilePattern();
+			Debug.Log(projectilePosition);
+			UpdateVelocity(projectilePosition);
+			UpdatePosition();
 
 			if (projectile.ShouldProjectileDeactivate(transform.position))
 			{
@@ -36,7 +41,7 @@ namespace Assets.Scripts.GameObjects
 				PooledBulletGameObjects.DeactivatePooledBullet(gameObject, projectile);
 			}
 
-			base.Update();
+			//base.Update();
 		}
 
 		public int DealDamage()

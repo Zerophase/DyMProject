@@ -44,7 +44,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		public virtual void SetUpProjectile(Vector3 position)
 		{
 			startPosition = position;
-
+			
 			fireDirection = -Player.GunModel.transform.right;
 			fireDirection.z = 0f;
 

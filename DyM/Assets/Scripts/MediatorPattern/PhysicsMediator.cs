@@ -73,17 +73,22 @@ namespace Assets.Scripts.MediatorPattern
 			transform.Translate(planeChange, Space.World);
 		}
 
-		//private float Timer;
-		protected virtual void Update()
+		public void UpdatePlane(float zPosition)
 		{
-			boundingBox.Center = transform.position;
-			//velocity = (transform.position - previousPosition) / Time.deltaTime;
-
-			//previousPosition = transform.position;
-			//box3D.UpdateBox3D(gameObject);
-			//box3D.xVelocity = velocity.x;
-			//box3D.yVelocity = velocity.y;
-			//box3D.zVelocity = velocity.z;
+			var updatedPosition = new Vector3(0.0f, 0.0f, zPosition);
+			boundingBox.Center += updatedPosition;
 		}
+		//private float Timer;
+		//protected virtual void Update()
+		//{
+		//	boundingBox.Center = transform.position;
+		//	//velocity = (transform.position - previousPosition) / Time.deltaTime;
+
+		//	//previousPosition = transform.position;
+		//	//box3D.UpdateBox3D(gameObject);
+		//	//box3D.xVelocity = velocity.x;
+		//	//box3D.yVelocity = velocity.y;
+		//	//box3D.zVelocity = velocity.z;
+		//}
 	}
 }

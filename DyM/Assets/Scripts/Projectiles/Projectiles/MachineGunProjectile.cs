@@ -18,8 +18,8 @@ namespace Assets.Scripts.Projectiles.Projectiles
 
 		public override Vector3 ProjectilePattern()
 		{
-			return PhysicsFuncts.calculateVelocity(
-				speed*fireDirection, Time.deltaTime);
+			return
+				speed*fireDirection;
 		}
 	}
 }

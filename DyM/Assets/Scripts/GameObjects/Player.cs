@@ -63,7 +63,7 @@ namespace Assets.Scripts.GameObjects
 			base.Start();
 		}
 
-		protected override void Update()
+		protected void Update()
 		{
 			endScreen();
 			
@@ -84,8 +84,6 @@ namespace Assets.Scripts.GameObjects
 			activateAbility();
 
 			switchWeapon();
-				
-			//base.Update();
 		}
 
 		private void endScreen()
