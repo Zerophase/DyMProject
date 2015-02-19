@@ -1,40 +1,15 @@
 fileFormatVersion: 2
-guid: c082f0eb45763a849b09fb69ba63e942
+guid: f2c8fb783eae8b747b1535dd1f63d7ae
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: botttom
-    100002: cc_main
-    100004: crystal
-    100006: head
-    100008: hoverSlug
-    100010: //RootNode
-    100012: l_hand
-    100014: l_shoulder
-    100016: neck
-    100018: r_hand
-    100020: r_shoulder
-    100022: root
-    100024: rootOverride
-    100026: spine
-    400000: botttom
-    400002: cc_main
-    400004: crystal
-    400006: head
-    400008: hoverSlug
-    400010: //RootNode
-    400012: l_hand
-    400014: l_shoulder
-    400016: neck
-    400018: r_hand
-    400020: r_shoulder
-    400022: root
-    400024: rootOverride
-    400026: spine
-    4300000: hoverSlug
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: pCube1
     7400000: Take 001
     9500000: //RootNode
-    13700000: hoverSlug
   materials:
     importMaterials: 1
     materialName: 0
@@ -50,7 +25,35 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 59
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
