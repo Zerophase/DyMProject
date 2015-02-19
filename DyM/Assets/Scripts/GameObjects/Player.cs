@@ -72,10 +72,6 @@ namespace Assets.Scripts.GameObjects
 			move();
 			
 			flip(gun.Direction.checkDirection());
-//            if (Vector3.Dot(gun.Direction, Vector3.left) > 0f)
-//                flip(-1f);
-//            else if (Vector3.Dot(gun.Direction, Vector3.left) < 0f)
-//                flip(1f);
 
 			rangeAttack();
 

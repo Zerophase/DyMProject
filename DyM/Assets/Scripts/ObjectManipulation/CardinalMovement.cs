@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Utilities;
+using Assets.Scripts.GameObjects;
 using UnityEngine;
 
 namespace Assets.Scripts.ObjectManipulation
@@ -40,6 +41,8 @@ namespace Assets.Scripts.ObjectManipulation
 		private delegate Vector3 JumpAnimations();
 		
 		private JumpAnimations[] jumpAnimations = new JumpAnimations[4];
+
+		private Player player;
 
 		public CardinalMovement()
 		{
@@ -89,6 +92,7 @@ namespace Assets.Scripts.ObjectManipulation
 			jumpVelocity = new Vector3(0f, 10f, 0f);
 			timeAtDrop = 0f;
 			jumpFromPlatform = true;
+			hasJumped = true;
 			return jumpHeight ;
 		}
 
@@ -97,15 +101,15 @@ namespace Assets.Scripts.ObjectManipulation
 			calculateTimeSinceJump();
 
 			
-			Debug.Log("Time Since Jump " + timeSinceJump);
+			//Debug.Log("Time Since Jump " + timeSinceJump);
 			if(timeSinceJump < .5f)
 			{
-				Debug.Log("Rise");
+				//Debug.Log("Rise");
 				jumpHeight = .9f *jumpVelocity + (.9f)*jumpHeight;
 			}
 			else
 			{
-				Debug.Log("Fall");
+				//Debug.Log("Fall");
 				jumpHeight = 0.11f * jumpVelocity + ( 0.05f) * jumpHeight;
 
 			}
@@ -123,17 +127,17 @@ namespace Assets.Scripts.ObjectManipulation
 		private Vector3 Dropping()
 		{
 			//Debug.Log("Time Since Jump " + timeSinceJump);
-			if (jumpFromPlatform)
-				jumpHeight = 0.11f*jumpVelocity + (0.05f)*jumpHeight;
-			else
-			{
-				if(Util.compareEachFloat(timeAtDrop, 0f))
-					timeAtDrop = Time.time;
-
-				timeSinceDropping = Time.time - timeAtDrop;
-				//Debug.Log("Drop from platform time: " + timeSinceDropping);
-				jumpHeight = 0.11f * jumpVelocity + (0.05f) * jumpHeight;
-			}
+//			if (jumpFromPlatform)
+//				jumpHeight = 0.51f*jumpVelocity + (0.05f)*jumpHeight;
+//			else
+//			{
+//				if(Util.compareEachFloat(timeAtDrop, 0f))
+//					timeAtDrop = Time.time;
+//
+//				timeSinceDropping = Time.time - timeAtDrop;
+//				//Debug.Log("Drop from platform time: " + timeSinceDropping);
+//				jumpHeight = 0.51f * jumpVelocity + (0.05f) * jumpHeight;
+//			}
 				
 			return jumpHeight;
 		}
@@ -158,13 +162,19 @@ namespace Assets.Scripts.ObjectManipulation
 		private int jumpComparision(bool pressed)
 		{
 			if (pressed && !savedPress && !hasJumped)
+			{
+				Debug.Log("Key Pressed ");
 				returnValue = (int)JumpComparison.ON_Press;
+			}
+				
 			else if (pressed && jumpHeight.y >= 0f )
 				returnValue = (int)JumpComparison.RISING;
-			else if (Util.compareEachFloat(gravity.y, -10f))
-				returnValue = (int)JumpComparison.DROPPING;
-			else if (Util.compareEachFloat(gravity.y, 0.0f))
+			else if (!hasJumped)
+			{
+				Debug.Log("landing");
 				returnValue = (int)JumpComparison.LANDING;
+			}
+				
 
 			savedPress = pressed;
 			return returnValue;

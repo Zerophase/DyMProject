@@ -26,7 +26,7 @@ namespace Assets.Scripts.MediatorPattern
 
 		private bool assignGravity;
 
-		private Vector3 gravity = new Vector3(0f, -10f, 0f);
+		private Vector3 gravity = new Vector3(0f, -30f, 0f);
 
 		private PhysicsMediator player;
 
@@ -148,6 +148,7 @@ namespace Assets.Scripts.MediatorPattern
 							float actualHittime = 1.0f - hitTime;
 							if (playerBoundingBox.NormalCollision[0].x > 0.0f)
 							{
+								//playerBoundingBox.NormalCollision[0].x = 0.0f;
 								velocity.x = playerBoundingBox.Velocity.x;
 								velocity.y = 0.0f;
 								velocity.z = 0.0f;
@@ -155,6 +156,7 @@ namespace Assets.Scripts.MediatorPattern
 							}
 							else if (playerBoundingBox.NormalCollision[0].x < 0.0f)
 							{
+								//playerBoundingBox.NormalCollision[0].x = 0.0f;
 								velocity.x = playerBoundingBox.Velocity.x;
 								velocity.y = 0.0f;
 								velocity.z = 0.0f;
@@ -166,6 +168,8 @@ namespace Assets.Scripts.MediatorPattern
 								velocity.x = 0.0f;
 								velocity.y = playerBoundingBox.Velocity.y;
 								velocity.z = 0.0f;
+								// Collide at bottom cardinalMovement is false
+								//playerBoundingBox.NormalCollision[1].y = 0.0f;
 								movablePhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
 							}
 
