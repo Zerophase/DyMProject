@@ -163,7 +163,7 @@ namespace Assets.Scripts.ObjectManipulation
 		{
 			if (pressed && !savedPress && !hasJumped)
 			{
-				Debug.Log("Key Pressed ");
+				//Debug.Log("Key Pressed ");
 				returnValue = (int)JumpComparison.ON_Press;
 			}
 				
@@ -171,7 +171,7 @@ namespace Assets.Scripts.ObjectManipulation
 				returnValue = (int)JumpComparison.RISING;
 			else if (!hasJumped)
 			{
-				Debug.Log("landing");
+				//Debug.Log("landing");
 				returnValue = (int)JumpComparison.LANDING;
 			}
 				

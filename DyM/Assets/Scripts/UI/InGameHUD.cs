@@ -25,7 +25,7 @@ public class InGameHUD : MonoBehaviour, IOwner
 	private Rect backgroundHealthBar;
     private Rect backgroundTimeBar;
 	private Rect interfaceArea;
-
+	private Rect frame = new Rect(-5, -2, 250, 100);
 	[Inject]
 	private IReceiver receiver;
 	public IReceiver Receiver
@@ -46,7 +46,7 @@ public class InGameHUD : MonoBehaviour, IOwner
 
 		backgroundHealthBar = new Rect(5f, 0f, 300f, 35);
         backgroundTimeBar = new Rect(5f, 40f, 300f, 25);
-		interfaceArea = new Rect(50f, Screen.height / 2 - 200, 400, 200);
+		interfaceArea = new Rect(50f, Screen.height / 2 - 450, 400, 200);
 	}
 
 	void OnGUI ()
@@ -59,8 +59,6 @@ public class InGameHUD : MonoBehaviour, IOwner
 
             GUI.DrawTexture(backgroundTimeBar, EmptyTimeBar);
             GUI.DrawTexture(timeBar, FullTimeBar);
-
-            GUI.DrawTexture(new Rect(-5, -2, 250, 100), BarFrame);
 
 		GUI.EndGroup();
 	}
