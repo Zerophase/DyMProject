@@ -113,7 +113,8 @@ namespace Assets.Scripts.GameObjects
 				UpdatePlane(changePlane);
 			}
 
-			UpdatePlane(planeShift.Dodge(transform.position, InputManager.CheckDodgeKeys(), Time.deltaTime));
+			// TODO put back in when we have a reason for a dodge.
+			//UpdatePlane(planeShift.Dodge(transform.position, InputManager.CheckDodgeKeys(), Time.deltaTime));
 		}
 
 		private bool jumped;
