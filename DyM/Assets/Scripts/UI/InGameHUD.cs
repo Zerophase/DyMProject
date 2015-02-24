@@ -13,8 +13,7 @@ public class InGameHUD : MonoBehaviour, IOwner
 	public Texture2D FullHealthBar;
     public Texture2D EmptyTimeBar;
     public Texture2D FullTimeBar;
-    public Texture2D BarFrame;
-
+  
 	public GameObject Player;
 	
 	private int healthBarDisplay;
