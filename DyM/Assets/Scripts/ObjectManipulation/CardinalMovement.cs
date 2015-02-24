@@ -36,7 +36,7 @@ namespace Assets.Scripts.ObjectManipulation
 		private Vector3 positionPassedIn;
 
         private bool hasJumped;
-		public bool HasJumped { set { hasJumped = value; } }
+		public bool HasJumped { get { return hasJumped; } set { hasJumped = value; } }
 
 		private delegate Vector3 JumpAnimations();
 		
@@ -93,6 +93,8 @@ namespace Assets.Scripts.ObjectManipulation
 			timeAtDrop = 0f;
 			jumpFromPlatform = true;
 			hasJumped = true;
+			onGround = false;
+			
 			return jumpHeight ;
 		}
 
@@ -126,18 +128,18 @@ namespace Assets.Scripts.ObjectManipulation
 		
 		private Vector3 Dropping()
 		{
-			//Debug.Log("Time Since Jump " + timeSinceJump);
-//			if (jumpFromPlatform)
-//				jumpHeight = 0.51f*jumpVelocity + (0.05f)*jumpHeight;
-//			else
-//			{
-//				if(Util.compareEachFloat(timeAtDrop, 0f))
-//					timeAtDrop = Time.time;
-//
-//				timeSinceDropping = Time.time - timeAtDrop;
-//				//Debug.Log("Drop from platform time: " + timeSinceDropping);
-//				jumpHeight = 0.51f * jumpVelocity + (0.05f) * jumpHeight;
-//			}
+			Debug.Log("Time Since Jump " + timeSinceJump);
+			if (jumpFromPlatform)
+				jumpHeight = 0.51f * jumpVelocity + (0.05f) * jumpHeight;
+			else
+			{
+				if (Util.compareEachFloat(timeAtDrop, 0f))
+					timeAtDrop = Time.time;
+
+				timeSinceDropping = Time.time - timeAtDrop;
+				//Debug.Log("Drop from platform time: " + timeSinceDropping);
+				jumpHeight = 0.51f * jumpVelocity + (0.05f) * jumpHeight;
+			}
 				
 			return jumpHeight;
 		}
@@ -149,31 +151,63 @@ namespace Assets.Scripts.ObjectManipulation
 			jumpFromPlatform = false;
 			timeSinceDropping = 0f;
 			jumpVelocity = Vector3.zero;
+			hasJumped = false;
+			released = false;
 			return jumpVelocity;
 		}
-		
+
+		private bool onGround;
+		private Vector3 previousJumpPos;
+		private int frameSame;
 		public Vector3 Jump(bool pressed, Vector3 currentPosition)
 		{
+			if (frameSame == 5)
+			{
+				frameSame = 0;
+				onGround = true;
+			}
+			else if (Util.compareEachFloat(currentPosition.y, previousJumpPos.y) && onGround == false)
+			{
+				frameSame++;
+			}
+
+			Debug.Log("Current Position: " + currentPosition);
+			Debug.Log("Previous Position: " + previousJumpPos);
+			previousJumpPos = currentPosition;
 			return jumpAnimations[jumpComparision(pressed)].Invoke();
 		}
 
 		private int returnValue;
 		private bool savedPress;
+		private float howLongJumpIs;
+		private bool released;
 		private int jumpComparision(bool pressed)
 		{
 			if (pressed && !savedPress && !hasJumped)
 			{
+				Debug.Log("On_Press " + onGround);
+				howLongJumpIs = 0f;
 				//Debug.Log("Key Pressed ");
 				returnValue = (int)JumpComparison.ON_Press;
 			}
 				
-			else if (pressed && jumpHeight.y >= 0f )
-				returnValue = (int)JumpComparison.RISING;
-			else if (!hasJumped)
+			else if (pressed && !released)
 			{
-				//Debug.Log("landing");
+				Debug.Log("RISING " + onGround);
+				returnValue = (int)JumpComparison.RISING;
+			}
+			else if (onGround)
+			{
 				returnValue = (int)JumpComparison.LANDING;
 			}
+			else if (!pressed && hasJumped)
+			{
+				Debug.Log("DROPPING " + onGround);
+				released = true;
+				returnValue = (int) JumpComparison.DROPPING;
+			}
+			
+				
 				
 
 			savedPress = pressed;

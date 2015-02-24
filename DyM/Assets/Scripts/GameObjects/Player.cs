@@ -38,6 +38,9 @@ namespace Assets.Scripts.GameObjects
 
 		public int Health { get { return character.Health; } }
 
+		public bool HasJumped { set { cardinalMovement.HasJumped = value; } }
+		public int TouchGroundFrameCount;
+
 		private Gun gun;
 
 		private List<AudioSource> audioSources = new List<AudioSource>();

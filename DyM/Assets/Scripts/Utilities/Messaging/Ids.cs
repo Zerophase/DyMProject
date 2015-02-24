@@ -9,6 +9,7 @@ namespace Assets.Scripts.Utilities.Messaging
     {
         void CreateId();
         int ObjectId { get; set; }
+	    void ResetId();
     }
     public class Ids : IIds
     {
@@ -21,5 +22,10 @@ namespace Assets.Scripts.Utilities.Messaging
         {
             objectId = id++;
         }
+
+	    public void ResetId()
+	    {
+		    id = 0;
+	    }
     }
 }

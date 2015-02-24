@@ -137,9 +137,10 @@ namespace Assets.Scripts.MediatorPattern
 				for (int k = 0; k < movablePhysicsMediators.Count; k++)
 				{
 					movablePhysicsMediators[k].UpdateVelocity(gravity);
+
+					playerBoundingBox = movablePhysicsMediators[k].BoundingBox;
 					for (int i = 0; i < grounds.Count; i++)
 					{
-						playerBoundingBox = movablePhysicsMediators[k].BoundingBox;
 						groundBoundingBox = grounds[i].BoundingBox;
 						if (sweep.TestMovingAABB(playerBoundingBox,
 							playerBoundingBox.Velocity * Time.deltaTime, 0f, 1f,
@@ -174,6 +175,12 @@ namespace Assets.Scripts.MediatorPattern
 							}
 
 						}
+						else if (movablePhysicsMediators[k] is Player && movablePhysicsMediators[k].velocity.y < Vector3.zero.y && (movablePhysicsMediators[k] as Player).TouchGroundFrameCount > 2)
+						{
+							(movablePhysicsMediators[k] as Player).TouchGroundFrameCount = 0;
+						}
+
+						//Debug.Log("Player on ground for frames: " + (movablePhysicsMediators[k] as Player).TouchGroundFrameCount);
 					}
 
 					movablePhysicsMediators[k].UpdatePosition();

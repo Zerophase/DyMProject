@@ -85,6 +85,8 @@ namespace Assets.Scripts.DependencyInjection
             _container.Bind<IEntityManager>().ToSingle<EntityManager>();
 			_container.Bind<IMessageDispatcher>().ToSingle<MessageDispatcher>();
 			_container.Bind<IReceiver>().ToTransient<Receiver>();
+			
+			_container.Instantiate<Ids>().ResetId();
 		}
 
 		private void cameraBindings()

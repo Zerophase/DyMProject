@@ -12,6 +12,6 @@ namespace Assets.Scripts.ObjectManipulation.Interfaces
 		Vector3 Move(float stickInput, Vector3 acceleration, float deltaTime);
 		Vector3 Jump(bool pressed, Vector3 currentPosition);
 		Vector3 Gravity { set; }
-		bool HasJumped { set; }
+		bool HasJumped { get; set; }
 	}
 }
