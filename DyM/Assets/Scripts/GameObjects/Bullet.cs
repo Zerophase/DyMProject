@@ -16,27 +16,44 @@ namespace Assets.Scripts.GameObjects
 		private IProjectile projectile;
 		public IProjectile Projectile { set { projectile = value; } }
 
+		// TODO remove and replace with messaging.
+		private static Player player;
+
+		private Vector3 playerXMove;
 		[Inject]
 		public IPooledGameObjects PooledBulletGameObjects;
+
+		protected override void Start ()
+		{
+			base.Start ();
+
+			if(player == null)
+				player = FindObjectOfType<Player>();
+		}
 
 		void Update()
 		{
 			ResetVelocity();
+			 
 			if (!projectile.IsProjectileSetup)
 			{
 				audio.Play();
 				transform.position = Player.GunModel.transform.position;
 				projectile.SetUpProjectile(transform.position);
 				BoundingBox.Center = transform.position;
+
 			}
 
 			var projectilePosition = projectile.ProjectilePattern();
-			Debug.Log(projectilePosition);
+
+			//playerXMove.x = player.BoundingBox.Velocity.x;
+			Debug.Log(playerXMove.x);
 			UpdateVelocity(projectilePosition);
 			UpdatePosition();
 
 			if (projectile.ShouldProjectileDeactivate(transform.position))
 			{
+				playerXMove = Vector3.zero;
 				projectile.DeactivateProjectile();
 				PooledBulletGameObjects.DeactivatePooledBullet(gameObject, projectile);
 			}

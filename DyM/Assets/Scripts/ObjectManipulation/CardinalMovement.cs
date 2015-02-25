@@ -128,7 +128,6 @@ namespace Assets.Scripts.ObjectManipulation
 		
 		private Vector3 Dropping()
 		{
-			Debug.Log("Time Since Jump " + timeSinceJump);
 			if (jumpFromPlatform)
 				jumpHeight = 0.51f * jumpVelocity + (0.05f) * jumpHeight;
 			else
@@ -171,8 +170,6 @@ namespace Assets.Scripts.ObjectManipulation
 				frameSame++;
 			}
 
-			Debug.Log("Current Position: " + currentPosition);
-			Debug.Log("Previous Position: " + previousJumpPos);
 			previousJumpPos = currentPosition;
 			return jumpAnimations[jumpComparision(pressed)].Invoke();
 		}
@@ -185,7 +182,7 @@ namespace Assets.Scripts.ObjectManipulation
 		{
 			if (pressed && !savedPress && !hasJumped)
 			{
-				Debug.Log("On_Press " + onGround);
+
 				howLongJumpIs = 0f;
 				//Debug.Log("Key Pressed ");
 				returnValue = (int)JumpComparison.ON_Press;
@@ -193,7 +190,7 @@ namespace Assets.Scripts.ObjectManipulation
 				
 			else if (pressed && !released)
 			{
-				Debug.Log("RISING " + onGround);
+
 				returnValue = (int)JumpComparison.RISING;
 			}
 			else if (onGround)
@@ -202,7 +199,7 @@ namespace Assets.Scripts.ObjectManipulation
 			}
 			else if (!pressed && hasJumped)
 			{
-				Debug.Log("DROPPING " + onGround);
+
 				released = true;
 				returnValue = (int) JumpComparison.DROPPING;
 			}

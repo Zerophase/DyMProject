@@ -22,7 +22,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		private Vector3 startPosition;
 		protected Vector3 fireDirection;
 
-		protected float speed = 10.0f;
+		protected float speed = 20.0f;
 		private float deactivationDistance;
 
 		protected int damage;
