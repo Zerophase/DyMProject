@@ -7,6 +7,7 @@ using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
+using Assets.Scripts.GameObjects;
 
 namespace Assets.Scripts.Weapons
 {
@@ -21,9 +22,9 @@ namespace Assets.Scripts.Weapons
 			this.weapon = weapon;
 		}
 
-		public void PickUp(ICharacter character)
+		public void PickUp(Player player)
 		{
-			messageDispatcher.DispatchMessage(new Telegram(character, weapon));
+			messageDispatcher.DispatchMessage(new Telegram(player.character, weapon));
 		}
 	}
 }

@@ -64,10 +64,13 @@ public class InGameHUD : MonoBehaviour, IOwner
 
 	public void Receive(ITelegram telegram)
 	{
-		healthBarDisplay = (int) telegram.Message;
-		healthBar.width = healthBarDisplay;
+		if(telegram.Message is HealthMessage)
+		{
+			healthBarDisplay = (telegram.Message as HealthMessage).Message;
+			healthBar.width = healthBarDisplay;
+		}
 
-        timeBarDisplay = (int)telegram.Message;
-        timeBar.width = timeBarDisplay;
+//        timeBarDisplay = (int)telegram.Message;
+//        timeBar.width = timeBarDisplay;
 	}
 }

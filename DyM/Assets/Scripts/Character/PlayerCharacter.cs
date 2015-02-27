@@ -14,6 +14,7 @@ using Assets.Scripts.Weapons.Interfaces;
 using Assets.Scripts.Weapons.Bases;
 using ModestTree.Zenject;
 using UnityEngine;
+using Assets.Scripts.GameObjects;
 
 namespace Assets.Scripts.Character
 {
@@ -153,7 +154,8 @@ namespace Assets.Scripts.Character
 
 		public void SendOutStats()
 		{
-			messageDispatcher.DispatchMessage(new Telegram(entityManager.GetEntityFromID(Entities.HUD, 1), health));
+			HealthMessage healthMessage = new HealthMessage(health);
+			messageDispatcher.DispatchMessage(new Telegram(entityManager.GetEntityFromID(Entities.HUD, 1), healthMessage));
 		}
 
 		public void RemoveStatusEffect()

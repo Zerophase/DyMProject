@@ -24,7 +24,7 @@ namespace Assets.Scripts.GameObjects
 
 		public void PickUp(GameObject player)
 		{
-			weaponPickUp.PickUp(player.GetComponent<Player>().character);
+			weaponPickUp.PickUp(player.GetComponent<Player>());
 			Destroy(gameObject);
 		}
 	}

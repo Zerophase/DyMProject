@@ -8,6 +8,7 @@ using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
+using Assets.Scripts.GameObjects;
 
 namespace Assets.Scripts.Abilities
 {
@@ -24,9 +25,11 @@ namespace Assets.Scripts.Abilities
 			this.ability = ability;
 		}
 
-		public void PickUp(ICharacter character)
+		public void PickUp(Player player)
 		{
-			messageDispatcher.DispatchMessage(new Telegram(character, ability));
+
+			ability.PlayerCharacter = player.character;
+			messageDispatcher.DispatchMessage(new Telegram(player.character, ability));
 		}
 	}
 }

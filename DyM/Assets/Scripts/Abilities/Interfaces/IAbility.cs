@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.Character.Interfaces;
+using Assets.Scripts.GameObjects;
+using UnityEngine;
 
 namespace Assets.Scripts.Abilities.Interfaces
 {
@@ -7,5 +9,7 @@ namespace Assets.Scripts.Abilities.Interfaces
 		void Activate(ICharacter character);
 		bool CoolDown();
 		void TimeLimit();
+		ICharacter PlayerCharacter {set;}
+		GameObject PlayerGameobject {set;}
 	}
 }

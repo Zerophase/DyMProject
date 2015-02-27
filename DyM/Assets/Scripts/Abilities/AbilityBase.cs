@@ -15,7 +15,12 @@ namespace Assets.Scripts.Abilities
 		protected StatusEffect statusEffect;
 
 		private EnemyCharacter enemyCharacter = new EnemyCharacter();
+		private ICharacter playerCharacter;
+		public ICharacter PlayerCharacter { set {playerCharacter = value;}}
 
+		private GameObject playerGameobject;
+		public GameObject PlayerGameobject {set {playerGameobject = value;}}
+		
 		private float cooldown = 5f;
 		private float cooldownLeft = 5f;
 
@@ -44,8 +49,10 @@ namespace Assets.Scripts.Abilities
 			else if(cooldownLeft < cooldown)
 			{
 				cooldownLeft += Time.deltaTime;
+				messageDispatcher.DispatchMessage(new Telegram(playerCharacter, 1));
 				return false;
 			}
+
 
 			return false;
 		}
