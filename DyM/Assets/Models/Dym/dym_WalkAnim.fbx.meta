@@ -217,22 +217,22 @@ ModelImporter:
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      bodyMask: 01000000010000000100000001000000010000000000000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
       transformMask:
       - path: 
         weight: 1
       - path: group8
-        weight: 0
+        weight: 1
       - path: group8/dymBody
-        weight: 0
+        weight: 1
       - path: group8/dymBody/head1
-        weight: 0
+        weight: 1
       - path: group8/dymBody/lshoulder
-        weight: 0
+        weight: 1
       - path: group8/dymBody/lshoulder/pSphere1
-        weight: 0
+        weight: 1
       - path: group8/dymBody/lshoulder/pSphere1/lbicep
         weight: 0
       - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2
@@ -250,13 +250,13 @@ ModelImporter:
       - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3/polySurface10
         weight: 0
       - path: group8/dymBody/pSphere3
-        weight: 0
+        weight: 1
       - path: group8/dymBody/pSphere3/lShin
-        weight: 0
+        weight: 1
       - path: group8/dymBody/pSphere3/lShin/pSphere4
-        weight: 0
+        weight: 1
       - path: group8/dymBody/pSphere3/lShin/pSphere4/lFoot
-        weight: 0
+        weight: 1
       - path: hip_override
         weight: 1
       - path: hip_override/hips
@@ -268,9 +268,9 @@ ModelImporter:
       - path: hip_override/hips/l_hip/l_knee/l_ankle
         weight: 1
       - path: hip_override/hips/l_hip/l_knee/l_ankle/l_foot
-        weight: 0
+        weight: 1
       - path: hip_override/hips/l_hip/l_knee/l_ankle/l_foot/l_toe
-        weight: 0
+        weight: 1
       - path: hip_override/hips/r_hip
         weight: 1
       - path: hip_override/hips/r_hip/r_knee
@@ -294,9 +294,9 @@ ModelImporter:
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/b_hinge
         weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/b_hinge/b_tip
@@ -312,9 +312,9 @@ ModelImporter:
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/l_wrist
         weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/t_hinge
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/t_hinge/t_tip
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/neck
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/neck/neck01
@@ -336,7 +336,7 @@ ModelImporter:
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_finger/knuckle1_finger/knuckle2_finger
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_finger/knuckle1_finger/knuckle2_finger/tip_finger
-        weight: 0
+        weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_middle
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_middle/knuckle1_middle
@@ -344,7 +344,7 @@ ModelImporter:
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_middle/knuckle1_middle/knuckle2_middle
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_middle/knuckle1_middle/knuckle2_middle/tip_middle
-        weight: 0
+        weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pinky
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pinky/knuckle1_pinky
@@ -352,7 +352,7 @@ ModelImporter:
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pinky/knuckle1_pinky/knuckle2_pinky
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pinky/knuckle1_pinky/knuckle2_pinky/tip_pinky
-        weight: 0
+        weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pointer
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pointer/knuckle1_pointer
@@ -360,15 +360,15 @@ ModelImporter:
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pointer/knuckle1_pointer/knuckle2_pointer
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pointer/knuckle1_pointer/knuckle2_pointer/tip_pointer
-        weight: 0
+        weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_thumb
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_thumb/knuckle1_thumb
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_thumb/knuckle1_thumb/tip_thump
         weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
+      maskType: 1
+      maskSource: {fileID: 101100000, guid: 51fa7441c66d8ec448e9993c5e15973c, type: 2}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

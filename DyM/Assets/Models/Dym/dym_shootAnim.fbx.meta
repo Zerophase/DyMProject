@@ -200,7 +200,183 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: curve3
+        weight: 1
+      - path: curve3/cc_ov_hip
+        weight: 1
+      - path: group8
+        weight: 1
+      - path: group8/dymBody
+        weight: 1
+      - path: group8/dymBody/head1
+        weight: 1
+      - path: group8/dymBody/lshoulder
+        weight: 1
+      - path: group8/dymBody/lshoulder/pSphere1
+        weight: 1
+      - path: group8/dymBody/lshoulder/pSphere1/lbicep
+        weight: 1
+      - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2
+        weight: 1
+      - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm
+        weight: 1
+      - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3
+        weight: 1
+      - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3/polySurface6
+        weight: 1
+      - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3/polySurface7
+        weight: 1
+      - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3/polySurface9
+        weight: 1
+      - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3/polySurface10
+        weight: 1
+      - path: group8/dymBody/pSphere3
+        weight: 1
+      - path: group8/dymBody/pSphere3/lShin
+        weight: 1
+      - path: group8/dymBody/pSphere3/lShin/pSphere4
+        weight: 1
+      - path: group8/dymBody/pSphere3/lShin/pSphere4/lFoot
+        weight: 1
+      - path: hip_override
+        weight: 1
+      - path: hip_override/hips
+        weight: 1
+      - path: hip_override/hips/l_hip
+        weight: 1
+      - path: hip_override/hips/l_hip/l_knee
+        weight: 1
+      - path: hip_override/hips/l_hip/l_knee/l_ankle
+        weight: 1
+      - path: hip_override/hips/l_hip/l_knee/l_ankle/l_foot
+        weight: 1
+      - path: hip_override/hips/l_hip/l_knee/l_ankle/l_foot/l_toe
+        weight: 1
+      - path: hip_override/hips/r_hip
+        weight: 1
+      - path: hip_override/hips/r_hip/r_knee
+        weight: 1
+      - path: hip_override/hips/r_hip/r_knee/r_ankle
+        weight: 1
+      - path: hip_override/hips/r_hip/r_knee/r_ankle/r_foot
+        weight: 1
+      - path: hip_override/hips/r_hip/r_knee/r_ankle/r_foot/r_toe
+        weight: 1
+      - path: hip_override/spine
+        weight: 1
+      - path: hip_override/spine/spine01
+        weight: 1
+      - path: hip_override/spine/spine01/spine02
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/b_hinge
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/b_hinge/b_tip
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/back_hinge
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/back_hinge/back_tip
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/front_hinge
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/front_hinge/front_tip
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/l_wrist
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/t_hinge
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/t_hinge/t_tip
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/neck
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/neck/neck01
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/neck/neck01/head
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/neck/neck01/head/joint10
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_finger
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_finger/knuckle1_finger
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_finger/knuckle1_finger/knuckle2_finger
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_finger/knuckle1_finger/knuckle2_finger/tip_finger
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_middle
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_middle/knuckle1_middle
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_middle/knuckle1_middle/knuckle2_middle
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_middle/knuckle1_middle/knuckle2_middle/tip_middle
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pinky
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pinky/knuckle1_pinky
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pinky/knuckle1_pinky/knuckle2_pinky
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pinky/knuckle1_pinky/knuckle2_pinky/tip_pinky
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pointer
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pointer/knuckle1_pointer
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pointer/knuckle1_pointer/knuckle2_pointer
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_pointer/knuckle1_pointer/knuckle2_pointer/tip_pointer
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_thumb
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_thumb/knuckle1_thumb
+        weight: 1
+      - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_thumb/knuckle1_thumb/tip_thump
+        weight: 1
+      maskType: 1
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

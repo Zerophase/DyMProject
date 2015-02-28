@@ -221,15 +221,11 @@ ModelImporter:
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      bodyMask: 01000000010000000100000001000000010000000000000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
       transformMask:
       - path: 
-        weight: 1
-      - path: curve3
-        weight: 1
-      - path: curve3/cc_ov_hip
         weight: 1
       - path: group8
         weight: 1
@@ -242,21 +238,21 @@ ModelImporter:
       - path: group8/dymBody/lshoulder/pSphere1
         weight: 1
       - path: group8/dymBody/lshoulder/pSphere1/lbicep
-        weight: 1
+        weight: 0
       - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2
-        weight: 1
+        weight: 0
       - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm
-        weight: 1
+        weight: 0
       - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3
-        weight: 1
+        weight: 0
       - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3/polySurface6
-        weight: 1
+        weight: 0
       - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3/polySurface7
-        weight: 1
+        weight: 0
       - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3/polySurface9
-        weight: 1
+        weight: 0
       - path: group8/dymBody/lshoulder/pSphere1/lbicep/pSphere2/lforearm/group3/polySurface10
-        weight: 1
+        weight: 0
       - path: group8/dymBody/pSphere3
         weight: 1
       - path: group8/dymBody/pSphere3/lShin
@@ -302,27 +298,27 @@ ModelImporter:
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/b_hinge
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/b_hinge/b_tip
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/back_hinge
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/back_hinge/back_tip
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/front_hinge
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/front_hinge/front_tip
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/l_wrist
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/t_hinge
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/l_shoulder/l_elbo/t_hinge/t_tip
-        weight: 1
+        weight: 0
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/neck
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/neck/neck01
@@ -375,8 +371,8 @@ ModelImporter:
         weight: 1
       - path: hip_override/spine/spine01/spine02/spine03/spine04/spine05/r_shoulder/r_elbo/r_wrist/knuckle_thumb/knuckle1_thumb/tip_thump
         weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
+      maskType: 1
+      maskSource: {fileID: 101100000, guid: 51fa7441c66d8ec448e9993c5e15973c, type: 2}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
