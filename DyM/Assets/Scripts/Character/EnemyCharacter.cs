@@ -156,5 +156,11 @@ namespace Assets.Scripts.Character
 		{
 			throw new NotImplementedException();
 		}
+
+
+		public void Heal(int healthGained)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

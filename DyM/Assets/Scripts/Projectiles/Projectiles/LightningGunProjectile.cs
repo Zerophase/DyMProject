@@ -14,13 +14,13 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		private Vector3 positionStorage;
 		private float smoothCurve = 0.0f;
 		private float bulletTimer = 0.0f;
-		private float smoothCurveChange = 10f;
+		private float smoothCurveChange = 100f;
 
 		private static int bulletLane = 0;
 		private int lane;
 
 		public LightningGunProjectile() :
-			base("LightningGunBullet", "Cube", 20f)
+			base("LightningGunBullet", "Cube", 40f)
 		{
 			damage = 1;
 		}
@@ -62,14 +62,17 @@ namespace Assets.Scripts.Projectiles.Projectiles
 
 		private void determineCurve()
 		{
-			if (Mathf.Abs(smoothCurve) < 1.0f)
+			if (Mathf.Abs(smoothCurve) < 40.0f)
 			{
 				positionStorage.z = smoothCurve = smoothCurveChange*bulletTimer;
 			}
-			else if (Mathf.Abs(smoothCurve) > 1.0f)
+			else if (Mathf.Abs(smoothCurve) > 40f)
 			{
 				positionStorage.z = 0.0f;
 			}
+
+			if(Mathf.Abs(smoothCurve) > 70f)
+				Debug.Log(smoothCurve);
 		}
 
 		public override void DeactivateProjectile()

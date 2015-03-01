@@ -47,7 +47,6 @@ namespace Assets.Scripts.GameObjects
 			var projectilePosition = projectile.ProjectilePattern();
 
 			//playerXMove.x = player.BoundingBox.Velocity.x;
-			Debug.Log(playerXMove.x);
 			UpdateVelocity(projectilePosition);
 			UpdatePosition();
 

@@ -77,6 +77,8 @@ namespace Assets.Scripts.DependencyInjection
 				WhenInjectedInto<Player>();
 			_container.Bind<ICharacter>().ToTransient<EnemyCharacter>().
 				WhenInjectedInto<Slug>();
+			_container.Bind<ICharacter>().ToTransient<EnemyCharacter>().
+				WhenInjectedInto<HoverSlug>();
 		}
 
 		private void messengerBindings()

@@ -45,6 +45,8 @@ namespace Assets.Scripts.GameObjects
 
 		private List<AudioSource> audioSources = new List<AudioSource>();
 
+		private ParticleSystem particleSystem;
+
 		protected override void Start()
 		{
 			planeShift = factory.Create(transform.position);
@@ -62,6 +64,8 @@ namespace Assets.Scripts.GameObjects
 			}
 
 			character.SendOutStats();
+
+			particleSystem = GameObject.Find("PlaneShiftParticle").GetComponent<ParticleSystem>();
 
 			base.Start();
 		}
@@ -98,19 +102,33 @@ namespace Assets.Scripts.GameObjects
 		    }
 		}
 
+		private Vector3 previousPlane;
 		private void switchPlane()
 		{
 			if (InputManager.PlaneShiftDown())
 			{
 				var changePlane = planeShift.ShiftPlane(KeyCode.Joystick1Button4,
 					transform.position);
+				previousPlane = transform.position;
 				UpdatePlane(changePlane);
+
+				if (transform.position != previousPlane)
+				{
+					particleSystem.transform.position = transform.position;
+					particleSystem.Play();
+				}
 			}
 			else if (InputManager.PlaneShiftUp())
 			{
 				var changePlane = planeShift.ShiftPlane(KeyCode.Joystick1Button5,
 					transform.position);
+				previousPlane = transform.position;
 				UpdatePlane(changePlane);
+				if (transform.position != previousPlane)
+				{
+					particleSystem.transform.position = transform.position;
+					particleSystem.Play();
+				}
 			}
 
 			// TODO put back in when we have a reason for a dodge.
@@ -121,7 +139,11 @@ namespace Assets.Scripts.GameObjects
 		private float previousYPosition;
 		private void move()
 		{
-			speed = InputManager.MovementHorizontal();
+			if (Input.GetAxis("LockPosition") == 0f)
+			{
+				speed = InputManager.MovementHorizontal();
+			}
+				
 
 			if (Util.compareEachFloat(speed, 0.0f))
 			{
@@ -199,6 +221,11 @@ namespace Assets.Scripts.GameObjects
 		public void TakeDamage(int healthLost)
 		{
 			character.TakeDamage(healthLost);
+		}
+
+		public void Heal(int healthGained)
+		{
+			character.Heal(healthGained);
 		}
 
 		void LateUpdate()

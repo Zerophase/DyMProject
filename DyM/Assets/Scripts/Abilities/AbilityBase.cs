@@ -6,6 +6,8 @@ using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Character.Interfaces;
 using UnityEngine;
+using Assets.Scripts.UI;
+using ModestTree.Zenject;
 
 namespace Assets.Scripts.Abilities
 {
@@ -26,6 +28,9 @@ namespace Assets.Scripts.Abilities
 
 		private float timeLimit = 2f;
 		private float timeLimitLeft = 2f;
+
+		[Inject]
+		private IEntityManager entityManager;
 
 		public AbilityBase(IMessageDispatcher messageDispatcher)
 		{
@@ -49,7 +54,8 @@ namespace Assets.Scripts.Abilities
 			else if(cooldownLeft < cooldown)
 			{
 				cooldownLeft += Time.deltaTime;
-				messageDispatcher.DispatchMessage(new Telegram(playerCharacter, 1));
+				AbilityMessage message = new AbilityMessage(cooldownLeft);
+				messageDispatcher.DispatchMessage(new Telegram(entityManager.GetEntityFromID(Entities.HUD, 1), message));
 				return false;
 			}
 

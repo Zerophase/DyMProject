@@ -22,6 +22,8 @@ namespace Assets.Scripts.MediatorPattern
 			new List<WeaponPickUpGameObject>();
 		private List<AbilityPickUpGameObject> abilityPickUps =
  			new List<AbilityPickUpGameObject>();
+		private List<HealthPack> healthPacks =
+ 			new List<HealthPack>();
 		private List<PhysicsMediator> bullets = new List<PhysicsMediator>();  
 
 		private bool assignGravity;
@@ -46,6 +48,7 @@ namespace Assets.Scripts.MediatorPattern
 
 			WeaponPickUpCollision();
 			AbilityPickUpCollision();
+			HealthPackCollision();
 
 			bulletCollision();
 			slugCollision();
@@ -105,6 +108,18 @@ namespace Assets.Scripts.MediatorPattern
 				{
 					abilityPickUps[i].PickUp(player.gameObject);
 					abilityPickUps.RemoveAt(i);
+				}
+			}
+		}
+
+		private void HealthPackCollision()
+		{
+			for (int i = 0; i < healthPacks.Count; i++)
+			{
+				if (aabbIntersection.Intersect(healthPacks[i].BoundingBox, player.BoundingBox))
+				{
+					healthPacks[i].PickUp(player.gameObject);
+					healthPacks.RemoveAt(i);
 				}
 			}
 		}
@@ -204,6 +219,7 @@ namespace Assets.Scripts.MediatorPattern
 
 		public override void Receive(ITelegram telegram)
 		{
+			/// TODO replace with Switch Statement
 			if (telegram.Receiver == this)
 			{
 				if(telegram.Message is MovablePhysicsMediator)
@@ -219,6 +235,8 @@ namespace Assets.Scripts.MediatorPattern
 					weaponPickUpGameObjects.Add((WeaponPickUpGameObject)telegram.Message);
 				else if(telegram.Message is AbilityPickUpGameObject)
 					abilityPickUps.Add((AbilityPickUpGameObject)telegram.Message);
+				else if(telegram.Message is HealthPack)
+					healthPacks.Add((HealthPack)telegram.Message);
 				else if(telegram.Message is Bullet)
 					bullets.Add((Bullet)telegram.Message);
 

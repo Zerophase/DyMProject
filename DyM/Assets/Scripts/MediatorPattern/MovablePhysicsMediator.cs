@@ -66,14 +66,17 @@ namespace Assets.Scripts.MediatorPattern
 			}
 		}
 
+		Vector3 rotationRight = new Vector3(0f, 270f, 0f);
+		Vector3 rotationLeft = new Vector3(0f, 90f, 0f);
+		private float time;
 		protected void flip(float speed)
 		{
-			if (model.transform.eulerAngles != new Vector3(0f, 90f, 0f) && speed > 0f)
+			if (model.transform.eulerAngles != rotationLeft && speed > 0f)
 			{
-				model.transform.eulerAngles = new Vector3(0, 90, 0);
+				model.transform.eulerAngles = rotationLeft;
 			}
-			else if (model.transform.eulerAngles != new Vector3(0f, 270f, 0f) && speed < 0f)
-				model.transform.eulerAngles = new Vector3(0f, 270f, 0f);
+			else if (model.transform.eulerAngles != rotationRight && speed < 0f)
+				model.transform.eulerAngles = rotationRight;
 		}
 	}
 }

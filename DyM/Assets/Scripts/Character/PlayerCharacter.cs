@@ -152,6 +152,11 @@ namespace Assets.Scripts.Character
 			SendOutStats();
 		}
 
+		public void Heal(int healthGain)
+		{
+			health += healthGain;
+			SendOutStats();
+		}
 		public void SendOutStats()
 		{
 			HealthMessage healthMessage = new HealthMessage(health);

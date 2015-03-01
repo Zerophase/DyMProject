@@ -3,6 +3,7 @@ using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
 using Assets.Scripts.Utilities.Messaging;
+using Assets.Scripts.UI;
 
 public class InGameHUD : MonoBehaviour, IOwner
 {
@@ -20,7 +21,7 @@ public class InGameHUD : MonoBehaviour, IOwner
     private int timeBarDisplay;
 
 	private Rect healthBar = new Rect(5f, 0f, 100, 35f);
-    private Rect timeBar = new Rect(5f, 40f, 100, 25f);
+    private Rect timeBar = new Rect(5f, 40f, 0, 25f);
 	private Rect backgroundHealthBar;
     private Rect backgroundTimeBar;
 	private Rect interfaceArea;
@@ -69,8 +70,10 @@ public class InGameHUD : MonoBehaviour, IOwner
 			healthBarDisplay = (telegram.Message as HealthMessage).Message;
 			healthBar.width = healthBarDisplay;
 		}
-
-//        timeBarDisplay = (int)telegram.Message;
-//        timeBar.width = timeBarDisplay;
+		else if (telegram.Message is AbilityMessage)
+		{
+			timeBarDisplay = (int)(telegram.Message as AbilityMessage).Message;
+			timeBar.width = timeBarDisplay * 60;
+		}
 	}
 }
