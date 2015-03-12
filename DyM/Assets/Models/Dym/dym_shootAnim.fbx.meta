@@ -168,7 +168,7 @@ ModelImporter:
     4300024: polySurface7
     4300026: polySurface9
     4300028: polySurface10
-    7400000: Take 001
+    7400000: Shoot
     9500000: //RootNode
     13700000: dymBody
     13700002: head1
@@ -194,7 +194,7 @@ ModelImporter:
     bakeSimulation: 0
     optimizeGameObjects: 0
     motionNodeName: 
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
@@ -202,7 +202,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Shoot
       takeName: Take 001
       firstFrame: 1
       lastFrame: 70
@@ -211,7 +211,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

@@ -89,6 +89,7 @@ namespace Assets.Scripts.GameObjects
 			switchWeapon();
 		}
 
+        // TODO move out of player
 		private void endScreen()
 		{
 			if (transform.position.y < -40)
@@ -154,13 +155,15 @@ namespace Assets.Scripts.GameObjects
 
 			animator.SetBool("Idle", idle);
             animator.SetFloat("Speed", speed);
-
+            
 			if (!audioSources[0].isPlaying && (speed > 0.1f || speed < -0.1f))
 				audioSources[0].Play();
 			if(!audioSources[1].isPlaying && InputManager.Jump())
-				audioSources[1].Play();
-
-			
+            {
+                
+                audioSources[1].Play();
+            }
+				
 			if (!audioSources[2].isPlaying && InputManager.Jumping() && !Util.compareEachFloat(transform.position.y, previousYPosition))
 			{
 				audioSources[2].Play();
@@ -176,20 +179,28 @@ namespace Assets.Scripts.GameObjects
 				}
 			}
 
+            animator.SetBool("Jumped", jumped);
+
 			previousYPosition = transform.position.y;
 
             UpdateVelocity(cardinalMovement.CalculateTotalMovement(speed,
                 acceleration, InputManager.Jumping(), transform.localPosition));
 		}
 
+        private bool shot;
 		private void rangeAttack()
 		{
-			if (InputManager.Fire() &&
-			    character.EquippedRangeWeapon() && character.RangeWeapon.FireRate(Time.deltaTime))
-			{
-				IProjectile bullet = character.RangeWeapon.Fire();
-				PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = bullet;
-			}
+            if (character.EquippedRangeWeapon() && InputManager.Fire())
+            {
+                shot = character.RangeWeapon.FireRate(Time.deltaTime);
+                animator.SetBool("Shot", shot);
+                if (shot)
+                {
+                    IProjectile bullet = character.RangeWeapon.Fire();
+                    PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = bullet;
+                }
+            }
+            
 		}
 
 		private void weakAttack()
