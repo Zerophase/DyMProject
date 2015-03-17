@@ -18,8 +18,6 @@ namespace Assets.Scripts.CustomInputManager.Interfaces
 		bool WeakAttack();
 		bool ActivateAbility();
 		bool SwitchWeapon();
-		float CameraHorizontalMovement();
-		float CameraVerticalMovement();
         Vector2 Aim();
 	}
 }

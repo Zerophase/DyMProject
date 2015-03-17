@@ -70,16 +70,6 @@ namespace Assets.Scripts.CustomInputManager
 			return input.SwitchWeapon();
 		}
 
-		public static float CameraHorizontalMovement()
-		{
-			return input.CameraHorizontalMovement();
-		}
-
-		public static float CameraVerticalMovement()
-		{
-			return input.CameraVerticalMovement();
-		}
-
 	    public static Vector2 Aim()
 	    {
 	        return input.Aim();

@@ -8,16 +8,6 @@ using ModestTree.Zenject;
 
 namespace Assets.Scripts.Abilities
 {
-	public class SlowTime : AbilityBase
-	{
-		[Inject]
-		public SlowTime(IMessageDispatcher messageDispatcher)
-			:base(messageDispatcher)
-		{
-			statusEffect = StatusEffect.SLOW_TIME;
-		}
-	}
-
 	public class AbilityTwo : AbilityBase
 	{
 		public AbilityTwo(IMessageDispatcher messageDispatcher)

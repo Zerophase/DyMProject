@@ -67,30 +67,6 @@ namespace Assets.Scripts.CustomInputManager
 			return Input.GetButtonDown("SwitchWeaponKeyboard");
 		}
 
-		public float CameraHorizontalMovement()
-		{
-            //if (!Util.compareEachFloat(mousePosX, Input.mousePosition.x))
-            //{
-            //    mouseX = -Input.GetAxis("Mouse X");
-            //    mousePosX = Input.mousePosition.x;
-            //}
-            //return -mouseX;
-            
-		    return Input.GetAxis("Mouse X");
-		}
-
-		public float CameraVerticalMovement()
-		{
-            //if (!Util.compareEachFloat(mousePosY, Input.mousePosition.y))
-            //{
-            //    mouseY = -Input.GetAxis("Mouse Y");
-            //    mousePosY = Input.mousePosition.y;
-            //}
-            //return mouseY;
-
-		    return Input.GetAxis("Mouse Y");
-		}
-
         Vector2 aimVector = Vector2.zero;
 	    public Vector2 Aim()
 	    {

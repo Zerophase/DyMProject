@@ -40,10 +40,10 @@ namespace Assets.Scripts.Character
 			get { return meleeWeapon; }
 		}
 
-		private IAbility ability;
+		private List<IAbility> abilities = new List<IAbility>();
 		public IAbility Ability
 		{
-			get { return ability; }
+            get { return abilities[0]; }
 		}
 
 		private StatusEffect statusEffect;
@@ -96,7 +96,7 @@ namespace Assets.Scripts.Character
 
 		public bool EquippedAbility()
 		{
-			return ability != null;
+            return abilities != null;
 		}
 
 		public void Equip(IRangeWeapon weapon)
@@ -112,7 +112,7 @@ namespace Assets.Scripts.Character
 
 		public void Equip(IAbility ability)
 		{
-			this.ability = ability;
+            this.abilities[0] = ability;
 		}
 
 		public void Receive(ITelegram telegram)

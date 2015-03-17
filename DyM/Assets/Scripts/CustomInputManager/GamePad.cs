@@ -82,16 +82,6 @@ namespace Assets.Scripts.CustomInputManager
 			return false;
 		}
 
-		public float CameraHorizontalMovement()
-		{
-			return Input.GetAxis("CameraHorizontalMovement");
-		}
-
-		public float CameraVerticalMovement()
-		{
-			return Input.GetAxis("CameraVerticalMovement");
-		}
-
         Vector2 aimVector = Vector2.zero;
 	    public Vector2 Aim()
 	    {
