@@ -11,10 +11,7 @@ namespace Assets.Scripts.CustomInputManager
 {
 	public class Keyboard : IInput
 	{
-		private float mouseX;
-		private float mouseY;
-		private float mousePosX;
-		private float mousePosY;
+	    private Ray mousePosition;
 
 		public bool CheckDodgeKeys()
 		{
@@ -73,22 +70,31 @@ namespace Assets.Scripts.CustomInputManager
 
 		public float CameraHorizontalMovement()
 		{
-			if (!Util.compareEachFloat(mousePosX, Input.mousePosition.x))
-			{
-				mouseX = -Input.GetAxis("Mouse X");
-				mousePosX = Input.mousePosition.x;
-			}
-			return -mouseX;
+            //if (!Util.compareEachFloat(mousePosX, Input.mousePosition.x))
+            //{
+            //    mouseX = -Input.GetAxis("Mouse X");
+            //    mousePosX = Input.mousePosition.x;
+            //}
+            //return -mouseX;
+            
+		    return Input.GetAxis("Mouse X");
 		}
 
 		public float CameraVerticalMovement()
 		{
-			if (!Util.compareEachFloat(mousePosY, Input.mousePosition.y))
-			{
-				mouseY = -Input.GetAxis("Mouse Y");
-				mousePosY = Input.mousePosition.y;
-			}
-			return mouseY;
+            //if (!Util.compareEachFloat(mousePosY, Input.mousePosition.y))
+            //{
+            //    mouseY = -Input.GetAxis("Mouse Y");
+            //    mousePosY = Input.mousePosition.y;
+            //}
+            //return mouseY;
+
+		    return Input.GetAxis("Mouse Y");
 		}
+
+	    public Vector2 MousePositionOnScreen()
+	    {
+	        return Camera.main.ScreenToViewportPoint(Input.mousePosition);
+	    }
 	}
 }

@@ -10,6 +10,8 @@ namespace Assets.Scripts.CustomInputManager
 	public static class InputManager
 	{
 		private static IInput input;
+
+        public static IInput InputType { get { return input; } }
 		static InputManager()
 		{
 			if(Input.GetJoystickNames().Length == 0)
@@ -77,5 +79,10 @@ namespace Assets.Scripts.CustomInputManager
 		{
 			return input.CameraVerticalMovement();
 		}
+
+	    public static Vector2 MousePositionOnScreen()
+	    {
+	        return input.MousePositionOnScreen();
+	    }
 	}
 }

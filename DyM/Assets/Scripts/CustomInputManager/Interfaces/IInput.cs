@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.CustomInputManager.Interfaces
 {
@@ -19,5 +20,6 @@ namespace Assets.Scripts.CustomInputManager.Interfaces
 		bool SwitchWeapon();
 		float CameraHorizontalMovement();
 		float CameraVerticalMovement();
+        Vector2 MousePositionOnScreen();
 	}
 }
