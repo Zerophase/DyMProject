@@ -92,9 +92,12 @@ namespace Assets.Scripts.CustomInputManager
 			return Input.GetAxis("CameraVerticalMovement");
 		}
 
-	    public Vector2 MousePositionOnScreen()
+        Vector2 aimVector = Vector2.zero;
+	    public Vector2 Aim()
 	    {
-	        return Vector2.zero;
+            aimVector.x = Input.GetAxis("CameraHorizontalMovement");
+            aimVector.y = Input.GetAxis("CameraVerticalMovement");
+            return aimVector;
 	    }
 	}
 }

@@ -80,9 +80,9 @@ namespace Assets.Scripts.CustomInputManager
 			return input.CameraVerticalMovement();
 		}
 
-	    public static Vector2 MousePositionOnScreen()
+	    public static Vector2 Aim()
 	    {
-	        return input.MousePositionOnScreen();
+	        return input.Aim();
 	    }
 	}
 }

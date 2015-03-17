@@ -20,6 +20,6 @@ namespace Assets.Scripts.CustomInputManager.Interfaces
 		bool SwitchWeapon();
 		float CameraHorizontalMovement();
 		float CameraVerticalMovement();
-        Vector2 MousePositionOnScreen();
+        Vector2 Aim();
 	}
 }

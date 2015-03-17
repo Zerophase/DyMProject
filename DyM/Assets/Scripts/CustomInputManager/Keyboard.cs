@@ -11,7 +11,6 @@ namespace Assets.Scripts.CustomInputManager
 {
 	public class Keyboard : IInput
 	{
-	    private Ray mousePosition;
 
 		public bool CheckDodgeKeys()
 		{
@@ -92,9 +91,15 @@ namespace Assets.Scripts.CustomInputManager
 		    return Input.GetAxis("Mouse Y");
 		}
 
-	    public Vector2 MousePositionOnScreen()
+        Vector2 aimVector = Vector2.zero;
+	    public Vector2 Aim()
 	    {
-	        return Camera.main.ScreenToViewportPoint(Input.mousePosition);
+	        aimVector = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            aimVector.x -= 0.5f;
+            aimVector.y -= 0.5f;
+            aimVector.y = -aimVector.y;
+
+            return aimVector;
 	    }
 	}
 }

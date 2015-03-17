@@ -29,31 +29,10 @@ public class Gun : MonoBehaviour
 
     public void Rotate()
     {
-        if (InputManager.InputType.ToString() == "Assets.Scripts.CustomInputManager.Joystick")
-            {
-                Direction = new Vector3(InputManager.CameraHorizontalMovement(), InputManager.CameraVerticalMovement());
+        Direction = InputManager.Aim();
+        float rotate = Mathf.Atan2(-Direction.y, -Direction.x)*Mathf.Rad2Deg;
 
-                float rotate = Mathf.Atan2(-Direction.y, -Direction.x)*Mathf.Rad2Deg;
-
-                if (!equalityComparer.Equals(Direction, Vector3.zero))
-                    transform.rotation = Quaternion.Euler(0f, 0f, -rotate);
-            }
-
-        else if (InputManager.InputType.ToString() == "Assets.Scripts.CustomInputManager.Keyboard")
-        {
-            MousePosition = InputManager.MousePositionOnScreen();
-            MousePosition.x -= .5f;
-            MousePosition.y -= .5f;
-            //MousePosition.x = MousePosition.x*-1;
-            MousePosition.y = MousePosition.y*-1;
-            Direction = new Vector3(MousePosition.x,MousePosition.y);
-            float rotate = Mathf.Atan2(-Direction.y, -Direction.x) * Mathf.Rad2Deg;
-
-            if (!equalityComparer.Equals(Direction, Vector3.zero))
-                transform.rotation = Quaternion.Euler(0f, 0f, -rotate);
-            Debug.Log("X: " + MousePosition.x);
-            Debug.Log("Y: " + MousePosition.y);
-            
-        }
+        if (!equalityComparer.Equals(Direction, Vector3.zero))
+            transform.rotation = Quaternion.Euler(0f, 0f, -rotate);
 	}
 }
