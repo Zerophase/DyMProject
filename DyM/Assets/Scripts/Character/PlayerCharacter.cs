@@ -15,6 +15,7 @@ using Assets.Scripts.Weapons.Bases;
 using ModestTree.Zenject;
 using UnityEngine;
 using Assets.Scripts.GameObjects;
+using System.Linq;
 
 namespace Assets.Scripts.Character
 {
@@ -94,9 +95,9 @@ namespace Assets.Scripts.Character
 			return meleeWeapon != null;
 		}
 
-		public bool EquippedAbility()
+		public bool EquippedAbility(AbilityTypes? abilityType)
 		{
-            return abilities != null;
+			return  abilities != null;
 		}
 
 		public void Equip(IRangeWeapon weapon)

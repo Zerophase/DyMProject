@@ -11,7 +11,7 @@ namespace Assets.Scripts.Abilities
 	public class AbilityTwo : AbilityBase
 	{
 		public AbilityTwo(IMessageDispatcher messageDispatcher)
-			: base(messageDispatcher)
+			: base(messageDispatcher, AbilityTypes.HEAL_HEALTH) // TODO make null class so this doesn't cause problems later
 		{
 			statusEffect = StatusEffect.TESTTWO;
 		}

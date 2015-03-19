@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Abilities;
 using Assets.Scripts.CustomInputManager.Interfaces;
 using UnityEngine;
 
@@ -60,7 +61,7 @@ namespace Assets.Scripts.CustomInputManager
 			return input.WeakAttack();
 		}
 
-		public static bool ActivateAbility()
+		public static AbilityTypes? ActivateAbility()
 		{
 			return input.ActivateAbility();
 		}
