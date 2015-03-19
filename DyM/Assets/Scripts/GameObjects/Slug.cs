@@ -42,11 +42,31 @@ public class Slug : MovablePhysicsMediator
 
 	void Update ()
 	{
+        switch (character.StatusEffect)
+        {
+            case StatusEffect.NONE:
+                break;
+            case StatusEffect.TEST:
+                break;
+            case StatusEffect.TESTTWO:
+                break;
+            case StatusEffect.SLOW_TIME:
+                movementMultiplier = 0.5f;
+			    character.RemoveStatusEffect();
+                break;
+            case StatusEffect.BOOST_TIME:
+                movementMultiplier = 1.5F;
 
+                break;
+            default:
+                break;
+        }
 		if (character.StatusEffect == StatusEffect.SLOW_TIME)
 		{
-			movementMultiplier = 0.5f;
-			character.RemoveStatusEffect();
+            for (int i = 0; i < 10; i++)
+            {
+                
+            }
 		}
 		else
 			movementMultiplier = 1.0f;

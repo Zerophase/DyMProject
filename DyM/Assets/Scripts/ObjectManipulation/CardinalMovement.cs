@@ -77,11 +77,11 @@ namespace Assets.Scripts.ObjectManipulation
 		public Vector3 Move(float direction, Vector3 acceleration, float deltaTime)
 		{
 		    velocity = acceleration * direction;
-            // TODO put in Time System
-            if (Input.GetButton("Sprint"))
-            {
-                velocity+= new Vector3(20f, 0f, 0f) * direction;
-            }
+            //// TODO put in Time System
+            //if (Input.GetButton("Sprint"))
+            //{
+            //    velocity+= new Vector3(20f, 0f, 0f) * direction;
+            //}
 			return velocity;
 		}
 

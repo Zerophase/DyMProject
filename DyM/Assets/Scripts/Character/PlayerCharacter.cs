@@ -42,9 +42,10 @@ namespace Assets.Scripts.Character
 		}
 
 		private List<IAbility> abilities = new List<IAbility>();
+        private IAbility ability;
 		public IAbility Ability
 		{
-            get { return abilities[0]; }
+            get { return abilities.First(); }
 		}
 
 		private StatusEffect statusEffect;
@@ -97,7 +98,9 @@ namespace Assets.Scripts.Character
 
 		public bool EquippedAbility(AbilityTypes? abilityType)
 		{
-			return  abilities != null;
+            bool activeAbility = abilities.Any(x => x.AbilityType == abilityType);
+            abilities.OrderBy(o => o.AbilityType == abilityType);
+            return activeAbility;
 		}
 
 		public void Equip(IRangeWeapon weapon)
@@ -113,7 +116,8 @@ namespace Assets.Scripts.Character
 
 		public void Equip(IAbility ability)
 		{
-            this.abilities[0] = ability;
+            if(!abilities.Any(x => x == ability))
+                abilities.Add(ability);
 		}
 
 		public void Receive(ITelegram telegram)

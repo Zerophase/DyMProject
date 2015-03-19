@@ -11,5 +11,6 @@ namespace Assets.Scripts.Abilities.Interfaces
 		void TimeLimit();
 		ICharacter PlayerCharacter {set;}
 		GameObject PlayerGameobject {set;}
+        AbilityTypes AbilityType { get; }
 	}
 }

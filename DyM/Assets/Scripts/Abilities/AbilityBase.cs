@@ -27,8 +27,8 @@ namespace Assets.Scripts.Abilities
 		private GameObject playerGameobject;
 		public GameObject PlayerGameobject {set {playerGameobject = value;}}
 		
-		private float cooldown = 5f;
-		private float cooldownLeft = 5f;
+		private static float cooldown = 5f;
+		private static float cooldownLeft = 5f;
 
 		private float timeLimit = 2f;
 		private float timeLimitLeft = 2f;

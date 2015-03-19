@@ -213,6 +213,7 @@ namespace Assets.Scripts.GameObjects
 
 		private void activateAbility()
 		{
+            // TODO Stop Cool DOwn from returning null.
 			if (character.EquippedAbility(InputManager.ActivateAbility()) && character.Ability.CoolDown())
 			{
 				character.Ability.Activate(character);
