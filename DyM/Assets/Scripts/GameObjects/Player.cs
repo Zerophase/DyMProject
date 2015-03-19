@@ -213,8 +213,7 @@ namespace Assets.Scripts.GameObjects
 
 		private void activateAbility()
 		{
-			if (character.EquippedAbility() && character.Ability.CoolDown() && 
-				InputManager.ActivateAbility())
+			if (character.EquippedAbility(InputManager.ActivateAbility()) && character.Ability.CoolDown())
 			{
 				character.Ability.Activate(character);
 			}

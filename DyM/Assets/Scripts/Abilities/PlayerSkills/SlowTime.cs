@@ -12,7 +12,7 @@ namespace Assets.Scripts.Abilities.PlayerSkills
     {
         [Inject]
         public SlowTime(IMessageDispatcher messageDispatcher)
-            : base(messageDispatcher)
+            : base(messageDispatcher, AbilityTypes.SLOW_TIME)
         {
             statusEffect = StatusEffect.SLOW_TIME;
         }

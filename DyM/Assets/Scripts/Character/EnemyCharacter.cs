@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Abilities;
 using Assets.Scripts.Abilities.Interfaces;
 using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.StatusEffects;
@@ -82,7 +83,7 @@ namespace Assets.Scripts.Character
 			throw new NotImplementedException();
 		}
 
-		public bool EquippedAbility()
+		public bool EquippedAbility(AbilityTypes? abilityType)
 		{
 			throw new NotImplementedException();
 		}

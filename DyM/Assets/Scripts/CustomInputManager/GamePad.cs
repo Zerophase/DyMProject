@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Abilities;
 using Assets.Scripts.CustomInputManager.Interfaces;
 using Assets.Scripts.Utilities;
 using UnityEngine;
@@ -56,9 +57,16 @@ namespace Assets.Scripts.CustomInputManager
 			return Input.GetButtonDown("WeakAttack");
 		}
 
-		public bool ActivateAbility()
+		public AbilityTypes? ActivateAbility()
 		{
-			return Input.GetButtonDown("ActivateAbility");
+			if (Input.GetButtonDown("ActivateAbility"))
+				return  AbilityTypes.SLOW_TIME;
+			else if(Input.GetButtonDown("Sprint"))
+			{
+				return AbilityTypes.SPEED_UP_TIME;
+			}
+
+			return null;
 		}
 
 		public bool SwitchWeapon()

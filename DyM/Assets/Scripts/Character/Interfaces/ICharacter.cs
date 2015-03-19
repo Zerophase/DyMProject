@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Assets.Scripts.Abilities;
 using Assets.Scripts.Abilities.Interfaces;
 using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging;
@@ -24,7 +25,7 @@ namespace Assets.Scripts.Character.Interfaces
 		int Health { get; }
 		bool EquippedRangeWeapon();
 		bool EquippedMeleeWeapon();
-		bool EquippedAbility();
+		bool EquippedAbility(AbilityTypes? abilityType);
 		void Equip(IRangeWeapon rangeweapon);
 		void Equip(IMeleeWeapon meleeWeapon);
 		void Equip(IAbility ability);

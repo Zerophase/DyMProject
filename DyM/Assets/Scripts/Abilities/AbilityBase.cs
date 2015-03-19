@@ -14,11 +14,15 @@ namespace Assets.Scripts.Abilities
 	public abstract class AbilityBase : IAbility
 	{
 		private IMessageDispatcher messageDispatcher;
+		protected IMessageDispatcher MessageDispatcher { get { return messageDispatcher; } }
 		protected StatusEffect statusEffect;
 
 		private EnemyCharacter enemyCharacter = new EnemyCharacter();
 		private ICharacter playerCharacter;
 		public ICharacter PlayerCharacter { set {playerCharacter = value;}}
+
+		private AbilityTypes abilityType;
+		public AbilityTypes AbilityType { get { return abilityType; } }
 
 		private GameObject playerGameobject;
 		public GameObject PlayerGameobject {set {playerGameobject = value;}}
@@ -32,18 +36,23 @@ namespace Assets.Scripts.Abilities
 		[Inject]
 		private IEntityManager entityManager;
 
-		public AbilityBase(IMessageDispatcher messageDispatcher)
+		public AbilityBase(IMessageDispatcher messageDispatcher, AbilityTypes abilityTypes)
 		{
 			this.messageDispatcher = messageDispatcher;
+			this.abilityType = abilityTypes;
 		}
 
 		public void Activate(ICharacter character)
 		{
 			cooldownLeft = 0f;
 			timeLimitLeft = 0f;
-			messageDispatcher.DispatchMessage(new Telegram(enemyCharacter, statusEffect, true));
+			SendOutAbilityEffect();
 		}
 
+		public virtual void SendOutAbilityEffect()
+		{
+			messageDispatcher.DispatchMessage(new Telegram(enemyCharacter, statusEffect, true));
+		}
 
 		public bool CoolDown()
 		{
@@ -58,7 +67,6 @@ namespace Assets.Scripts.Abilities
 				messageDispatcher.DispatchMessage(new Telegram(entityManager.GetEntityFromID(Entities.HUD, 1), message));
 				return false;
 			}
-
 
 			return false;
 		}

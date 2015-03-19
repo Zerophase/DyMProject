@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Abilities;
 using UnityEngine;
 
 namespace Assets.Scripts.CustomInputManager.Interfaces
@@ -16,7 +17,7 @@ namespace Assets.Scripts.CustomInputManager.Interfaces
 		bool Jump();
 		bool Fire();
 		bool WeakAttack();
-		bool ActivateAbility();
+		AbilityTypes? ActivateAbility();
 		bool SwitchWeapon();
         Vector2 Aim();
 	}
