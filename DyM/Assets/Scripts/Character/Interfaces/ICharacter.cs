@@ -17,15 +17,17 @@ namespace Assets.Scripts.Character.Interfaces
 {
 	public interface ICharacter : IOwner
 	{
+		void PostConstruction();
 		IRangeWeapon RangeWeapon { get; }
 		IMeleeWeapon MeleeWeapon { get; }
 		IAbility Ability { get; }
 		StatusEffect StatusEffect { get; }
+		void GainStatusEffect(StatusEffect statusEffect);
 		Vector3 Position { get; set; }
 		int Health { get; }
 		bool EquippedRangeWeapon();
 		bool EquippedMeleeWeapon();
-		bool EquippedAbility(AbilityTypes? abilityType);
+		bool EquippedAbility(AbilityTypes abilityType);
 		void Equip(IRangeWeapon rangeweapon);
 		void Equip(IMeleeWeapon meleeWeapon);
 		void Equip(IAbility ability);

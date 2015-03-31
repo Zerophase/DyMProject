@@ -16,6 +16,9 @@ using ModestTree.Zenject;
 using UnityEngine;
 using Assets.Scripts.GameObjects;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using Assets.Scripts.Abilities.PlayerSkills;
+using Assets.Scripts.Utilities;
 
 namespace Assets.Scripts.Character
 {
@@ -41,6 +44,8 @@ namespace Assets.Scripts.Character
 			get { return meleeWeapon; }
 		}
 
+		[Inject]
+		public IAbility NullAbility;
 		private List<IAbility> abilities = new List<IAbility>();
         private IAbility ability;
 		public IAbility Ability
@@ -79,11 +84,17 @@ namespace Assets.Scripts.Character
             this.entityManager = entityManager;
             this.receiver = receiver;
 			this.receiver.Owner = this;
-
+			
+			//Equip(NullAbility);
 
             id.CreateId();
             entityManager.Add(Entities.CHARACTER, id.ObjectId, this);
 			receiver.SubScribe();
+		}
+
+		public void PostConstruction()
+		{
+			Equip(NullAbility);
 		}
 
 		public bool EquippedRangeWeapon()
@@ -96,13 +107,18 @@ namespace Assets.Scripts.Character
 			return meleeWeapon != null;
 		}
 
-		public bool EquippedAbility(AbilityTypes? abilityType)
+		public bool EquippedAbility(AbilityTypes abilityType)
 		{
+			if (abilities.All(a => a == NullAbility))
+				return false;
             bool activeAbility = abilities.Any(x => x.AbilityType == abilityType);
-            abilities.OrderBy(o => o.AbilityType == abilityType);
+            abilities.Swap(0, 
+				abilities.FindIndex(a => a.AbilityType == abilityType));
             return activeAbility;
 		}
 
+		// TODO Make Extension method
+		
 		public void Equip(IRangeWeapon weapon)
 		{
 			bulletPool.ChangeBullet(weapon);
@@ -116,7 +132,7 @@ namespace Assets.Scripts.Character
 
 		public void Equip(IAbility ability)
 		{
-            if(!abilities.Any(x => x == ability))
+            if(abilities.All(x => x != ability))
                 abilities.Add(ability);
 		}
 
@@ -170,7 +186,25 @@ namespace Assets.Scripts.Character
 
 		public void RemoveStatusEffect()
 		{
-			throw new NotImplementedException();
+			if (timeLimit())
+				this.statusEffect = StatusEffect.NONE;
+		}
+
+		private float timeLimitTotal = 2f;
+		private float timeLimitLeft;
+		private bool timeLimit()
+		{
+			if (timeLimitTotal <= timeLimitLeft)
+			{
+				timeLimitLeft = 0f;
+				return true;
+			}
+			else if (timeLimitLeft < timeLimitTotal)
+			{
+				timeLimitLeft += Time.deltaTime;
+			}
+
+			return false;
 		}
 	}
 }

@@ -24,10 +24,8 @@ namespace Assets.Scripts.DependencyInjection
 			{
 				case AbilityTypes.SLOW_TIME:
 					return instantiator.Instantiate<SlowTime>();
-					break;
                 case AbilityTypes.SPEED_UP_TIME:
                     return instantiator.Instantiate<BoostTime>();
-                    break;
 				default:
 					throw new ArgumentOutOfRangeException("abilityTypes");
 			}

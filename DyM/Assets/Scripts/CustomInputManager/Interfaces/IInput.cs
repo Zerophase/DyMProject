@@ -17,7 +17,7 @@ namespace Assets.Scripts.CustomInputManager.Interfaces
 		bool Jump();
 		bool Fire();
 		bool WeakAttack();
-		AbilityTypes? ActivateAbility();
+		AbilityTypes ActivateAbility();
 		bool SwitchWeapon();
         Vector2 Aim();
 	}

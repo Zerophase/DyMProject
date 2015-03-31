@@ -12,6 +12,7 @@ using Assets.Scripts.Utilities;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
+using Assets.Scripts.StatusEffects;
 
 namespace Assets.Scripts.GameObjects
 {
@@ -63,6 +64,7 @@ namespace Assets.Scripts.GameObjects
 				audioSources.Add(aSources[i]);
 			}
 
+			character.PostConstruction();
 			character.SendOutStats();
 
 			particleSystem = GameObject.Find("PlaneShiftParticle").GetComponent<ParticleSystem>();
@@ -182,9 +184,26 @@ namespace Assets.Scripts.GameObjects
             animator.SetBool("Jumped", jumped);
 
 			previousYPosition = transform.position.y;
-
+			statusEffect();
             UpdateVelocity(cardinalMovement.CalculateTotalMovement(speed,
-                acceleration, InputManager.Jumping(), transform.localPosition));
+                acceleration * movementMultiplier, InputManager.Jumping(), transform.localPosition));
+		}
+
+		private void statusEffect()
+		{
+			var statusEffect = character.StatusEffect;
+			if (statusEffect == StatusEffect.NONE)
+				movementMultiplier = 1.0f;
+			else if ((statusEffect & StatusEffect.BOOST_TIME) ==
+				StatusEffect.BOOST_TIME)
+			{
+				movementMultiplier = 1.5f;
+			}
+
+			if (character.StatusEffect != StatusEffect.NONE)
+			{
+				character.RemoveStatusEffect();
+			}
 		}
 
         private bool shot;
@@ -213,8 +232,9 @@ namespace Assets.Scripts.GameObjects
 
 		private void activateAbility()
 		{
-            // TODO Stop Cool DOwn from returning null.
-			if (character.EquippedAbility(InputManager.ActivateAbility()) && character.Ability.CoolDown())
+            
+			if (character.EquippedAbility(InputManager.ActivateAbility()) && 
+				character.Ability.CoolDown())
 			{
 				character.Ability.Activate(character);
 			}

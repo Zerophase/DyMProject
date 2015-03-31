@@ -7,6 +7,7 @@ namespace Assets.Scripts.Abilities
 {
 	public enum AbilityTypes
 	{
+		NONE,
 		SLOW_TIME,
 		HEAL_HEALTH,
         SPEED_UP_TIME

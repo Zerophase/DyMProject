@@ -73,6 +73,11 @@ namespace Assets.Scripts.Character
 			receiver.SubScribe();
 		}
 
+		public void PostConstruction()
+		{
+			throw new NotImplementedException();
+		}
+
 		public bool EquippedRangeWeapon()
 		{
 			throw new NotImplementedException();
@@ -83,22 +88,22 @@ namespace Assets.Scripts.Character
 			throw new NotImplementedException();
 		}
 
-		public bool EquippedAbility(AbilityTypes? abilityType)
+		public bool EquippedAbility(AbilityTypes abilityType)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void Equip(Weapons.Interfaces.IRangeWeapon rangeweapon)
+		public void Equip(IRangeWeapon rangeweapon)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void Equip(Weapons.Interfaces.IMeleeWeapon meleeWeapon)
+		public void Equip(IMeleeWeapon meleeWeapon)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void Equip(Abilities.Interfaces.IAbility ability)
+		public void Equip(IAbility ability)
 		{
 			throw new NotImplementedException();
 		}

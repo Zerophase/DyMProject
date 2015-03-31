@@ -52,7 +52,7 @@ namespace Assets.Scripts.DependencyInjection
 
 		private void abilityBindings()
 		{
-			_container.Bind<IAbility>().ToTransient<SlowTime>();
+			_container.Bind<IAbility>().ToTransient<NullAbiliity>();
 		}
 
 		private void rangeWeaponBindings()

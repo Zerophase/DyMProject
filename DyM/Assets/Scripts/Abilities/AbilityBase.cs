@@ -17,7 +17,7 @@ namespace Assets.Scripts.Abilities
 		protected IMessageDispatcher MessageDispatcher { get { return messageDispatcher; } }
 		protected StatusEffect statusEffect;
 
-		private EnemyCharacter enemyCharacter = new EnemyCharacter();
+		protected EnemyCharacter enemyCharacter = new EnemyCharacter();
 		private ICharacter playerCharacter;
 		public ICharacter PlayerCharacter { set {playerCharacter = value;}}
 
@@ -54,7 +54,7 @@ namespace Assets.Scripts.Abilities
 			messageDispatcher.DispatchMessage(new Telegram(enemyCharacter, statusEffect, true));
 		}
 
-		public bool CoolDown()
+		public virtual bool CoolDown()
 		{
 			if (cooldown <= cooldownLeft)
 			{
@@ -62,13 +62,17 @@ namespace Assets.Scripts.Abilities
 			}
 			else if(cooldownLeft < cooldown)
 			{
-				cooldownLeft += Time.deltaTime;
-				AbilityMessage message = new AbilityMessage(cooldownLeft);
-				messageDispatcher.DispatchMessage(new Telegram(entityManager.GetEntityFromID(Entities.HUD, 1), message));
-				return false;
+				calculateCooldown();
 			}
 
 			return false;
+		}
+
+		protected void calculateCooldown()
+		{
+			cooldownLeft += Time.deltaTime;
+			AbilityMessage message = new AbilityMessage(cooldownLeft);
+			messageDispatcher.DispatchMessage(new Telegram(entityManager.GetEntityFromID(Entities.HUD, 1), message));
 		}
 
 		public void TimeLimit()

@@ -13,8 +13,6 @@ namespace Assets.Scripts.GameObjects
 	public class AbilityPickUpGameObject : PhysicsMediator
 	{
 		public AbilityTypes abilityTypes;
-		[Inject] 
-		private IAbility ability;
 
 		[Inject] private AbilityPickUpFactory abilityPickUpFactory;
 		private AbilityPickUp abilityPickUp;

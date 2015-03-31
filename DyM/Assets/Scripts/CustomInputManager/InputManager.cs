@@ -61,7 +61,7 @@ namespace Assets.Scripts.CustomInputManager
 			return input.WeakAttack();
 		}
 
-		public static AbilityTypes? ActivateAbility()
+		public static AbilityTypes ActivateAbility()
 		{
 			return input.ActivateAbility();
 		}

@@ -57,7 +57,7 @@ namespace Assets.Scripts.CustomInputManager
 			return Input.GetButtonDown("WeakAttack");
 		}
 
-		public AbilityTypes? ActivateAbility()
+		public AbilityTypes ActivateAbility()
 		{
 			if (Input.GetButtonDown("ActivateAbility"))
 				return  AbilityTypes.SLOW_TIME;
@@ -66,7 +66,7 @@ namespace Assets.Scripts.CustomInputManager
 				return AbilityTypes.SPEED_UP_TIME;
 			}
 
-			return null;
+			return AbilityTypes.NONE;
 		}
 
 		public bool SwitchWeapon()

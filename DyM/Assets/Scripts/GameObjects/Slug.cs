@@ -42,52 +42,53 @@ public class Slug : MovablePhysicsMediator
 
 	void Update ()
 	{
-        switch (character.StatusEffect)
-        {
-            case StatusEffect.NONE:
-                break;
-            case StatusEffect.TEST:
-                break;
-            case StatusEffect.TESTTWO:
-                break;
-            case StatusEffect.SLOW_TIME:
-                movementMultiplier = 0.5f;
-			    character.RemoveStatusEffect();
-                break;
-            case StatusEffect.BOOST_TIME:
-                movementMultiplier = 1.5F;
-
-                break;
-            default:
-                break;
-        }
-		if (character.StatusEffect == StatusEffect.SLOW_TIME)
-		{
-            for (int i = 0; i < 10; i++)
-            {
-                
-            }
-		}
-		else
-			movementMultiplier = 1.0f;
+        statusEffect();
 
 		if (pathFinder.UpdateDistanceTraveled(transform.position) < 10f || !pathFinder.FirstSearchDone)
 			target = pathFinder.CreatePathAStarDistanceSquared(transform.position);
 
 		comparisor = target - transform.position;
+
+		var modifiedAccel = acceleration*movementMultiplier;
+		Debug.Log("Acceleration: " + acceleration);
+		Debug.Log("Modified Accel: " + modifiedAccel);
 		if (Vector3.Dot(comparisor, Vector3.left) > 0f)
 		{
-			speed = -1f*movementMultiplier;
-			UpdateVelocity(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
+			speed = -1f;
+			UpdateVelocity(cardinalMovement.Move(speed, modifiedAccel, Time.deltaTime));
 		}
 			
 		else if (Vector3.Dot(comparisor, Vector3.left) < 0f)
 		{
-			speed = 1f*movementMultiplier;
-			UpdateVelocity(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
+			speed = 1f;
+			UpdateVelocity(cardinalMovement.Move(speed, modifiedAccel, Time.deltaTime));
 		}
 
 		flip(speed);
+	}
+
+	private void statusEffect()
+	{
+		
+		var statusEffect = character.StatusEffect;
+		if (statusEffect == StatusEffect.NONE)
+			movementMultiplier = 1.0f;
+		else if((statusEffect & StatusEffect.SLOW_TIME) == 
+			StatusEffect.SLOW_TIME)
+		{
+			movementMultiplier = 0.5f;
+		}
+		else if((statusEffect & StatusEffect.BOOST_TIME) ==
+			StatusEffect.BOOST_TIME)
+		{
+			movementMultiplier = 1.5f;
+		}
+
+		if (character.StatusEffect != StatusEffect.NONE)
+		{
+			character.RemoveStatusEffect();
+		}
+			
 	}
 
 	public void TakeDamge(int healthLost)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Character;
+using Assets.Scripts.Character.Interfaces;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging;
@@ -21,7 +22,11 @@ namespace Assets.Scripts.Abilities.PlayerSkills
 
 	    public override void SendOutAbilityEffect()
 	    {
-		   MessageDispatcher.DispatchMessage(new Telegram(playerCharacter, statusEffect));
+		   MessageDispatcher.DispatchMessage
+				(
+					new Telegram(playerCharacter, statusEffect, true)
+				);
+			base.SendOutAbilityEffect();
 	    }
     }
 }
