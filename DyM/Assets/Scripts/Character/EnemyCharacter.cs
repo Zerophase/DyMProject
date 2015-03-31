@@ -168,5 +168,9 @@ namespace Assets.Scripts.Character
 		{
 			throw new NotImplementedException();
 		}
+		public void AddScore(int scoreValue)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

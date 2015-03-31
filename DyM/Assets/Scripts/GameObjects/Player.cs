@@ -256,6 +256,11 @@ namespace Assets.Scripts.GameObjects
 			character.Heal(healthGained);
 		}
 
+		public void AddScore(int scoreValue)
+		{
+			character.AddScore (scoreValue);
+		}
+
 		void LateUpdate()
 		{
 			gun.Rotate();
