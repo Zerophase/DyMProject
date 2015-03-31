@@ -13,6 +13,7 @@ namespace Assets.Scripts.CustomInputManager
 	{
 		private bool pressed;
 		private float savedPress;
+        private float deadZone = .4f;
 
 		public bool CheckDodgeKeys()
 		{
@@ -29,10 +30,18 @@ namespace Assets.Scripts.CustomInputManager
 			return Input.GetButtonDown("PlaneShiftUp");
 		}
 
-		public float MovementHorizontal()
-		{
-			return Input.GetAxis("Horizontal");
-		}
+        public float MovementHorizontal()
+        {
+            if (Input.GetAxis("Horizontal") > deadZone)
+            {
+                return Input.GetAxis("Horizontal");
+            }
+            else if (Input.GetAxis("Horizontal") < -deadZone)
+            {
+                return Input.GetAxis("Horizontal");
+            }
+            return 0f;
+        }
 
 		public bool Jumping()
 		{
@@ -91,10 +100,23 @@ namespace Assets.Scripts.CustomInputManager
 		}
 
         Vector2 aimVector = Vector2.zero;
+        Vector2 prevPosition = Vector2.zero;
+
 	    public Vector2 Aim()
 	    {
+            prevPosition = aimVector;
+
             aimVector.x = Input.GetAxis("CameraHorizontalMovement");
             aimVector.y = Input.GetAxis("CameraVerticalMovement");
+
+            if (aimVector.magnitude < deadZone)
+            {
+                aimVector = prevPosition;
+            }
+            else
+            {
+                aimVector = aimVector.normalized * ((aimVector.magnitude - deadZone) / (1 - deadZone));
+            }
             return aimVector;
 	    }
 	}
