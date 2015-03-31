@@ -50,8 +50,6 @@ public class Slug : MovablePhysicsMediator
 		comparisor = target - transform.position;
 
 		var modifiedAccel = acceleration*movementMultiplier;
-		Debug.Log("Acceleration: " + acceleration);
-		Debug.Log("Modified Accel: " + modifiedAccel);
 		if (Vector3.Dot(comparisor, Vector3.left) > 0f)
 		{
 			speed = -1f;
