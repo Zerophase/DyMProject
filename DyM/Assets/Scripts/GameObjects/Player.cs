@@ -99,10 +99,7 @@ namespace Assets.Scripts.GameObjects
 				Application.LoadLevel("GameOver");
 			}
 
-		    if (transform.position.x > 400f)
-		    {
-		        Application.LoadLevel("WinScreen");
-		    }
+		    
 		}
 
 		private Vector3 previousPlane;
@@ -257,6 +254,11 @@ namespace Assets.Scripts.GameObjects
 		public void Heal(int healthGained)
 		{
 			character.Heal(healthGained);
+		}
+
+		public void AddScore(int scoreValue)
+		{
+			character.AddScore (scoreValue);
 		}
 
 		void LateUpdate()

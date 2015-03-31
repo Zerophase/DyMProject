@@ -67,6 +67,9 @@ namespace Assets.Scripts.Character
 		private int health = 300;
 		public int Health { get { return health; } }
 
+		private int score = 0;
+		public int Score { get {return score; } }
+
 		public Vector3 Position { get; set; }
 
 		[Inject]
@@ -178,6 +181,14 @@ namespace Assets.Scripts.Character
 			health += healthGain;
 			SendOutStats();
 		}
+
+		public void AddScore(int scoreValue)
+		{
+			score += scoreValue;
+			Debug.Log ("Score: " + score);
+			SendOutStats();
+		}
+
 		public void SendOutStats()
 		{
 			HealthMessage healthMessage = new HealthMessage(health);

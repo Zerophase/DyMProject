@@ -35,6 +35,7 @@ namespace Assets.Scripts.Character.Interfaces
 		void AddWeapon(RangeWeaponBase weapon);
 		void TakeDamage(int healthLost);
 		void Heal(int healthGained);
+		void AddScore(int scoreValue);
 		void SendOutStats();
 		void RemoveStatusEffect();
 	}
