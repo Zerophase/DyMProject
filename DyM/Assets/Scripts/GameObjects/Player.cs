@@ -99,10 +99,7 @@ namespace Assets.Scripts.GameObjects
 				Application.LoadLevel("GameOver");
 			}
 
-		    if (transform.position.x > 400f)
-		    {
-		        Application.LoadLevel("WinScreen");
-		    }
+		    
 		}
 
 		private Vector3 previousPlane;
