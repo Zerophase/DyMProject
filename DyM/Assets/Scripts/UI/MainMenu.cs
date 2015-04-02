@@ -87,7 +87,7 @@ public class MainMenu : MonoBehaviour
 				MainMenuScreen();
 			    break;
 		    case Menus.OPTIONS:
-				OptionsScreen();
+				//OptionsScreen();
 			    break;
 		    case Menus.CREDITS:
 				Credits();
@@ -117,13 +117,13 @@ public class MainMenu : MonoBehaviour
 			Application.LoadLevel("Level_01");
 		}
 
-		if (mainMenuSelections[1])
-		{
-			selection();
-			resetSelected();
-			mainMenuSelections[1] = false;
-			GUIMenu = Menus.OPTIONS;
-		}
+        if (mainMenuSelections[1])
+        {
+            selection();
+            resetSelected();
+            mainMenuSelections[1] = false;
+            GUIMenu = Menus.OPTIONS;
+        }
 
 		if (mainMenuSelections[2])
 		{
