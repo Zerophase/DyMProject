@@ -14,8 +14,8 @@ namespace Assets.Scripts.CustomInputManager
 
         public static IInput InputType { get { return input; } }
 		static InputManager()
-		{
-			if(Input.GetJoystickNames().Length == 0)
+		{;
+			if(Input.GetJoystickNames()[0] == string.Empty)
 				input = new Keyboard();
 			else
 				input = new GamePad();
