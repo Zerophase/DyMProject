@@ -20,7 +20,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		private int lane;
 
 		public LightningGunProjectile() :
-			base("LightningGunBullet", "Cube", 40f)
+			base("LightningGunBullet", 40f)
 		{
 			damage = 1;
 		}

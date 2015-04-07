@@ -11,7 +11,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 	public class MachineGunProjectile : ProjectileBase
 	{
 		public MachineGunProjectile() :
-			base("MachineGunBullet", "Sphere", 30f)
+			base("MachineGunBullet", 30f)
 		{
 			damage = 2;
 		}

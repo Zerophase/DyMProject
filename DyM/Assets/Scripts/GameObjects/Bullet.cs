@@ -38,6 +38,8 @@ namespace Assets.Scripts.GameObjects
 			if (!projectile.IsProjectileSetup)
 			{
 				audio.Play();
+				transform.rotation = Quaternion.Inverse(
+					Player.GunModel.transform.rotation);
 				transform.position = Player.GunModel.transform.position;
 				projectile.SetUpProjectile(transform.position);
 				BoundingBox.Center = transform.position;

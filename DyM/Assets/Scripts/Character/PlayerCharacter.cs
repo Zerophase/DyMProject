@@ -77,7 +77,7 @@ namespace Assets.Scripts.Character
 
 		public PlayerCharacter()
 		{
-			
+			statusEffect = StatusEffect.NONE;
 		}
 
 		[Inject]
@@ -87,8 +87,7 @@ namespace Assets.Scripts.Character
             this.entityManager = entityManager;
             this.receiver = receiver;
 			this.receiver.Owner = this;
-			
-			//Equip(NullAbility);
+			statusEffect = StatusEffect.NONE;
 
             id.CreateId();
             entityManager.Add(Entities.CHARACTER, id.ObjectId, this);

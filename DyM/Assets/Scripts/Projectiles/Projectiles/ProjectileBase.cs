@@ -26,17 +26,18 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		private float deactivationDistance;
 
 		protected int damage;
-		public ProjectileBase(string matterialName, string gameObjectName, float deactivationDistance)
+		public ProjectileBase(string matterialName, float deactivationDistance)
 		{
 			material = Resources.Load<Material>("Materials/" + matterialName);
 			//TODO once meshes are made replace with direct reference to mesh.
 			GameObject go;
-			if(!GameObject.Find(gameObjectName + "(Clone)"))
-				go = GameObject.Instantiate(Resources.Load<GameObject>("Meshes/" + gameObjectName)) as GameObject;
+			if(!GameObject.Find("Bullet" + "(Clone)"))
+				go = GameObject.Instantiate(Resources.Load<GameObject>("Meshes/" + "Bullet")) as GameObject;
 			else
 			{
-				go = GameObject.Find(gameObjectName + "(Clone)");
+				go = GameObject.Find("Bullet" + "(Clone)");
 			}
+
 			mesh = go.GetComponent<MeshFilter>().mesh;
 			this.deactivationDistance = deactivationDistance;
 		}
@@ -44,7 +45,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		public virtual void SetUpProjectile(Vector3 position)
 		{
 			startPosition = position;
-			
+
 			fireDirection = -Player.GunModel.transform.right;
 			fireDirection.z = 0f;
 

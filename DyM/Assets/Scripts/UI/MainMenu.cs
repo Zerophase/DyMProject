@@ -31,12 +31,12 @@ public class MainMenu : MonoBehaviour
     public GameObject musicManager;
     public GameObject soundManager;
 
-	bool[] mainMenuSelections = new bool[5] {false, false, false, false, false};
+	bool[] mainMenuSelections = new bool[4] {false, false, false, false};
 	bool[] optionMenuSelections = new bool[3] {false, false, false};
 	private bool backButton;
 	private bool keyPressed;
 
-	string[] mainMenuTexts = new string[5] { "Start", "Options", "controls", "credits", "exit" };
+	string[] mainMenuTexts = new string[4] { "Start", "controls", "credits", "exit" };
 	string[] optionMenuTexts = new string[3] { "Back", "Music", "Sound"};
 	string[] miscTexts = new string[1] { "Back"};
 
@@ -49,7 +49,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
 		currentMenu.Add(Menus.MAIN_MENU, mainMenuTexts);
-		currentMenu.Add(Menus.OPTIONS, optionMenuTexts);
+		//currentMenu.Add(Menus.OPTIONS, optionMenuTexts);
 		currentMenu.Add(Menus.CREDITS, miscTexts);
 		currentMenu.Add(Menus.CONTROLS, miscTexts);
 
@@ -122,7 +122,7 @@ public class MainMenu : MonoBehaviour
             selection();
             resetSelected();
             mainMenuSelections[1] = false;
-            GUIMenu = Menus.OPTIONS;
+            GUIMenu = Menus.CONTROLS;
         }
 
 		if (mainMenuSelections[2])
@@ -130,18 +130,10 @@ public class MainMenu : MonoBehaviour
 			selection();
 			resetSelected();
 			mainMenuSelections[2] = false;
-			GUIMenu = Menus.CONTROLS;
-		}
-
-		if (mainMenuSelections[3])
-		{
-			selection();
-			resetSelected();
-			mainMenuSelections[3] = false;
 			GUIMenu = Menus.CREDITS;
 		}
 
-		if (mainMenuSelections[4])
+		if (mainMenuSelections[3])
 		{
 			selection();
 			Application.Quit();
