@@ -11,14 +11,17 @@ public class MainMenu : MonoBehaviour
 		MAIN_MENU,
 		OPTIONS,
 		CREDITS,
-		CONTROLS
+		CONTROLS,
+		CONTROLSXBOX,
+		CONTROLSKEYBOARD
 	};
 
 	private Menus menus;
 
     public Texture2D logo;
 
-	public Texture2D controls;
+	public Texture2D controlsKeyboard;
+	public Texture2D controlsXbox;
 
     public GUISkin skin;
 	public GUISkin Label;
@@ -31,14 +34,17 @@ public class MainMenu : MonoBehaviour
     public GameObject musicManager;
     public GameObject soundManager;
 
-	bool[] mainMenuSelections = new bool[4] {false, false, false, false};
+	bool[] mainMenuSelections = new bool[4] {false, false,  false, false};
+	bool[] controlMenuSelections = new bool[3] {false, false, false};
 	bool[] optionMenuSelections = new bool[3] {false, false, false};
 	private bool backButton;
+	private bool backButtonControls;
 	private bool keyPressed;
 
 	string[] mainMenuTexts = new string[4] { "Start", "controls", "credits", "exit" };
-	string[] optionMenuTexts = new string[3] { "Back", "Music", "Sound"};
-	string[] miscTexts = new string[1] { "Back"};
+	string[] controlMenuTexts = new string[3] {"xbox", "keyboard", "BAck"};
+	string[] optionMenuTexts = new string[3] { "BAck", "Music", "Sound"};
+	string[] miscTexts = new string[1] { "BAck"};
 
 	private Dictionary<Menus, string[]> currentMenu = new Dictionary<Menus, string[]>(); 
 
@@ -51,7 +57,9 @@ public class MainMenu : MonoBehaviour
 		currentMenu.Add(Menus.MAIN_MENU, mainMenuTexts);
 		//currentMenu.Add(Menus.OPTIONS, optionMenuTexts);
 		currentMenu.Add(Menus.CREDITS, miscTexts);
-		currentMenu.Add(Menus.CONTROLS, miscTexts);
+		currentMenu.Add(Menus.CONTROLS, controlMenuTexts);
+		currentMenu.Add(Menus.CONTROLSXBOX, miscTexts);
+		currentMenu.Add(Menus.CONTROLSKEYBOARD, miscTexts);
 
         GUIMenu = Menus.MAIN_MENU;
 
@@ -95,6 +103,12 @@ public class MainMenu : MonoBehaviour
 		    case Menus.CONTROLS:
 				Controls();
 			    break;
+			case Menus.CONTROLSKEYBOARD:
+				ControlsKeyboard();
+				break;
+			case Menus.CONTROLSXBOX:
+				ControlsXbox();
+				break;
 		    default:
 			    throw new ArgumentOutOfRangeException();
 	    }
@@ -304,6 +318,14 @@ public class MainMenu : MonoBehaviour
 			resetBackButton();
 			returnToMainMenu();
 		}
+
+		if (backButtonControls)
+		{
+			goBackSound();
+			resetSelected();
+			resetBackButton();
+			returnToMainMenu();
+		}
 	}
 
 	private void goBackSound()
@@ -315,7 +337,13 @@ public class MainMenu : MonoBehaviour
 	void startMultiFocusArea(string[] texts)
 	{
 		GUI.SetNextControlName(texts[0]);
-		backButton = GUI.Button(new Rect(225, 450, 150, 50), texts[0]);
+		backButton = GUI.Button(new Rect(225, 400, 150, 50), texts[0]);
+	}
+
+	void startMultiFocusAreaC(string[] texts)
+	{
+		GUI.SetNextControlName(texts[0]);
+		backButtonControls = GUI.Button(new Rect(475, 350, 150, 50), texts[0]);
 	}
 
 	private void returnToMainMenu()
@@ -326,6 +354,7 @@ public class MainMenu : MonoBehaviour
 	private void resetBackButton()
 	{
 		backButton = false;
+		backButtonControls = false;
 	}
 
 	private float AdjustSlider(float valueToAdjust)
@@ -365,14 +394,61 @@ public class MainMenu : MonoBehaviour
 	{
 		GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
 
-		GUI.Label(new Rect(0, 215, controls.width, controls.height), controls);
-		GUI.Label(new Rect(350, 275, 250, 200), "To Plane Shift and Stay on the plane hold the Plane Shift Button down. To Dodge tap the plane Shift Button.");
+		startMultiFocusArea(controlMenuSelections, controlMenuTexts);
+		SetMenuSelectionTrue(controlMenuSelections);
 
-		startMultiFocusArea(miscTexts);
-		SetMenuSelectionTrue(ref backButton);
+		if (controlMenuSelections[0])
+		{
+			selection();
+			resetSelected();
+			mainMenuSelections[0] = false;
+			GUIMenu = Menus.CONTROLSXBOX;
+		}
+		
+		if (controlMenuSelections[1])
+		{
+			selection();
+			resetSelected();
+			mainMenuSelections[1] = false;
+			GUIMenu = Menus.CONTROLSKEYBOARD;
+		}
+		
+		if (controlMenuSelections[2])
+		{
+			goBackSound();
+			resetSelected();
+			resetBackButton();
+			returnToMainMenu();
+		}
+
+		endMultiFocusArea(controlMenuTexts);
+	}
+
+	void ControlsXbox()
+	{
+		GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
+		
+		GUI.Label(new Rect(-15, 200, controlsXbox.width / 1.1f, controlsXbox.height / 1.1f), controlsXbox);
+
+		startMultiFocusAreaC(miscTexts);
+		SetMenuSelectionTrue(ref backButtonControls);
 
 		exitCurrentMenu();
+		
+		endMultiFocusArea(miscTexts);
+	}
 
+	void ControlsKeyboard()
+	{
+		GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
+		
+		GUI.Label(new Rect(0, 220, controlsKeyboard.width / 1.1f, controlsKeyboard.height / 1.1f), controlsKeyboard);
+
+		startMultiFocusAreaC(miscTexts);
+		SetMenuSelectionTrue(ref backButtonControls);
+
+		exitCurrentMenu();
+		
 		endMultiFocusArea(miscTexts);
 	}
 }
