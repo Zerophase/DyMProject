@@ -146,65 +146,144 @@ namespace Assets.Scripts.MediatorPattern
 
 		private Sweep sweep = new Sweep();
 
-		private void GroundCollision()
+		private int compareAABBS(PhysicsMediator left, PhysicsMediator right)
 		{
-			if (grounds != null)
+			AABB3D a = left.BoundingBox;
+			AABB3D b = right.BoundingBox;
+			float leftMin = a.Center.x - a.HalfWidth;
+			float rightMin = b.Center.x - b.HalfWidth;
+			if (leftMin < rightMin)
+				return -1;
+			if (leftMin > rightMin)
+				return 1;
+			return 0;
+		}
+
+		private void quicksort(PhysicsMediator[] colliders, int first, int last)
+		{
+			int left = first;
+			int right = last;
+			int pivot = first;
+			first++;
+
+			while (last >= first)
 			{
-				float hitTime = 0f;
-				//sweep.ResetRectangles();
-				for (int k = 0; k < movablePhysicsMediators.Count; k++)
+				if(compareAABBS(colliders[first], colliders[pivot]) >= 0 &&
+					compareAABBS(colliders[last], colliders[pivot]) < 0)
+						swap(colliders, first, last);
+				else if (compareAABBS(colliders[first], colliders[pivot]) >= 0)
+					last--;
+				else if (compareAABBS(colliders[last], colliders[pivot]) < 0)
+					first++;
+				else
 				{
-					movablePhysicsMediators[k].UpdateVelocity(gravity);
-
-					playerBoundingBox = movablePhysicsMediators[k].BoundingBox;
-					for (int i = 0; i < grounds.Count; i++)
-					{
-						groundBoundingBox = grounds[i].BoundingBox;
-						if (sweep.TestMovingAABB(playerBoundingBox,
-							playerBoundingBox.Velocity * Time.deltaTime, 0f, 1f,
-							groundBoundingBox, ref hitTime))
-						{
-							float actualHittime = 1.0f - hitTime;
-							if (playerBoundingBox.NormalCollision[0].x > 0.0f)
-							{
-								//playerBoundingBox.NormalCollision[0].x = 0.0f;
-								velocity.x = playerBoundingBox.Velocity.x;
-								velocity.y = 0.0f;
-								velocity.z = 0.0f;
-								movablePhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
-							}
-							else if (playerBoundingBox.NormalCollision[0].x < 0.0f)
-							{
-								//playerBoundingBox.NormalCollision[0].x = 0.0f;
-								velocity.x = playerBoundingBox.Velocity.x;
-								velocity.y = 0.0f;
-								velocity.z = 0.0f;
-								movablePhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
-							}
-																				 // TODO find out if better way for avoiding getting caught in platforms
-							if (playerBoundingBox.NormalCollision[1].y < 0.0f && playerBoundingBox.Velocity.y < 0.0f)
-							{
-								velocity.x = 0.0f;
-								velocity.y = playerBoundingBox.Velocity.y;
-								velocity.z = 0.0f;
-								// Collide at bottom cardinalMovement is false
-								//playerBoundingBox.NormalCollision[1].y = 0.0f;
-								movablePhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
-							}
-
-						}
-						else if (movablePhysicsMediators[k] is Player && movablePhysicsMediators[k].velocity.y < Vector3.zero.y && (movablePhysicsMediators[k] as Player).TouchGroundFrameCount > 2)
-						{
-							(movablePhysicsMediators[k] as Player).TouchGroundFrameCount = 0;
-						}
-
-						//Debug.Log("Player on ground for frames: " + (movablePhysicsMediators[k] as Player).TouchGroundFrameCount);
-					}
-
-					movablePhysicsMediators[k].UpdatePosition();
-					movablePhysicsMediators[k].ResetVelocity();
+					last--;
+					first++;
 				}
 			}
+
+			swap(colliders, pivot, last);
+			pivot = last;
+			if(pivot > left)
+				quicksort(colliders, left, pivot);
+			if(right > pivot + 1)
+				quicksort(colliders, pivot + 1, right);
+		}
+
+		private void swap(PhysicsMediator[] colliders, int left, int right)
+		{
+			var temp = colliders[right];
+			colliders[right] = colliders[left];
+			colliders[left] = temp;
+		}
+
+		private bool adjustPosition = true;
+		private void GroundCollision()
+		{
+			quicksort(movablePhysicsMediatorsArray, 0, movablePhysicsMediatorsArray.Length - 1);
+			
+			float hitTime = 0f;
+
+			for (int k = 0; k < movablePhysicsMediatorsArray.Length; k++)
+			{
+				movablePhysicsMediatorsArray[k].UpdateVelocity(gravity);
+
+				playerBoundingBox = movablePhysicsMediatorsArray[k].BoundingBox;
+				//int arrayPosition = findPosition(groundsArray, playerBoundingBox);
+				float[] tesatDs = new float[groundsArray.Length];
+				for (int i = 0; i < groundsArray.Length; i++)
+				{
+					
+					 tesatDs[i] = groundsArray[i].BoundingBox.Center.x - groundsArray[i].BoundingBox.HalfWidth;
+				}
+
+
+				for (int i = 0; i < groundsArray.Length; i++)
+				{
+					
+					groundBoundingBox = groundsArray[i].BoundingBox;
+					var groundMin = groundBoundingBox.Center - new Vector3(groundBoundingBox.HalfWidth, groundBoundingBox.HalfHeight);
+					var unitMax = playerBoundingBox.Center + new Vector3(playerBoundingBox.HalfWidth, playerBoundingBox.HalfHeight) + playerBoundingBox.Velocity * Time.deltaTime;
+					if (groundMin.x > unitMax.x)
+					{
+						break;
+					}
+
+					if (sweep.TestMovingAABB(playerBoundingBox,
+						playerBoundingBox.Velocity * Time.deltaTime, 0f, 1f,
+						groundBoundingBox, ref hitTime))
+					{
+						float actualHittime = 1.0f - hitTime;
+						if (playerBoundingBox.NormalCollision[0].x > 0.0f)
+						{
+							velocity.x = playerBoundingBox.Velocity.x;
+							velocity.y = 0.0f;
+							velocity.z = 0.0f;
+							movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+						}
+						else if (playerBoundingBox.NormalCollision[0].x < 0.0f)
+						{
+							velocity.x = playerBoundingBox.Velocity.x;
+							velocity.y = 0.0f;
+							velocity.z = 0.0f;
+							movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+						}
+						// TODO find out if better way for avoiding getting caught in platforms
+						if (playerBoundingBox.NormalCollision[1].y < 0.0f && playerBoundingBox.Velocity.y < 0.0f)
+						{
+							
+							velocity.x = 0.0f;
+							velocity.y = playerBoundingBox.Velocity.y;
+							velocity.z = 0.0f;
+							movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+						}
+					}
+					else if (movablePhysicsMediatorsArray[k] is Player && movablePhysicsMediatorsArray[k].velocity.y < Vector3.zero.y &&
+						(movablePhysicsMediatorsArray[k] as Player).TouchGroundFrameCount > 2)
+					{
+						(movablePhysicsMediatorsArray[k] as Player).TouchGroundFrameCount = 0;
+					}
+
+					//Debug.Log("Player on ground for frames: " + (movablePhysicsMediators[k] as Player).TouchGroundFrameCount);
+				}
+
+				movablePhysicsMediatorsArray[k].UpdatePosition();
+				movablePhysicsMediatorsArray[k].ResetVelocity();
+			}
+		}
+
+		private int findPosition(PhysicsMediator[] ground, AABB3D movable)
+		{
+			for (int i = 0; i < ground.Length; i++)
+			{
+				if (ground[i].BoundingBox.Center.x  > movable.Center.x)
+				{
+					Debug.Log(i);
+					return i;
+				}
+			}
+			Debug.Log(0);
+			return 0;
 		}
 
 		public override void Receive(ITelegram telegram)
@@ -215,13 +294,17 @@ namespace Assets.Scripts.MediatorPattern
 				if(telegram.Message is MovablePhysicsMediator)
 				{
 					movablePhysicsMediators.Add((MovablePhysicsMediator)telegram.Message);
-					//movablePhysicsMediatorsArray = new MovablePhysicsMediator[movablePhysicsMediators.Count];
+					movablePhysicsMediatorsArray = movablePhysicsMediators.ToArray();
 					if (telegram.Message is Player)
 						player = movablePhysicsMediators.Find(p => p is Player);
 					assignGravity = true;
 				}
-				else if(telegram.Message is Ground)
+				else if (telegram.Message is Ground)
+				{
 					grounds.Add((Ground)telegram.Message);
+					groundsArray = grounds.ToArray();
+					quicksort(groundsArray, 0, groundsArray.Length - 1);
+				}
 				else if(telegram.Message is WeaponPickUpGameObject)
 					weaponPickUpGameObjects.Add((WeaponPickUpGameObject)telegram.Message);
 				else if(telegram.Message is AbilityPickUpGameObject)

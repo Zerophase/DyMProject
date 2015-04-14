@@ -75,42 +75,6 @@ namespace Assets.Scripts.CollisionBoxes.ThreeD
 			this.center = center;
 
 			halfWidth = new float[3] {width/2.0f, height/2.0f, depth/ 2.0f};
-
-			//distanceToTop = new Vector3(0.0f, HalfHeight, 0.0f);
-			//Vector3 topLeft = new Vector3(Center.x - HalfWidth, Center.y + HalfHeight, Center.z - HalfDepth);
-			//Vector3 topCenter = new Vector3(Center.x + HalfWidth, Center.y + HalfHeight, Center.z - HalfDepth);
-			//Vector3 topRight = new Vector3(Center.x + HalfWidth, Center.y + HalfHeight, Center.z + HalfDepth);
-			//top = new Plane(topCenter, topLeft, topRight);
-
-			//distanceToBottom = new Vector3(0.0f, -HalfHeight, 0.0f);
-			//Vector3 bottomLeft = new Vector3(Center.x - HalfWidth, Center.y - HalfHeight, Center.z - HalfDepth);
-			//Vector3 bottomCenter = new Vector3(Center.x - HalfWidth, Center.y - HalfHeight, Center.z + HalfDepth);
-			//Vector3 bottomRight = new Vector3(Center.x + HalfWidth, Center.y - HalfHeight, Center.z + HalfDepth);
-			//bottom = new Plane(bottomCenter, bottomLeft, bottomRight);
-
-			//distanceToLeft = new Vector3(-HalfWidth, 0.0f, 0.0f);
-			//Vector3 leftTop = new Vector3(Center.x - HalfWidth, Center.y + HalfHeight, Center.z - HalfDepth);
-			//Vector3 leftCenter = new Vector3(Center.x - HalfWidth, Center.y - HalfHeight, Center.z + HalfDepth);
-			//Vector3 leftBottom = new Vector3(Center.x - HalfWidth, Center.y - HalfHeight, Center.z - HalfDepth);
-			//left = new Plane(leftCenter, leftTop, leftBottom);
-
-			//distanceToRight = new Vector3(HalfWidth, 0.0f, 0.0f);
-			//Vector3 rightTop = new Vector3(Center.x + HalfWidth, Center.y + HalfHeight, Center.z - HalfDepth);
-			//Vector3 rightCenter = new Vector3(Center.x + HalfWidth, Center.y - HalfHeight, Center.z - HalfDepth);
-			//Vector3 rightBottom = new Vector3(Center.x + HalfWidth, Center.y - HalfHeight, Center.z + HalfDepth);
-			//right = new Plane(rightCenter, rightTop, rightBottom);
-
-			//distanceToFront = new Vector3(0.0f, 0.0f, -HalfDepth);
-			//Vector3 frontTop = new Vector3(Center.x + HalfWidth, Center.y + HalfHeight, Center.z - HalfDepth);
-			//Vector3 frontCenter = new Vector3(Center.x - HalfWidth, Center.y + HalfHeight, Center.z - HalfDepth);
-			//Vector3 frontBottom = new Vector3(Center.x + HalfWidth, Center.y - HalfHeight, Center.z - HalfDepth);
-			//front = new Plane(frontCenter, frontTop, frontBottom);
-
-			//distanceToBack = new Vector3(0.0f, 0.0f, HalfDepth);
-			//Vector3 backTop = new Vector3(Center.x + HalfWidth, Center.y + HalfHeight, Center.z + HalfDepth);
-			//Vector3 backCenter = new Vector3(Center.x - HalfWidth, Center.y - HalfHeight, Center.z + HalfDepth);
-			//Vector3 backBottom = new Vector3(Center.x - HalfWidth, Center.y + HalfHeight, Center.z + HalfDepth);
-			//back = new Plane(backCenter, backTop, backBottom);
 		}
 		public override bool Equals(object obj)
 		{

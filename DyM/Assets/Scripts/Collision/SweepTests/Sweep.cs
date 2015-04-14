@@ -75,27 +75,25 @@ namespace Assets.Scripts.Collision.SweepTests
 					//Debug.Log("Bottom: " + bottom);
 					b0.NormalCollision[1] = Vector3.down;
 				}
-				else if ((edgeCheck > 10 && edgeCheck < 44))
+				// TODO figure out how to replace edgecheck for when two collision boxes are next to each other 
+				else //if ((edgeCheck > 10 && edgeCheck < 44))
 				{
 					//Debug.Log("Right: " + right);
 					b0.NormalCollision[0] = Vector3.right;
-					Debug.Log("wy and hy difference: " + edgeCheck);
 				}
 			}
 			else
 			{
-				if ((edgeCheck > 10 && edgeCheck < 44) && wy > -hx)
+				if (//(edgeCheck > 10 && edgeCheck < 44) && 
+					wy > -hx)
 				{
 					//Debug.Log("Left: " + left);
 					b0.NormalCollision[0] = Vector3.left;
-					Debug.Log("wy and hy difference: " + edgeCheck);
 				}
-				else //if (wy - Math.Abs(hx) > 1f)
+				else
 				{
 					//Debug.Log("Top: " + top);
-
 					b0.NormalCollision[1] = Vector3.up;
-					Debug.Log("wy and hy difference: " + edgeCheck);
 				}
 			}
 		}
