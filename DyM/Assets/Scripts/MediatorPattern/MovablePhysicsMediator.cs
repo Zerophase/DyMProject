@@ -19,8 +19,6 @@ namespace Assets.Scripts.MediatorPattern
 		[Inject]
 		protected ICardinalMovement cardinalMovement;
 
-		public Vector3 Gravity { set { cardinalMovement.Gravity = value; } }
-
 		public bool HasJumped { set { cardinalMovement.HasJumped = value; } }
 
 		private GameObject model;

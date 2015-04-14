@@ -98,8 +98,6 @@ namespace Assets.Scripts.GameObjects
 			{
 				Application.LoadLevel("GameOver");
 			}
-
-		    
 		}
 
 		private Vector3 previousPlane;
