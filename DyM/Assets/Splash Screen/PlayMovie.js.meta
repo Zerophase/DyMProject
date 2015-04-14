@@ -2,7 +2,8 @@ fileFormatVersion: 2
 guid: 01e7de3c009e3db4d9d3d7f3ae9f4908
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - movTex: {fileID: 15200000, guid: b945123341562b8479ac66679eeae9a6, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
