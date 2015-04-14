@@ -18,6 +18,10 @@ namespace Assets.Scripts.MediatorPattern
 	{
 		private List<MovablePhysicsMediator> movablePhysicsMediators = new List<MovablePhysicsMediator>();
 		private List<Ground> grounds = new List<Ground>();
+
+		private MovablePhysicsMediator[] movablePhysicsMediatorsArray;
+		private Ground[] groundsArray;
+
 		private List<WeaponPickUpGameObject> weaponPickUpGameObjects = 
 			new List<WeaponPickUpGameObject>();
 		private List<AbilityPickUpGameObject> abilityPickUps =
@@ -42,7 +46,6 @@ namespace Assets.Scripts.MediatorPattern
 			{
 				Application.LoadLevel("GameOver");
 			}
-			gravityAssignment();
 
 			GroundCollision();
 
@@ -204,19 +207,6 @@ namespace Assets.Scripts.MediatorPattern
 			}
 		}
 
-		private void gravityAssignment()
-		{
-			if (assignGravity)
-			{
-				foreach (MovablePhysicsMediator physicsMed in movablePhysicsMediators)
-				{
-					physicsMed.Gravity = gravity;
-				}
-
-				assignGravity = false;
-			}
-		}
-
 		public override void Receive(ITelegram telegram)
 		{
 			/// TODO replace with Switch Statement
@@ -225,6 +215,7 @@ namespace Assets.Scripts.MediatorPattern
 				if(telegram.Message is MovablePhysicsMediator)
 				{
 					movablePhysicsMediators.Add((MovablePhysicsMediator)telegram.Message);
+					//movablePhysicsMediatorsArray = new MovablePhysicsMediator[movablePhysicsMediators.Count];
 					if (telegram.Message is Player)
 						player = movablePhysicsMediators.Find(p => p is Player);
 					assignGravity = true;

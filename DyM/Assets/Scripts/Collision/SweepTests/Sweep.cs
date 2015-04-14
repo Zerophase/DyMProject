@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Collision.IntersectionTests;
+﻿using System;
+using Assets.Scripts.Collision.IntersectionTests;
 using Assets.Scripts.CollisionBoxes.ThreeD;
 using UnityEngine;
 using System.Collections.Generic;
@@ -65,6 +66,8 @@ namespace Assets.Scripts.Collision.SweepTests
 			wy = (movingBox.HalfWidth * 2 + b1.HalfWidth * 2) * (movingBox.Center.y - b1.Center.y);
 			hx = (movingBox.HalfHeight * 2 + b1.HalfHeight * 2) * (movingBox.Center.x - b1.Center.x);
 
+			int signedValue = (int)(Math.Abs(wy) - Math.Abs(hx));
+			uint edgeCheck = signedValue < 0 ? (uint)-signedValue : (uint)signedValue;
 			if (wy > hx)
 			{
 				if (wy > -hx)
@@ -72,26 +75,27 @@ namespace Assets.Scripts.Collision.SweepTests
 					//Debug.Log("Bottom: " + bottom);
 					b0.NormalCollision[1] = Vector3.down;
 				}
-				else
+				else if ((edgeCheck > 10 && edgeCheck < 44))
 				{
 					//Debug.Log("Right: " + right);
 					b0.NormalCollision[0] = Vector3.right;
-
+					Debug.Log("wy and hy difference: " + edgeCheck);
 				}
 			}
 			else
 			{
-				if (wy > -hx)
+				if ((edgeCheck > 10 && edgeCheck < 44) && wy > -hx)
 				{
 					//Debug.Log("Left: " + left);
 					b0.NormalCollision[0] = Vector3.left;
+					Debug.Log("wy and hy difference: " + edgeCheck);
 				}
-				else
+				else //if (wy - Math.Abs(hx) > 1f)
 				{
 					//Debug.Log("Top: " + top);
 
 					b0.NormalCollision[1] = Vector3.up;
-
+					Debug.Log("wy and hy difference: " + edgeCheck);
 				}
 			}
 		}
