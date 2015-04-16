@@ -19,8 +19,6 @@ namespace Assets.Scripts.MediatorPattern
 		[Inject]
 		protected ICardinalMovement cardinalMovement;
 
-		public bool HasJumped { set { cardinalMovement.HasJumped = value; } }
-
 		private GameObject model;
 
 		private const int preventDeformation = 0;

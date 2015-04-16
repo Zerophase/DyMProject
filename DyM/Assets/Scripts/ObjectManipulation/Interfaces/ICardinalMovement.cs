@@ -11,6 +11,5 @@ namespace Assets.Scripts.ObjectManipulation.Interfaces
 	    Vector3 CalculateTotalMovement(float direction, Vector3 xVelocity, bool isJumping, Vector3 currentPosition);
 		Vector3 Move(float stickInput, Vector3 acceleration, float deltaTime);
 		Vector3 Jump(bool pressed, Vector3 currentPosition);
-		bool HasJumped { get; set; }
 	}
 }
