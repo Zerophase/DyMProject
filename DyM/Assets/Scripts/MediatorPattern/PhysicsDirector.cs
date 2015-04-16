@@ -60,13 +60,13 @@ namespace Assets.Scripts.MediatorPattern
 		private int damage;
 		private void slugCollision()
 		{
-			for (int i = 0; i < movablePhysicsMediators.Count; i++)
+            for (int i = 0; i < movablePhysicsMediatorsArray.Length; i++)
 			{
-				if(movablePhysicsMediators[i] is Player)
+                if (movablePhysicsMediatorsArray[i] is Player)
 					continue;
-				if (aabbIntersection.Intersect(player.BoundingBox, movablePhysicsMediators[i].BoundingBox))
+                if (aabbIntersection.Intersect(player.BoundingBox, movablePhysicsMediatorsArray[i].BoundingBox))
 				{
-					((Player)player).TakeDamage(((Slug) movablePhysicsMediators[i]).DealDamage());
+                    ((Player)player).TakeDamage(((Slug)movablePhysicsMediatorsArray[i]).DealDamage());
 
 					if (((Player)player).Health <= 0)
 					{
@@ -84,18 +84,20 @@ namespace Assets.Scripts.MediatorPattern
 				return;
 			for (int i = 0; i < bullets.Count; i++)
 			{
-				for (int j = 0; j < movablePhysicsMediators.Count; j++)
+                for (int j = 0; j < movablePhysicsMediatorsArray.Length; j++)
 				{
 					if (movablePhysicsMediators[j] is Player)
 						continue;
-					if (aabbIntersection.Intersect(bullets[i].BoundingBox, movablePhysicsMediators[j].BoundingBox))
+                    if (aabbIntersection.Intersect(bullets[i].BoundingBox, movablePhysicsMediatorsArray[j].BoundingBox))
 					{
-						((Slug)movablePhysicsMediators[j]).TakeDamge(((Bullet)bullets[i]).DealDamage());
+                        ((Slug)movablePhysicsMediatorsArray[j]).TakeDamge(((Bullet)bullets[i]).DealDamage());
 
-						if (((Slug) movablePhysicsMediators[j]).Health <= 0)
+                        if (((Slug)movablePhysicsMediatorsArray[j]).Health <= 0)
 						{
-							PhysicsMediator removeMe = movablePhysicsMediators[j];
-							movablePhysicsMediators.RemoveAt(j);
+                            PhysicsMediator removeMe = movablePhysicsMediatorsArray[j];
+                            movablePhysicsMediatorsArray[j] = null;
+                            quicksort(movablePhysicsMediatorsArray, 0, movablePhysicsMediatorsArray.Length - 1);
+                            Array.Resize<MovablePhysicsMediator>(ref movablePhysicsMediatorsArray, movablePhysicsMediatorsArray.Length - 1);
 							Destroy(removeMe.gameObject);
 						}
 					}
@@ -148,10 +150,24 @@ namespace Assets.Scripts.MediatorPattern
 
 		private int compareAABBS(PhysicsMediator left, PhysicsMediator right)
 		{
-			AABB3D a = left.BoundingBox;
-			AABB3D b = right.BoundingBox;
-			float leftMin = a.Center.x - a.HalfWidth;
-			float rightMin = b.Center.x - b.HalfWidth;
+            float leftMin = 0f;
+            float rightMin = 0f;
+            if(left == null)
+            {
+                return 1;
+            }
+            else if( right == null)
+            {
+                return -1;
+            }
+            else
+            {
+                AABB3D a = left.BoundingBox;
+                AABB3D b = right.BoundingBox;
+                leftMin = a.Center.x - a.HalfWidth;
+                rightMin = b.Center.x - b.HalfWidth;
+            }
+			
 			if (leftMin < rightMin)
 				return -1;
 			if (leftMin > rightMin)
@@ -168,18 +184,18 @@ namespace Assets.Scripts.MediatorPattern
 
 			while (last >= first)
 			{
-				if(compareAABBS(colliders[first], colliders[pivot]) >= 0 &&
-					compareAABBS(colliders[last], colliders[pivot]) < 0)
-						swap(colliders, first, last);
-				else if (compareAABBS(colliders[first], colliders[pivot]) >= 0)
-					last--;
-				else if (compareAABBS(colliders[last], colliders[pivot]) < 0)
-					first++;
-				else
-				{
-					last--;
-					first++;
-				}
+                if (compareAABBS(colliders[first], colliders[pivot]) >= 0 &&
+                    compareAABBS(colliders[last], colliders[pivot]) < 0)
+                    swap(colliders, first, last);
+                else if (compareAABBS(colliders[first], colliders[pivot]) >= 0)
+                    last--;
+                else if (compareAABBS(colliders[last], colliders[pivot]) < 0)
+                    first++;
+                else
+                {
+                    last--;
+                    first++;
+                }
 			}
 
 			swap(colliders, pivot, last);
