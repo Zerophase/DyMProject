@@ -66,72 +66,26 @@ namespace Assets.Scripts.Collision.SweepTests
 			wy = (movingBox.HalfWidth * 2 + b1.HalfWidth * 2) * (movingBox.Center.y - b1.Center.y);
 			hx = (movingBox.HalfHeight * 2 + b1.HalfHeight * 2) * (movingBox.Center.x - b1.Center.x);
 
-			int signedValue = (int)(Math.Abs(wy) - Math.Abs(hx));
-			uint edgeCheck = signedValue < 0 ? (uint)-signedValue : (uint)signedValue;
 			if (wy > hx)
 			{
-				if (wy > -hx)
+				if (wy > -hx && b1.IgnoreCollision != IgnoreCollision.Y_AXIS)
 				{
-					//Debug.Log("Bottom: " + bottom);
 					b0.NormalCollision[1] = Vector3.down;
 				}
-				// TODO figure out how to replace edgecheck for when two collision boxes are next to each other 
-				else //if ((edgeCheck > 10 && edgeCheck < 44))
+				else if(b1.IgnoreCollision != IgnoreCollision.X_AXIS)
 				{
-					//Debug.Log("Right: " + right);
 					b0.NormalCollision[0] = Vector3.right;
 				}
 			}
 			else
 			{
-				if (//(edgeCheck > 10 && edgeCheck < 44) && 
-					wy > -hx)
+				if (wy > -hx && b1.IgnoreCollision != IgnoreCollision.X_AXIS)
 				{
-					//Debug.Log("Left: " + left);
 					b0.NormalCollision[0] = Vector3.left;
 				}
-				else
+				else if(b1.IgnoreCollision != IgnoreCollision.Y_AXIS)
 				{
-					//Debug.Log("Top: " + top);
 					b0.NormalCollision[1] = Vector3.up;
-				}
-			}
-		}
-
-		public void NormalCollision(AABB3D a, AABB3D b)
-		{
-			resetNormals(a);
-
-			wy = (a.HalfWidth * 2 + b.HalfWidth * 2) * (a.Center.y - b.Center.y);
-			hx = (a.HalfHeight * 2 + b.HalfHeight * 2) * (a.Center.x - b.Center.x);
-
-			if (wy > hx)
-			{
-				if (wy > -hx)
-				{
-					//Debug.Log("Bottom: " + bottom);
-					a.NormalCollision[1] = Vector3.down;
-				}
-				else
-				{
-					//Debug.Log("Right: " + right);
-					a.NormalCollision[0] = Vector3.right;
-
-				}
-			}
-			else
-			{
-				if (wy > -hx)
-				{
-					//Debug.Log("Left: " + left);
-					a.NormalCollision[0] = Vector3.left;
-				}
-				else
-				{
-					//Debug.Log("Top: " + top);
-
-					a.NormalCollision[1] = Vector3.up;
-
 				}
 			}
 		}

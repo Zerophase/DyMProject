@@ -30,8 +30,11 @@ namespace Assets.Scripts.MediatorPattern
 
         protected virtual void Awake()
         {
-            if (physicsDirector == null)
-                physicsDirector = FindObjectOfType<PhysicsDirector>();
+	        if (physicsDirector == null)
+	        {
+				physicsDirector = FindObjectOfType<PhysicsDirector>();
+		        physicsDirector.Initialize();
+	        } 
         }
 
 		protected virtual void Start()

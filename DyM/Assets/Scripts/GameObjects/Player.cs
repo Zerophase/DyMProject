@@ -29,7 +29,7 @@ namespace Assets.Scripts.GameObjects
 		public IPooledGameObjects PooledBUlletGameObjects;
 		public static GameObject GunModel;
 
-        private Vector3 acceleration = new Vector3(10f,0f,0f);
+        private Vector3 acceleration = new Vector3(20f,0f,0f);
 
 		private Animator animator;
 

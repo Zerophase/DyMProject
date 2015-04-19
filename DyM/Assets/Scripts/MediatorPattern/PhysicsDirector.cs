@@ -8,7 +8,6 @@ using Assets.Scripts.Collision.SweepTests;
 using Assets.Scripts.CollisionBoxes.ThreeD;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
-using Assets.Scripts.Utilities;
 using Assets.Scripts.Weapons;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ namespace Assets.Scripts.MediatorPattern
 
 		private MovablePhysicsMediator[] movablePhysicsMediatorsArray;
 		private Ground[] groundsArray;
-
+		private int groundCount;
 		private List<WeaponPickUpGameObject> weaponPickUpGameObjects = 
 			new List<WeaponPickUpGameObject>();
 		private List<AbilityPickUpGameObject> abilityPickUps =
@@ -37,6 +36,11 @@ namespace Assets.Scripts.MediatorPattern
 		private PhysicsMediator player;
 
 		private AABBIntersection aabbIntersection = new AABBIntersection();
+
+		public void Initialize()
+		{
+			groundCount = FindObjectsOfType<Ground>().Length;
+		}
 
 		void Update()
 		{
@@ -225,18 +229,9 @@ namespace Assets.Scripts.MediatorPattern
 				movablePhysicsMediatorsArray[k].UpdateVelocity(gravity);
 
 				playerBoundingBox = movablePhysicsMediatorsArray[k].BoundingBox;
-				//int arrayPosition = findPosition(groundsArray, playerBoundingBox);
-				float[] tesatDs = new float[groundsArray.Length];
-				for (int i = 0; i < groundsArray.Length; i++)
-				{
-					
-					 tesatDs[i] = groundsArray[i].BoundingBox.Center.x - groundsArray[i].BoundingBox.HalfWidth;
-				}
-
 
 				for (int i = 0; i < groundsArray.Length; i++)
 				{
-					
 					groundBoundingBox = groundsArray[i].BoundingBox;
 					var groundMin = groundBoundingBox.Center - new Vector3(groundBoundingBox.HalfWidth, groundBoundingBox.HalfHeight);
 					var unitMax = playerBoundingBox.Center + new Vector3(playerBoundingBox.HalfWidth, playerBoundingBox.HalfHeight) + playerBoundingBox.Velocity * Time.deltaTime;
@@ -318,8 +313,35 @@ namespace Assets.Scripts.MediatorPattern
 				else if (telegram.Message is Ground)
 				{
 					grounds.Add((Ground)telegram.Message);
-					groundsArray = grounds.ToArray();
-					quicksort(groundsArray, 0, groundsArray.Length - 1);
+
+					if (grounds.Count == groundCount)
+					{
+						groundsArray = grounds.ToArray();
+						quicksort(groundsArray, 0, groundsArray.Length - 1);
+
+						for (int i = 0; i < groundsArray.Length; i++)
+						{
+							var b0 = groundsArray[i].BoundingBox;
+							for (int j = 1; j < groundsArray.Length; j++)
+							{
+								var b1 = groundsArray[j].BoundingBox;
+								if (b0.HalfHeight > b0.HalfWidth && b1.HalfHeight > b1.HalfWidth &&
+									Math.Abs(Vector3.Cross(groundsArray[i].BoundingBox.Center.normalized, groundsArray[j].BoundingBox.Center.normalized).y) <= 20.0f)
+								{
+									groundsArray[i].BoundingBox.IgnoreCollision = IgnoreCollision.Y_AXIS;
+									groundsArray[j].BoundingBox.IgnoreCollision = IgnoreCollision.Y_AXIS;
+								}
+
+								if (b0.HalfWidth > b0.HalfHeight && b1.HalfWidth > b1.HalfHeight &&
+									Math.Abs(Vector3.Cross(groundsArray[i].BoundingBox.Center.normalized, groundsArray[j].BoundingBox.Center.normalized).x) <= 130f)
+								{
+									groundsArray[i].BoundingBox.IgnoreCollision = IgnoreCollision.X_AXIS;
+									groundsArray[j].BoundingBox.IgnoreCollision = IgnoreCollision.X_AXIS;
+								}
+							}
+
+						}
+					}
 				}
 				else if(telegram.Message is WeaponPickUpGameObject)
 					weaponPickUpGameObjects.Add((WeaponPickUpGameObject)telegram.Message);

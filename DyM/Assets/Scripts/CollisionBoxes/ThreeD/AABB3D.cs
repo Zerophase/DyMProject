@@ -33,6 +33,13 @@ namespace Assets.Scripts.CollisionBoxes.ThreeD
 			set { halfWidth = value; }
 		}
 
+		private IgnoreCollision ignoreCollision;
+
+		public IgnoreCollision IgnoreCollision
+		{
+			get { return ignoreCollision; } set { ignoreCollision = value; }
+		}
+
 		public Vector3 Velocity = Vector3.zero;
 
 		private Plane top;
@@ -49,6 +56,7 @@ namespace Assets.Scripts.CollisionBoxes.ThreeD
 		public Plane Front { get { return front; } }
 		public Plane Back { get { return back;} }
 
+		// TODO move all aabb3d debug code to own class.
 		private Vector3 distanceToTop;
 		private Vector3 distanceToBottom;
 		private Vector3 distanceToLeft;
