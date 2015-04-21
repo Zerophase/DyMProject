@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Security;
-using System.Text;
-using Assets.Scripts.CollisionBoxes.ThreeD;
+﻿using vc = Assets.Scripts.Utilities.Constants.VectorConstants;
 using Assets.Scripts.ObjectManipulation.Interfaces;
-using Assets.Scripts.Utilities;
-using Assets.Scripts.Utilities.Messaging;
-using Assets.Scripts.Utilities.Messaging.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
 
@@ -62,17 +53,15 @@ namespace Assets.Scripts.MediatorPattern
 			}
 		}
 
-		Vector3 rotationRight = new Vector3(0f, 270f, 0f);
-		Vector3 rotationLeft = new Vector3(0f, 90f, 0f);
 		private float time;
 		protected void flip(float speed)
 		{
-			if (model.transform.eulerAngles != rotationLeft && speed > 0f)
+			if (model.transform.eulerAngles != vc.RotationLeft && speed > 0f)
 			{
-				model.transform.eulerAngles = rotationLeft;
+				model.transform.eulerAngles = vc.RotationLeft;
 			}
-			else if (model.transform.eulerAngles != rotationRight && speed < 0f)
-				model.transform.eulerAngles = rotationRight;
+			else if (model.transform.eulerAngles != vc.RotationRight && speed < 0f)
+				model.transform.eulerAngles = vc.RotationRight;
 		}
 	}
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Scripts.Projectiles.Interfaces;
+﻿using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons.Bases;
 using ModestTree.Zenject;
@@ -27,7 +23,6 @@ namespace Assets.Scripts.Weapons.Guns
 			
 			if(projectileCount == 3)
 			{
-				
 				keepFiring = base.FireRate(time);
 				if (keepFiring)
 					projectileCount = 0;

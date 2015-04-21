@@ -1,82 +1,54 @@
-﻿using UnityEngine;
-using System.Collections;
-using Assets.Scripts.Character.Interfaces;
-using Assets.Scripts.MediatorPattern;
-using Assets.Scripts.PathFinding;
-using Assets.Scripts.StatusEffects;
+﻿using Assets.Scripts.GameObjects;
+using Assets.Scripts.Projectiles;
+using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Utilities.Messaging;
+using UnityEngine;
+using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 
-public class HoverSlug : MovablePhysicsMediator
+public class HoverSlug : Slug
 {
-	Vector3 acceleration = new Vector3(2f, 0f, 0f);
-	Vector3 maxPatrolDistance = new Vector3(10f, 0f, 0f);
-	private Vector3 target;
+	private Gun gun;
 
-	private Vector3 comparisor;
-
-	private PathFinder pathFinder;
-
-	private int health = 10;
-	public int Health { get { return health; } }
-
-	private int damage = 2;
+	private GameObject gunModel;
 
 	[Inject]
-	private ICharacter character;
+	public IRangeWeapon slugGun;
 
-	// Use this for initialization
-	void Start()
+	[Inject] public IPooledGameObjects PooledBulletGameObjects;
+	protected override void Start()
 	{
-		pathFinder = new PathFinder();
-		pathFinder.UpdateGraph(0, transform.position);
-		pathFinder.UpdateGraph(1, transform.position + maxPatrolDistance);
-
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			if (transform.GetChild(i).name == "hoverslug01Mesh")
+			{
+				var temp = transform.GetChild(i);
+				for (int j = 0; j < temp.childCount; j++)
+				{
+					if(temp.GetChild(j).tag == "EquippedGun")
+					{
+						gunModel = temp.GetChild(j).gameObject;
+						break;
+					}
+				}
+			}
+		}
+		gun = gameObject.GetComponentInChildren<Gun>();
 		base.Start();
-
-		for (int i = 0; i < pathFinder.NodeCount; i++)
-		{
-			pathFinder.AddAllNeighborsToNode(i);
-		}
-
-		pathFinder.Initialize();
 	}
 
-	void Update()
+	protected override void Update()
 	{
-		if (character.StatusEffect == StatusEffect.SLOW_TIME)
+		gun.Rotate(Vector3.Dot(comparisor, Vector3.left));
+
+		if (slugGun.FireRate(Time.deltaTime))
 		{
-			movementMultiplier = 0.5f;
-			character.RemoveStatusEffect();
+			IProjectile bullet = slugGun.Fire();
+			var bulletInstance = PooledBulletGameObjects.GetPooledBullet().GetComponent<Bullet>();
+			bulletInstance.Projectile = bullet;
+			bulletInstance.Initialize();
+			messageDispatcher.DispatchMessage(new Telegram(bulletInstance, gunModel.transform));
 		}
-		else
-			movementMultiplier = 1.0f;
-
-		if (pathFinder.UpdateDistanceTraveled(transform.position) < 10f || !pathFinder.FirstSearchDone)
-			target = pathFinder.CreatePathAStarDistanceSquared(transform.position);
-
-		comparisor = target - transform.position;
-		if (Vector3.Dot(comparisor, Vector3.left) > 0f)
-		{
-			speed = -1f * movementMultiplier;
-			UpdateVelocity(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
-		}
-
-		else if (Vector3.Dot(comparisor, Vector3.left) < 0f)
-		{
-			speed = 1f * movementMultiplier;
-			UpdateVelocity(cardinalMovement.Move(speed, acceleration, Time.deltaTime));
-		}
-
-		flip(speed);
-	}
-
-	public void TakeDamge(int healthLost)
-	{
-		health -= healthLost;
-	}
-
-	public int DealDamage()
-	{
-		return damage;
+		base.Update();
 	}
 }

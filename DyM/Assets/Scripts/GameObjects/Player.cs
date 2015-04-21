@@ -13,10 +13,12 @@ using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
 using Assets.Scripts.StatusEffects;
+using Assets.Scripts.Utilities.Messaging;
+using Assets.Scripts.Utilities.Messaging.Interfaces;
 
 namespace Assets.Scripts.GameObjects
 {
-	public class Player : MovablePhysicsMediator
+	public partial class Player : MovablePhysicsMediator
 	{
 		private IPlaneShift planeShift;
 		[Inject]
@@ -26,7 +28,8 @@ namespace Assets.Scripts.GameObjects
 		public ICharacter character;
 
 		[Inject]
-		public IPooledGameObjects PooledBUlletGameObjects;
+		public IPooledGameObjects PooledBulletGameObjects;
+
 		public static GameObject GunModel;
 
         private Vector3 acceleration = new Vector3(20f,0f,0f);
@@ -53,7 +56,7 @@ namespace Assets.Scripts.GameObjects
 			GunModel = GameObject.FindGameObjectWithTag("EquippedGun");
 			gun = GameObject.FindWithTag("GunRotator").GetComponent<Gun>();
 
-			PooledBUlletGameObjects.Initialize();
+			PooledBulletGameObjects.Initialize();
 
 			animator = GetComponent<Animator>();
 
@@ -210,7 +213,10 @@ namespace Assets.Scripts.GameObjects
                 if (shot)
                 {
                     IProjectile bullet = character.RangeWeapon.Fire();
-                    PooledBUlletGameObjects.GetPooledBullet().GetComponent<Bullet>().Projectile = bullet;
+	                var bulletInstance = PooledBulletGameObjects.GetPooledBullet().GetComponent<Bullet>();
+	                bulletInstance.Projectile = bullet;
+					bulletInstance.Initialize();
+					messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));
                 }
             }
             
@@ -255,12 +261,12 @@ namespace Assets.Scripts.GameObjects
 
 		public void AddScore(int scoreValue)
 		{
-			character.AddScore (scoreValue);
+			character.AddScore(scoreValue);
 		}
 
 		void LateUpdate()
 		{
 			gun.Rotate();
 		}
-	} 
+	}
 }

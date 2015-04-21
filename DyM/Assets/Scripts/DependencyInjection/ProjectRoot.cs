@@ -57,7 +57,6 @@ namespace Assets.Scripts.DependencyInjection
 
 		private void rangeWeaponBindings()
 		{
-			_container.Bind<IRangeWeapon>().ToTransient<MachineGun>();
 			_container.Bind<IProjectile>().ToTransient<MachineGunProjectile>().
 				WhenInjectedInto<MachineGun>();
 			_container.Bind<IProjectile>().ToTransient<LightningGunProjectile>().
@@ -65,6 +64,9 @@ namespace Assets.Scripts.DependencyInjection
 			_container.Bind<IBulletPool>().ToSingle<BulletPool>();
 			_container.Bind<IPooledGameObjects>().ToSingle<PooledGameobjects>();
 			_container.Bind<IPickUp>().ToTransient<WeaponPickUp>();
+
+			_container.Bind<IRangeWeapon>().ToTransient<SlugGun>();
+			_container.Bind<IProjectile>().ToTransient<LightningGunProjectile>().WhenInjectedInto<SlugGun>();
 		}
 
 		private void meleeWeaponBindings()
@@ -78,8 +80,6 @@ namespace Assets.Scripts.DependencyInjection
 				WhenInjectedInto<Player>();
 			_container.Bind<ICharacter>().ToTransient<EnemyCharacter>().
 				WhenInjectedInto<Slug>();
-			_container.Bind<ICharacter>().ToTransient<EnemyCharacter>().
-				WhenInjectedInto<HoverSlug>();
 		}
 
 		private void messengerBindings()

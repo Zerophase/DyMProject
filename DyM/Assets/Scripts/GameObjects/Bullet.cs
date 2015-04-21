@@ -7,28 +7,26 @@ using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
 using Assets.Scripts.Utilities;
+using Assets.Scripts.Utilities.Messaging.Interfaces;
 
 namespace Assets.Scripts.GameObjects
 {
-	public class Bullet : PhysicsMediator
+	public partial class Bullet : PhysicsMediator
 	{
 		// TODO see if can remove these and just use IPooledGameObjects
 		private IProjectile projectile;
 		public IProjectile Projectile { set { projectile = value; } }
 
-		// TODO remove and replace with messaging.
-		private static Player player;
+		private Transform startPosition;
 
 		private Vector3 playerXMove;
 		[Inject]
 		public IPooledGameObjects PooledBulletGameObjects;
 
-		protected override void Start ()
+		public void Initialize()
 		{
-			base.Start ();
-
-			if(player == null)
-				player = FindObjectOfType<Player>();
+			receiver.Owner = this;
+			receiver.SubScribe();
 		}
 
 		void Update()
@@ -39,9 +37,9 @@ namespace Assets.Scripts.GameObjects
 			{
 				audio.Play();
 				transform.rotation = Quaternion.Inverse(
-					Quaternion.Inverse(Player.GunModel.transform.rotation)
+					Quaternion.Inverse(startPosition.rotation)
 					);
-				transform.position = Player.GunModel.transform.position;
+				transform.position = startPosition.position;
 				projectile.SetUpProjectile(transform.position);
 				BoundingBox.Center = transform.position;
 
@@ -66,6 +64,25 @@ namespace Assets.Scripts.GameObjects
 		public int DealDamage()
 		{
 			return projectile.DealDamage();
+		}
+	}
+
+	public partial class Bullet : IOwner
+	{
+
+		[Inject]
+		private IReceiver receiver;
+		public IReceiver Receiver
+		{
+			set { receiver = value; }
+		}
+
+		public void Receive(ITelegram telegram)
+		{
+			if (telegram.Receiver == this)
+			{
+				startPosition = (Transform)telegram.Message;
+			}
 		}
 	}
 }

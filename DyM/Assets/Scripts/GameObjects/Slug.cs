@@ -8,15 +8,14 @@ using System.Collections;
 
 public class Slug : MovablePhysicsMediator 
 {
-	Vector3 acceleration = new Vector3(2f, 0f, 0f);
-	Vector3 maxPatrolDistance = new Vector3(10f, 0f, 0f);
+	protected Vector3 acceleration = new Vector3(2f, 0f, 0f);
+	protected Vector3 maxPatrolDistance = new Vector3(10f, 0f, 0f);
+
 	private Vector3 target;
-
-	private Vector3 comparisor;
-
+	protected Vector3 comparisor;
 	private PathFinder pathFinder;
 
-	private int health = 10;
+	protected int health = 10;
 	public int Health { get { return health; } }
 
 	private int damage = 2;
@@ -24,7 +23,7 @@ public class Slug : MovablePhysicsMediator
 	[Inject] private ICharacter character;
 
 	// Use this for initialization
-	void Start () 
+	protected virtual void Start () 
 	{
 		pathFinder = new PathFinder();
 		pathFinder.UpdateGraph(0, transform.position);
@@ -40,7 +39,7 @@ public class Slug : MovablePhysicsMediator
 		pathFinder.Initialize();
 	}
 
-	void Update ()
+	protected virtual void Update ()
 	{
         statusEffect();
 

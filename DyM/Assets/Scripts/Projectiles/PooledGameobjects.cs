@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.DependencyInjection;
+using Assets.Scripts.GameObjects;
 using Assets.Scripts.Projectiles.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
