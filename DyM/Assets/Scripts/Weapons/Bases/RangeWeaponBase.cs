@@ -36,7 +36,16 @@ namespace Assets.Scripts.Weapons.Bases
 		{
 			set { receiver = value; }
 		}
-		
+
+        private ICharacter character;
+        public ICharacter Character 
+        { 
+            get { return character; } 
+            set 
+            { 
+                projectile.Character = character = value; 
+            } 
+        }
 		private IMessageDispatcher messageDispatcher;
 		
 		public Vector3 Position { get; set; }

@@ -21,6 +21,7 @@ public class Slug : MovablePhysicsMediator
 	private int damage = 2;
 
 	[Inject] private ICharacter character;
+    protected ICharacter Character { get { return character; } }
 
 	// Use this for initialization
 	protected virtual void Start () 

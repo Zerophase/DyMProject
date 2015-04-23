@@ -11,11 +11,15 @@ using Assets.Scripts.Weapons.Bases;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
+using Assets.Scripts.Projectiles.Interfaces;
 
 namespace Assets.Scripts.Character
 {
 	public class EnemyCharacter : ICharacter
 	{
+        [Inject]
+        private IBulletPool bulletPool;
+
 		public IRangeWeapon RangeWeapon
 		{
 			get { throw new NotImplementedException(); }
@@ -95,7 +99,7 @@ namespace Assets.Scripts.Character
 
 		public void Equip(IRangeWeapon rangeweapon)
 		{
-			throw new NotImplementedException();
+            bulletPool.ChangeBullet(rangeweapon);
 		}
 
 		public void Equip(IMeleeWeapon meleeWeapon)
@@ -115,7 +119,7 @@ namespace Assets.Scripts.Character
 
 		public void AddWeapon(RangeWeaponBase weapon)
 		{
-			throw new NotImplementedException();
+            weapon.Character = this;
 		}
 
 		public void TakeDamage(int healthLost)

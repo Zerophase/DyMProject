@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Assets.Scripts.Character.Interfaces;
 
 namespace Assets.Scripts.Projectiles.Interfaces
 {
@@ -20,5 +21,7 @@ namespace Assets.Scripts.Projectiles.Interfaces
 		int DealDamage();
 
         Vector3 ShotDirection { set; }
+
+        ICharacter Character { get; set; }
 	}
 }

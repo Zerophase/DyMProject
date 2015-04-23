@@ -159,6 +159,7 @@ namespace Assets.Scripts.Character
 
 		public void AddWeapon(RangeWeaponBase weapon)
 		{
+            weapon.Character = this;
 			rangeWeapons.Add(weapon);
 			if(rangeWeapons.Count < 2)
 				Equip(weapon);

@@ -5,6 +5,7 @@ using System.Text;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Projectiles.Interfaces;
 using UnityEngine;
+using Assets.Scripts.Character.Interfaces;
 
 namespace Assets.Scripts.Projectiles.Projectiles
 {
@@ -29,7 +30,9 @@ namespace Assets.Scripts.Projectiles.Projectiles
 
 		protected int damage;
 
-        
+        private ICharacter character;
+        public ICharacter Character { get { return character; } set { character = value; } }
+
 		public ProjectileBase(string matterialName, float deactivationDistance)
 		{
 			material = Resources.Load<Material>("Materials/" + matterialName);

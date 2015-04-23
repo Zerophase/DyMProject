@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 using System;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Character.Interfaces;
 
 namespace Assets.Scripts.Weapons.Interfaces
 {
@@ -17,6 +18,7 @@ namespace Assets.Scripts.Weapons.Interfaces
 		IProjectile Fire();
 		IProjectile Projectile { get; }
 		bool FireRate(float time);
+        ICharacter Character { get; set; }
 	}
 }
 

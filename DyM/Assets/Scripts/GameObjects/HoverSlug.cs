@@ -5,6 +5,7 @@ using Assets.Scripts.Utilities.Messaging;
 using UnityEngine;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
+using Assets.Scripts.Weapons.Bases;
 
 public class HoverSlug : Slug
 {
@@ -33,6 +34,9 @@ public class HoverSlug : Slug
 				}
 			}
 		}
+
+        Character.AddWeapon((RangeWeaponBase)slugGun);
+        Character.Equip(slugGun);
 		gun = gameObject.GetComponentInChildren<Gun>();
 		base.Start();
 	}
@@ -43,6 +47,7 @@ public class HoverSlug : Slug
 
 		if (slugGun.FireRate(Time.deltaTime))
 		{
+            
 			IProjectile bullet = slugGun.Fire();
             bullet.ShotDirection = -gun.transform.forward;
 			var bulletInstance = PooledBulletGameObjects.GetPooledBullet().GetComponent<Bullet>();

@@ -6,6 +6,7 @@ using Assets.Scripts.Projectiles.Projectiles;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 using UnityEngine;
+using Assets.Scripts.Character.Interfaces;
 
 namespace Assets.Scripts.Projectiles
 {
@@ -17,6 +18,9 @@ namespace Assets.Scripts.Projectiles
 		}
 
 		List<IPooledProjectile> pooledProjectiles = new List<IPooledProjectile>();
+
+        private Dictionary<ICharacter, List<IPooledProjectile>> projectilesBoundToCharacterType
+            = new Dictionary<ICharacter, List<IPooledProjectile>>();
 
 		[Inject]
 		private PooledProjectileFactory pooledProjectileFactory;
@@ -43,15 +47,21 @@ namespace Assets.Scripts.Projectiles
 			}
 		}
 
+        // TODO There might be bugs here
 		public void ChangeBullet(IRangeWeapon rangeWeapon)
 		{
-			currentRangeWeapon = rangeWeapon;
-			changeProjectileType(rangeWeapon.Projectile);
-			for (int i = 0; i < pooledProjectiles.Count; i++)
-			{
-				if(!pooledProjectiles[i].Active)
-					pooledProjectiles[i] = pooledProjectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
-			}
+            // if bullet is bound to rangeweapon owner Try adding dictionary
+            // for each shooting entity.
+            if(rangeWeapon.Projectile.Character == rangeWeapon.Character)
+            {
+                currentRangeWeapon = rangeWeapon;
+                changeProjectileType(rangeWeapon.Projectile);
+                for (int i = 0; i < pooledProjectiles.Count; i++)
+                {
+                    if (!pooledProjectiles[i].Active && rangeWeapon.Projectile.Character == rangeWeapon.Character)
+                        pooledProjectiles[i] = pooledProjectile = pooledProjectileFactory.Create(rangeWeapon.Projectile);
+                }
+            }
 		}
 
 		private void changeProjectileType(IProjectile projectile)
