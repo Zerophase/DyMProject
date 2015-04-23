@@ -44,6 +44,7 @@ public class HoverSlug : Slug
 		if (slugGun.FireRate(Time.deltaTime))
 		{
 			IProjectile bullet = slugGun.Fire();
+            bullet.ShotDirection = -gun.transform.forward;
 			var bulletInstance = PooledBulletGameObjects.GetPooledBullet().GetComponent<Bullet>();
 			bulletInstance.Projectile = bullet;
 			bulletInstance.Initialize();

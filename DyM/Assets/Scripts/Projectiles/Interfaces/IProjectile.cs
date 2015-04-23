@@ -18,5 +18,7 @@ namespace Assets.Scripts.Projectiles.Interfaces
 		bool ShouldProjectileDeactivate(Vector3 position);
 		void DeactivateProjectile();
 		int DealDamage();
+
+        Vector3 ShotDirection { set; }
 	}
 }
