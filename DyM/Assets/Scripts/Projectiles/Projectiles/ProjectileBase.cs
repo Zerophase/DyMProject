@@ -21,11 +21,15 @@ namespace Assets.Scripts.Projectiles.Projectiles
 
 		private Vector3 startPosition;
 		protected Vector3 fireDirection;
+        private Vector3 shotDirection;
+        public Vector3 ShotDirection { set { shotDirection = value; } }
 
 		protected float speed = 20.0f;
 		private float deactivationDistance;
 
 		protected int damage;
+
+        
 		public ProjectileBase(string matterialName, float deactivationDistance)
 		{
 			material = Resources.Load<Material>("Materials/" + matterialName);
@@ -46,7 +50,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		{
 			startPosition = position;
 
-			fireDirection = -Player.GunModel.transform.right;
+			fireDirection = shotDirection;
 			fireDirection.z = 0f;
 
 			setUp = true;

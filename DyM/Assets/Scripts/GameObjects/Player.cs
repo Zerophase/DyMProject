@@ -213,6 +213,7 @@ namespace Assets.Scripts.GameObjects
                 if (shot)
                 {
                     IProjectile bullet = character.RangeWeapon.Fire();
+                    bullet.ShotDirection = -GunModel.transform.right;
 	                var bulletInstance = PooledBulletGameObjects.GetPooledBullet().GetComponent<Bullet>();
 	                bulletInstance.Projectile = bullet;
 					bulletInstance.Initialize();
