@@ -128,7 +128,7 @@ public class MainMenu : MonoBehaviour
 			selection();
 			resetSelected();
 			mainMenuSelections[0] = false;
-			Application.LoadLevel("Level_01");
+			AutoFade.LoadLevel(2, 3, 1, Color.black);
 		}
 
         if (mainMenuSelections[1])
