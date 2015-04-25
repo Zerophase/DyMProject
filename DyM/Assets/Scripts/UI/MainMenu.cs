@@ -41,7 +41,7 @@ public class MainMenu : MonoBehaviour
 	private bool backButtonControls;
 	private bool keyPressed;
 
-	string[] mainMenuTexts = new string[4] { "Start", "controls", "credits", "exit" };
+	string[] mainMenuTexts = new string[4] { "stArt", "controls", "credits", "exit" };
 	string[] controlMenuTexts = new string[3] {"xbox", "keyboard", "BAck"};
 	string[] optionMenuTexts = new string[3] { "BAck", "Music", "Sound"};
 	string[] miscTexts = new string[1] { "BAck"};
@@ -87,7 +87,11 @@ public class MainMenu : MonoBehaviour
     void OnGUI()
     {
 		GUI.skin = skin;
-		GUI.BeginGroup(new Rect(Screen.width / 2 - 300, Screen.height / 2 - 350, 615, 550));
+		//makes font for button scalable too
+		GUI.skin.button.fontSize = (int)(23.0f * (float)(Screen.width)/1920.0f);
+		GUI.skin.label.fontSize = (int)(25.0f * (float)(Screen.width)/1920.0f);
+
+		GUI.BeginGroup(new Rect(0, 0, Screen.width, Screen.height));
 
 	    switch (GUIMenu)
 	    {
@@ -118,7 +122,8 @@ public class MainMenu : MonoBehaviour
 
     void MainMenuScreen()
     {
-        GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
+        GUI.Label(new Rect(Screen.width / 6, Screen.height / 15, Screen.width / 1.5f, Screen.height / 1.5f), logo);
+
 	    startMultiFocusArea(mainMenuSelections, mainMenuTexts);
 
 		SetMenuSelectionTrue(mainMenuSelections);
@@ -167,7 +172,7 @@ public class MainMenu : MonoBehaviour
 		for (int i = 0; i < texts.Length; i++)
 		{
 			GUI.SetNextControlName(texts[i]);
-			menuSelection[i] = GUI.Button(new Rect(225, 210 + (60 * i), 150, 50), texts[i]);
+			menuSelection[i] = GUI.Button(new Rect(Screen.width / 2.26f, (Screen.height / 2.2f) + (60 * i), Screen.width / 9, Screen.height / 13), texts[i]);
 		}
 	}
 
@@ -266,7 +271,7 @@ public class MainMenu : MonoBehaviour
 
     void OptionsScreen()
     {
-        GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
+		GUI.Label(new Rect(Screen.width / 6, Screen.height / 15, Screen.width / 1.5f, Screen.height / 1.5f), logo);
 
 		startMultiFocusArea(optionMenuSelections, optionMenuTexts, Label);
 		SetMenuSelectionTrue(optionMenuSelections);
@@ -303,9 +308,9 @@ public class MainMenu : MonoBehaviour
 		{
 			GUI.SetNextControlName(texts[i]);
 			if(i > 0)
-				menuSelection[i] = GUI.Button(new Rect(235, 150 + (60 * i), 150, 50), texts[i], skin.label);
+				menuSelection[i] = GUI.Button(new Rect(Screen.width / 2.26f, (Screen.height / 2.2f) + (60 * i), Screen.width / 9, Screen.height / 13), texts[i], skin.label);
 			else
-				menuSelection[i] = GUI.Button(new Rect(225, 450, 150, 50), texts[i]);
+				menuSelection[i] = GUI.Button(new Rect(Screen.width / 2.26f, (Screen.height / 2.2f) + (60 * i), Screen.width / 9, Screen.height / 13), texts[i]);
 		}
 	}
 
@@ -337,13 +342,13 @@ public class MainMenu : MonoBehaviour
 	void startMultiFocusArea(string[] texts)
 	{
 		GUI.SetNextControlName(texts[0]);
-		backButton = GUI.Button(new Rect(225, 400, 150, 50), texts[0]);
+		backButton = GUI.Button(new Rect(Screen.width / 2.26f, Screen.height / 1.3f, Screen.width / 9, Screen.height / 13), texts[0]);
 	}
 
 	void startMultiFocusAreaC(string[] texts)
 	{
 		GUI.SetNextControlName(texts[0]);
-		backButtonControls = GUI.Button(new Rect(475, 350, 150, 50), texts[0]);
+		backButtonControls = GUI.Button(new Rect(Screen.width / 2.26f, Screen.height / 1.2f, Screen.width / 9, Screen.height / 13), texts[0]);
 	}
 
 	private void returnToMainMenu()
@@ -372,15 +377,16 @@ public class MainMenu : MonoBehaviour
 
 	void Credits()
     {
-        GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
+		GUI.Label(new Rect(Screen.width / 6, Screen.height / 15, Screen.width / 1.5f, Screen.height / 1.5f), logo);
 
-		GUI.Label(new Rect(125, 225, 350, 150), " Alex Lueck - Lead Design");
-		GUI.Label(new Rect(53, 243, 500, 150), " Michael Lojkovic - Lead Programmer");
-		GUI.Label(new Rect(42, 261, 500, 150), " Justin Terry - Programmer");
-		GUI.Label(new Rect(0, 279, 500, 150), " Patric Harmon - Artist");
-		GUI.Label(new Rect(18, 297, 500, 150), " Geoff Lightbourn - Sound Liason");
-		GUI.Label(new Rect(28, 315, 500, 150), " Kanoa Doblin - Composer");
-		GUI.Label(new Rect(8, 333, 500, 150), " Jessica Borlovan - UI Scripting");
+		GUI.Label(new Rect(Screen.width / 2.7f, Screen.height / 2.23f, Screen.width / 4, Screen.height / 25), " Alex Lueck - LeAd Design");
+		GUI.Label(new Rect(Screen.width / 3.134f, Screen.height / 2.05f, Screen.width / 2.8f, Screen.height / 25), " MichAel Lojkovic - LeAd ProgrAmmer");
+		GUI.Label(new Rect(Screen.width / 2.808f, Screen.height / 1.9f, Screen.width / 3.7f, Screen.height / 25), " Justin Terry - ProgrAmmer");
+		GUI.Label(new Rect(Screen.width / 2.875f, Screen.height / 1.77f, Screen.width / 4.5f, Screen.height / 25), " PAtric HArmon - Artist");
+		GUI.Label(new Rect(Screen.width / 3.265f, Screen.height / 1.65f, Screen.width / 3, Screen.height / 25), " Geoff Lightbourn - Sound LiAson");
+		GUI.Label(new Rect(Screen.width / 2.77f, Screen.height / 1.55f, Screen.width / 4.2f, Screen.height / 25), " KAnoA Doblin - Composer");
+		GUI.Label(new Rect(Screen.width / 3.23f, Screen.height / 1.46f, Screen.width / 3.2f, Screen.height / 25), " JessicA BorlovAn - UI Scripting");
+
 
 		startMultiFocusArea(miscTexts);
 		SetMenuSelectionTrue(ref backButton);
@@ -392,7 +398,7 @@ public class MainMenu : MonoBehaviour
 
 	void Controls()
 	{
-		GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
+		GUI.Label(new Rect(Screen.width / 6, Screen.height / 15, Screen.width / 1.5f, Screen.height / 1.5f), logo);
 
 		startMultiFocusArea(controlMenuSelections, controlMenuTexts);
 		SetMenuSelectionTrue(controlMenuSelections);
@@ -426,9 +432,9 @@ public class MainMenu : MonoBehaviour
 
 	void ControlsXbox()
 	{
-		GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
+		GUI.Label(new Rect(Screen.width / 6, Screen.height / 15, Screen.width / 1.5f, Screen.height / 1.5f), logo);
 		
-		GUI.Label(new Rect(-15, 200, controlsXbox.width / 1.1f, controlsXbox.height / 1.1f), controlsXbox);
+		GUI.Label(new Rect(Screen.width / 6.2f, Screen.height / 2.4f, Screen.width / 1.5f, Screen.height / 2.5f), controlsXbox);
 
 		startMultiFocusAreaC(miscTexts);
 		SetMenuSelectionTrue(ref backButtonControls);
@@ -440,9 +446,9 @@ public class MainMenu : MonoBehaviour
 
 	void ControlsKeyboard()
 	{
-		GUI.Label(new Rect(0, 0, logo.width, logo.height), logo);
+		GUI.Label(new Rect(Screen.width / 6, Screen.height / 15, Screen.width / 1.5f, Screen.height / 1.5f), logo);
 		
-		GUI.Label(new Rect(0, 220, controlsKeyboard.width / 1.1f, controlsKeyboard.height / 1.1f), controlsKeyboard);
+		GUI.Label(new Rect(Screen.width / 5.7f, Screen.height / 2.4f, Screen.width / 1.5f, Screen.height / 2.5f), controlsKeyboard);
 
 		startMultiFocusAreaC(miscTexts);
 		SetMenuSelectionTrue(ref backButtonControls);
