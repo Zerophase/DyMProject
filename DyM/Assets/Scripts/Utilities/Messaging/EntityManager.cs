@@ -36,6 +36,7 @@ namespace Assets.Scripts.Utilities.Messaging
             entities.Remove(entityType);
         }
 
+        // TODO Add try catch that prints out the missing object
         public IOwner GetEntityFromID(Entities key, int id)
         {
             return entities[key].ObjectIds[id];
