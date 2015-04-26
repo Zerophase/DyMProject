@@ -48,7 +48,8 @@ namespace Assets.Scripts.MediatorPattern
 				Application.Quit();
 			if(player == null)
 			{
-				Application.LoadLevel("GameOver");
+				//Application.LoadLevel("GameOver");
+				AutoFade.LoadLevel(4, 2, 1, Color.black);
 			}
 
 			GroundCollision();

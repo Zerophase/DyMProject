@@ -98,7 +98,8 @@ namespace Assets.Scripts.GameObjects
 		{
 			if (transform.position.y < -40)
 			{
-				Application.LoadLevel("GameOver");
+				//Application.LoadLevel("GameOver");
+				AutoFade.LoadLevel(4, 2, 1, Color.black);
 			}
 		}
 
