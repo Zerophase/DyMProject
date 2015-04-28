@@ -11,6 +11,7 @@ namespace Assets.Scripts.Weapons.Guns
 {
 	public class MachineGun : RangeWeaponBase
 	{
+        public MachineGun() : base() { }
 		[Inject]
 		public MachineGun(IReceiver receiver, IMessageDispatcher messageDispatcher, 
 			IProjectile projectile, IBulletPool bulletPool = null) :

@@ -8,6 +8,7 @@ using Assets.Scripts.ObjectManipulation;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Weapons.Guns;
 using Assets.Scripts.Utilities;
 using ModestTree.Zenject;
 using UnityEngine;
@@ -56,7 +57,8 @@ namespace Assets.Scripts.GameObjects
 			GunModel = GameObject.FindGameObjectWithTag("EquippedGun");
 			gun = GameObject.FindWithTag("GunRotator").GetComponent<Gun>();
 
-			PooledBulletGameObjects.Initialize();
+            messageDispatcher.DispatchMessage(new Telegram(new MachineGun(), null, true));
+            PooledBulletGameObjects.Initialize(character);
 
 			animator = GetComponent<Animator>();
 
@@ -215,7 +217,7 @@ namespace Assets.Scripts.GameObjects
                 {
                     IProjectile bullet = character.RangeWeapon.Fire();
                     bullet.ShotDirection = -GunModel.transform.right;
-	                var bulletInstance = PooledBulletGameObjects.GetPooledBullet().GetComponent<Bullet>();
+	                var bulletInstance = PooledBulletGameObjects.GetPooledBullet(character).GetComponent<Bullet>();
 	                bulletInstance.Projectile = bullet;
 					bulletInstance.Initialize();
 					messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));

@@ -55,7 +55,8 @@ namespace Assets.Scripts.GameObjects
 			{
 				playerXMove = Vector3.zero;
 				projectile.DeactivateProjectile();
-				PooledBulletGameObjects.DeactivatePooledBullet(gameObject, projectile);
+				PooledBulletGameObjects.DeactivatePooledBullet(gameObject,
+                    projectile.Character, projectile);
 			}
 
 			//base.Update();

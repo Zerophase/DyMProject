@@ -6,6 +6,7 @@ using UnityEngine;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 using Assets.Scripts.Weapons.Bases;
+using Assets.Scripts.Weapons.Guns;
 
 public class HoverSlug : Slug
 {
@@ -35,6 +36,9 @@ public class HoverSlug : Slug
 			}
 		}
 
+        // TODO remove hacky solution to get refactoring working.
+        messageDispatcher.DispatchMessage(new Telegram(new MachineGun(), null, true));
+
         Character.AddWeapon((RangeWeaponBase)slugGun);
         Character.Equip(slugGun);
 		gun = gameObject.GetComponentInChildren<Gun>();
@@ -50,7 +54,7 @@ public class HoverSlug : Slug
             
 			IProjectile bullet = slugGun.Fire();
             bullet.ShotDirection = -gun.transform.forward;
-			var bulletInstance = PooledBulletGameObjects.GetPooledBullet().GetComponent<Bullet>();
+			var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
 			bulletInstance.Projectile = bullet;
 			bulletInstance.Initialize();
 			messageDispatcher.DispatchMessage(new Telegram(bulletInstance, gunModel.transform));

@@ -15,6 +15,7 @@ namespace Assets.Scripts.Weapons.Interfaces
 {
 	public interface IRangeWeapon : IWeapon
 	{
+        void PostCreation();
 		IProjectile Fire();
 		IProjectile Projectile { get; }
 		bool FireRate(float time);

@@ -50,6 +50,9 @@ namespace Assets.Scripts.Weapons.Bases
 		
 		public Vector3 Position { get; set; }
 		
+        public RangeWeaponBase()
+        { }
+
 		public RangeWeaponBase(int order)
 		{
 			setOrder(order);
@@ -64,12 +67,13 @@ namespace Assets.Scripts.Weapons.Bases
 			this.bulletPool = bulletPool;
 			this.projectile = projectile;
 
-			if(bulletPool.Projectiles.Count < 50)
-				bulletPool.Initialize(this, new Vector3(0f, 0f, 0f), 50);
-			
 			receiver.SubScribe();
 		}
-		
+		public void PostCreation()
+        {
+            if (bulletPool.ProjectileBoundToCharacterType.Count == 0)
+				bulletPool.Initialize(this, new Vector3(0f, 0f, 0f), 50);
+        }
 		public RangeWeaponBase(int order, IProjectile projectile)
 		{
 			setOrder(order);
@@ -93,7 +97,7 @@ namespace Assets.Scripts.Weapons.Bases
 		
 		public IProjectile Fire()
 		{
-			return bulletPool.GetPooledProjectile().Projectile;
+			return bulletPool.GetPooledProjectile(this).Projectile;
 		}
 
 		public virtual bool FireRate(float time)
@@ -115,7 +119,8 @@ namespace Assets.Scripts.Weapons.Bases
 
 		public void Receive(ITelegram telegram)
 		{
-			throw new NotImplementedException();
+            if (bulletPool.ProjectileBoundToCharacterType.Count == 0)
+                bulletPool.Initialize(this, new Vector3(0f, 0f, 0f), 50);
 		}
 	}
 }
