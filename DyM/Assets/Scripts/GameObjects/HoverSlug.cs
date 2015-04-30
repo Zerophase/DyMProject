@@ -1,7 +1,9 @@
-﻿using Assets.Scripts.GameObjects;
+﻿using Assets.Scripts.DependencyInjection;
+using Assets.Scripts.GameObjects;
 using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Utilities.Messaging;
+using Assets.Scripts.Weapons;
 using UnityEngine;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
@@ -18,6 +20,10 @@ public class HoverSlug : Slug
 	public IRangeWeapon slugGun;
 
 	[Inject] public IPooledGameObjects PooledBulletGameObjects;
+
+	[Inject]
+	private RangeWeaponFactory rangeWeaponFactory;
+
 	protected override void Start()
 	{
 		for (int i = 0; i < transform.childCount; i++)
@@ -36,8 +42,10 @@ public class HoverSlug : Slug
 			}
 		}
 
-        // TODO remove hacky solution to get refactoring working.
-        messageDispatcher.DispatchMessage(new Telegram(new MachineGun(), null, true));
+
+		var test = rangeWeaponFactory.Create(WeaponTypes.MACHINE_GUN);
+		test.Character = Character;
+		messageDispatcher.DispatchMessage(new Telegram(test, null, true));
 
         Character.AddWeapon((RangeWeaponBase)slugGun);
         Character.Equip(slugGun);

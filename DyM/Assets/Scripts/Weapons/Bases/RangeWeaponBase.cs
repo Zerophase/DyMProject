@@ -49,9 +49,11 @@ namespace Assets.Scripts.Weapons.Bases
 		private IMessageDispatcher messageDispatcher;
 		
 		public Vector3 Position { get; set; }
-		
-        public RangeWeaponBase()
-        { }
+
+		public RangeWeaponBase()
+		{
+			receiver.SubScribe();
+		}
 
 		public RangeWeaponBase(int order)
 		{
@@ -97,7 +99,9 @@ namespace Assets.Scripts.Weapons.Bases
 		
 		public IProjectile Fire()
 		{
-			return bulletPool.GetPooledProjectile(this).Projectile;
+			var projectile = bulletPool.GetPooledProjectile(this).Projectile;
+			projectile.Character = character;
+			return projectile;
 		}
 
 		public virtual bool FireRate(float time)

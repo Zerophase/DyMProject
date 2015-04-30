@@ -63,10 +63,22 @@ namespace Assets.Scripts.Projectiles
 
         private void changeProjectileType(IRangeWeapon rangeWeapon)
         {
+			if(!projectilesBoundToCharacterType.ContainsKey(rangeWeapon.Character))
+				AddCharacterKey(rangeWeapon);
             projectilesBoundToCharacterType[rangeWeapon.Character].
                 Find(x => x.Projectile.Equals(rangeWeapon.Projectile)).Projectile = rangeWeapon.Projectile;
         }
 
+		public void AddCharacterKey(IRangeWeapon rangeWeapon)
+		{
+			List<IPooledProjectile> temp = new List<IPooledProjectile>();
+			temp.Add(new PooledProjectile(rangeWeapon.Projectile));
+			projectilesBoundToCharacterType.Add(rangeWeapon.Character, temp);
+			for (int i = 0; i < 50; i++)
+			{
+				addProjectile(rangeWeapon);
+			}
+		}
         //private void changeProjectileType(IProjectile projectile)
         //{
         //    this.projectile = projectile;
