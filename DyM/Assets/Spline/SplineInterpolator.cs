@@ -141,7 +141,7 @@ public class SplineInterpolator : MonoBehaviour
 		mCurrentTime += Time.deltaTime;
 
 		// We advance to next point in the path
-		if (mCurrentTime >= mNodes[mCurrentIdx + 1].Time)
+        if (mCurrentTime >= mNodes[mCurrentIdx + 1].Time)
 		{
 			if (mCurrentIdx < mNodes.Count - 3)
 			{
