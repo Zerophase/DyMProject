@@ -65,8 +65,8 @@ namespace Assets.Scripts.Projectiles
         {
 			if(!projectilesBoundToCharacterType.ContainsKey(rangeWeapon.Character))
 				AddCharacterKey(rangeWeapon);
-            projectilesBoundToCharacterType[rangeWeapon.Character].
-                Find(x => x.Projectile.Equals(rangeWeapon.Projectile)).Projectile = rangeWeapon.Projectile;
+	        projectilesBoundToCharacterType[rangeWeapon.Character].
+				Find(x => x.Active == false).Projectile = rangeWeapon.Projectile;
         }
 
 		public void AddCharacterKey(IRangeWeapon rangeWeapon)
@@ -88,6 +88,7 @@ namespace Assets.Scripts.Projectiles
 		public void ChangeBullet(IRangeWeapon rangeWeapon)
 		{
             currentRangeWeapon = rangeWeapon;
+			
             changeProjectileType(rangeWeapon);
             for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character].Count; i++)
             {
