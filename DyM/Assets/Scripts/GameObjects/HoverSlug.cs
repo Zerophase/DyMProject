@@ -1,11 +1,14 @@
-﻿using Assets.Scripts.GameObjects;
+﻿using Assets.Scripts.DependencyInjection;
+using Assets.Scripts.GameObjects;
 using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Utilities.Messaging;
+using Assets.Scripts.Weapons;
 using UnityEngine;
 using Assets.Scripts.Weapons.Interfaces;
 using ModestTree.Zenject;
 using Assets.Scripts.Weapons.Bases;
+using Assets.Scripts.Weapons.Guns;
 
 public class HoverSlug : Slug
 {
@@ -17,6 +20,10 @@ public class HoverSlug : Slug
 	public IRangeWeapon slugGun;
 
 	[Inject] public IPooledGameObjects PooledBulletGameObjects;
+
+	[Inject]
+	private RangeWeaponFactory rangeWeaponFactory;
+
 	protected override void Start()
 	{
 		for (int i = 0; i < transform.childCount; i++)
@@ -35,6 +42,11 @@ public class HoverSlug : Slug
 			}
 		}
 
+
+		var test = rangeWeaponFactory.Create(WeaponTypes.MACHINE_GUN);
+		test.Character = Character;
+		messageDispatcher.DispatchMessage(new Telegram(test, null, true));
+
         Character.AddWeapon((RangeWeaponBase)slugGun);
         Character.Equip(slugGun);
 		gun = gameObject.GetComponentInChildren<Gun>();
@@ -50,7 +62,7 @@ public class HoverSlug : Slug
             
 			IProjectile bullet = slugGun.Fire();
             bullet.ShotDirection = -gun.transform.forward;
-			var bulletInstance = PooledBulletGameObjects.GetPooledBullet().GetComponent<Bullet>();
+			var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
 			bulletInstance.Projectile = bullet;
 			bulletInstance.Initialize();
 			messageDispatcher.DispatchMessage(new Telegram(bulletInstance, gunModel.transform));

@@ -8,6 +8,7 @@ using Assets.Scripts.ObjectManipulation;
 using Assets.Scripts.ObjectManipulation.Interfaces;
 using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
+using Assets.Scripts.Weapons.Guns;
 using Assets.Scripts.Utilities;
 using ModestTree.Zenject;
 using UnityEngine;
@@ -15,6 +16,7 @@ using System.Collections;
 using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
+using Assets.Scripts.Weapons;
 
 namespace Assets.Scripts.GameObjects
 {
@@ -50,13 +52,20 @@ namespace Assets.Scripts.GameObjects
 
 		private ParticleSystem particleSystem;
 
+		[Inject]
+		private RangeWeaponFactory rangeWeaponFactory;
+
 		protected override void Start()
 		{
 			planeShift = factory.Create(transform.position);
 			GunModel = GameObject.FindGameObjectWithTag("EquippedGun");
 			gun = GameObject.FindWithTag("GunRotator").GetComponent<Gun>();
 
-			PooledBulletGameObjects.Initialize();
+			// TODO remove once a better way of getting the gun info to the game is found
+			var test = rangeWeaponFactory.Create(WeaponTypes.MACHINE_GUN);
+			test.Character = character;
+			messageDispatcher.DispatchMessage(new Telegram(test, null, true));
+			PooledBulletGameObjects.Initialize(character);
 
 			animator = GetComponent<Animator>();
 
@@ -215,7 +224,7 @@ namespace Assets.Scripts.GameObjects
                 {
                     IProjectile bullet = character.RangeWeapon.Fire();
                     bullet.ShotDirection = -GunModel.transform.right;
-	                var bulletInstance = PooledBulletGameObjects.GetPooledBullet().GetComponent<Bullet>();
+	                var bulletInstance = PooledBulletGameObjects.GetPooledBullet(character).GetComponent<Bullet>();
 	                bulletInstance.Projectile = bullet;
 					bulletInstance.Initialize();
 					messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));
