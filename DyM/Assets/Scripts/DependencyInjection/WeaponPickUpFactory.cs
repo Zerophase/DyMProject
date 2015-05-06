@@ -33,6 +33,9 @@ namespace Assets.Scripts.DependencyInjection
 				case WeaponTypes.FORK_LIGHTNING:
 					return instantiator.Instantiate<WeaponPickUp>(
 						rangeWeaponFactory.Create(weaponTypes));
+				case WeaponTypes.SLUG_GUN:
+					return instantiator.Instantiate<WeaponPickUp>(
+						rangeWeaponFactory.Create(weaponTypes));
 				case WeaponTypes.SWORD:
 					return instantiator.Instantiate<WeaponPickUp>(meleeWeapon);
 			}

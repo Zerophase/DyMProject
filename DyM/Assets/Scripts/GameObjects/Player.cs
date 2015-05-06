@@ -59,7 +59,7 @@ namespace Assets.Scripts.GameObjects
 		protected override void Start()
 		{
 			planeShift = factory.Create(transform.position);
-			GunModel = GameObject.FindGameObjectWithTag("EquippedGun");
+			GunModel = GameObject.FindGameObjectWithTag("PlayerEquippedGun");
 			gun = GameObject.FindWithTag("GunRotator").GetComponent<Gun>();
 
 			// TODO remove once a better way of getting the gun info to the game is found
@@ -220,20 +220,19 @@ namespace Assets.Scripts.GameObjects
         private bool shot;
 		private void rangeAttack()
 		{
-			//if (character.EquippedRangeWeapon() && InputManager.Fire())
-			//{
-			//	shot = character.RangeWeapon.FireRate(Time.deltaTime);
-			//	animator.SetBool("Shot", shot);
-			//	if (shot)
-			//	{
-			//		IProjectile bullet = character.RangeWeapon.Fire();
-			//		bullet.ShotDirection = -GunModel.transform.right;
-			//		var bulletInstance = PooledBulletGameObjects.GetPooledBullet(character).GetComponent<Bullet>();
-			//		bulletInstance.Projectile = bullet;
-			//		bulletInstance.Initialize();
-			//		messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));
-			//	}
-			//}
+			if (character.EquippedRangeWeapon() && InputManager.Fire())
+			{
+				shot = character.RangeWeapon.FireRate(Time.deltaTime);
+				animator.SetBool("Shot", shot);
+				if (shot)
+				{
+					IProjectile bullet = character.RangeWeapon.Fire();
+					bullet.ShotDirection = -GunModel.transform.right;
+					var bulletInstance = PooledBulletGameObjects.GetPooledBullet(character).GetComponent<Bullet>();
+					bulletInstance.Projectile = bullet;
+					messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));
+				}
+			}
             
 		}
 

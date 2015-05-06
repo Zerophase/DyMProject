@@ -6,10 +6,10 @@ using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.MediatorPattern;
 using Assets.Scripts.GameObjects;
 
-public class HealthPack : PhysicsMediator
+public class HealthPack : ItemPickUp
 {
 	int heal = 50;
-	public void PickUp(GameObject player)
+	public override void PickUp(GameObject player)
 	{
 		player.GetComponent<Player>().Heal(heal);
 		Destroy(gameObject);

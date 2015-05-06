@@ -21,15 +21,10 @@ namespace Assets.Scripts.MediatorPattern
 		private MovablePhysicsMediator[] movablePhysicsMediatorsArray;
 		private Ground[] groundsArray;
 		private int groundCount;
-		private List<WeaponPickUpGameObject> weaponPickUpGameObjects = 
-			new List<WeaponPickUpGameObject>();
-		private List<AbilityPickUpGameObject> abilityPickUps =
- 			new List<AbilityPickUpGameObject>();
-		private List<HealthPack> healthPacks =
- 			new List<HealthPack>();
-		private List<PhysicsMediator> bullets = new List<PhysicsMediator>();  
 
-		private bool assignGravity;
+		private List<ItemPickUp> itemPickUps = new List<ItemPickUp>(100); 
+
+		private List<PhysicsMediator> bullets = new List<PhysicsMediator>(200);  
 
 		private Vector3 gravity = new Vector3(0f, -30f, 0f);
 
@@ -54,9 +49,7 @@ namespace Assets.Scripts.MediatorPattern
 
 			GroundCollision();
 
-			WeaponPickUpCollision();
-			AbilityPickUpCollision();
-			HealthPackCollision();
+			pickUpCollisions();
 
 			bulletCollision();
 			slugCollision();
@@ -91,7 +84,7 @@ namespace Assets.Scripts.MediatorPattern
 			{
                 for (int j = 0; j < movablePhysicsMediatorsArray.Length; j++)
 				{
-					if (movablePhysicsMediators[j] is Player)
+					if (movablePhysicsMediatorsArray[j] is Player)
 						continue;
                     if (aabbIntersection.Intersect(bullets[i].BoundingBox, movablePhysicsMediatorsArray[j].BoundingBox))
 					{
@@ -110,38 +103,14 @@ namespace Assets.Scripts.MediatorPattern
 			}
 		}
 
-		private void AbilityPickUpCollision()
+		private void pickUpCollisions()
 		{
-			for (int i = 0; i < abilityPickUps.Count; i++)
+			for (int i = 0; i < itemPickUps.Count; i++)
 			{
-				if (aabbIntersection.Intersect(abilityPickUps[i].BoundingBox, player.BoundingBox))
+				if (aabbIntersection.Intersect(itemPickUps[i].BoundingBox, player.BoundingBox))
 				{
-					abilityPickUps[i].PickUp(player.gameObject);
-					abilityPickUps.RemoveAt(i);
-				}
-			}
-		}
-
-		private void HealthPackCollision()
-		{
-			for (int i = 0; i < healthPacks.Count; i++)
-			{
-				if (aabbIntersection.Intersect(healthPacks[i].BoundingBox, player.BoundingBox))
-				{
-					healthPacks[i].PickUp(player.gameObject);
-					healthPacks.RemoveAt(i);
-				}
-			}
-		}
-
-		private void WeaponPickUpCollision()
-		{
-			for(int i = 0; i < weaponPickUpGameObjects.Count; i++)
-			{
-				if (aabbIntersection.Intersect(weaponPickUpGameObjects[i].BoundingBox, player.BoundingBox))
-				{
-					weaponPickUpGameObjects[i].PickUp(player.gameObject);
-					weaponPickUpGameObjects.RemoveAt(i);
+					itemPickUps[i].PickUp(player.gameObject);
+					itemPickUps.RemoveAt(i);
 				}
 			}
 		}
@@ -221,67 +190,82 @@ namespace Assets.Scripts.MediatorPattern
 		private bool adjustPosition = true;
 		private void GroundCollision()
 		{
-			quicksort(movablePhysicsMediatorsArray, 0, movablePhysicsMediatorsArray.Length - 1);
-			
-			float hitTime = 0f;
+				quicksort(movablePhysicsMediatorsArray, 0, movablePhysicsMediatorsArray.Length - 1);
 
-			for (int k = 0; k < movablePhysicsMediatorsArray.Length; k++)
-			{
-				movablePhysicsMediatorsArray[k].UpdateVelocity(gravity);
+				float hitTime = 0f;
 
-				playerBoundingBox = movablePhysicsMediatorsArray[k].BoundingBox;
-
-				for (int i = 0; i < groundsArray.Length; i++)
+				for (int k = 0; k < movablePhysicsMediatorsArray.Length; k++)
 				{
-					groundBoundingBox = groundsArray[i].BoundingBox;
-					var groundMin = groundBoundingBox.Center - new Vector3(groundBoundingBox.HalfWidth, groundBoundingBox.HalfHeight);
-					var unitMax = playerBoundingBox.Center + new Vector3(playerBoundingBox.HalfWidth, playerBoundingBox.HalfHeight) + playerBoundingBox.Velocity * Time.deltaTime;
-					if (groundMin.x > unitMax.x)
+					try
 					{
-						break;
+						movablePhysicsMediatorsArray[k].UpdateVelocity(gravity);
+						playerBoundingBox = movablePhysicsMediatorsArray[k].BoundingBox;
+					}
+					catch (MissingReferenceException e)
+					{
+						Debug.Log("Test");
+						throw e;
 					}
 
-					if (sweep.TestMovingAABB(playerBoundingBox,
-						playerBoundingBox.Velocity * Time.deltaTime, 0f, 1f,
-						groundBoundingBox, ref hitTime))
+					for (int i = 0; i < groundsArray.Length; i++)
 					{
-						float actualHittime = 1.0f - hitTime;
-						if (playerBoundingBox.NormalCollision[0].x > 0.0f)
+						groundBoundingBox = groundsArray[i].BoundingBox;
+						var groundMin = groundBoundingBox.Center - new Vector3(groundBoundingBox.HalfWidth, groundBoundingBox.HalfHeight);
+						var unitMax = playerBoundingBox.Center + new Vector3(playerBoundingBox.HalfWidth, playerBoundingBox.HalfHeight) + playerBoundingBox.Velocity * Time.deltaTime;
+						if (groundMin.x > unitMax.x)
 						{
-							velocity.x = playerBoundingBox.Velocity.x;
-							velocity.y = 0.0f;
-							velocity.z = 0.0f;
-							movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+							break;
 						}
-						else if (playerBoundingBox.NormalCollision[0].x < 0.0f)
+
+						if (sweep.TestMovingAABB(playerBoundingBox,
+							playerBoundingBox.Velocity * Time.deltaTime, 0f, 1f,
+							groundBoundingBox, ref hitTime))
 						{
-							velocity.x = playerBoundingBox.Velocity.x;
-							velocity.y = 0.0f;
-							velocity.z = 0.0f;
-							movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+							float actualHittime = 1.0f - hitTime;
+							if (playerBoundingBox.NormalCollision[0].x > 0.0f)
+							{
+								velocity.x = playerBoundingBox.Velocity.x;
+								velocity.y = 0.0f;
+								velocity.z = 0.0f;
+								movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+							}
+							else if (playerBoundingBox.NormalCollision[0].x < 0.0f)
+							{
+								velocity.x = playerBoundingBox.Velocity.x;
+								velocity.y = 0.0f;
+								velocity.z = 0.0f;
+								movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+							}
+							// TODO find out if better way for avoiding getting caught in platforms
+							if (playerBoundingBox.NormalCollision[1].y < 0.0f && playerBoundingBox.Velocity.y < 0.0f)
+							{
+
+								velocity.x = 0.0f;
+								velocity.y = playerBoundingBox.Velocity.y;
+								velocity.z = 0.0f;
+								movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+							}
 						}
-						// TODO find out if better way for avoiding getting caught in platforms
-						if (playerBoundingBox.NormalCollision[1].y < 0.0f && playerBoundingBox.Velocity.y < 0.0f)
+						else if (movablePhysicsMediatorsArray[k] is Player && movablePhysicsMediatorsArray[k].velocity.y < Vector3.zero.y &&
+							(movablePhysicsMediatorsArray[k] as Player).TouchGroundFrameCount > 2)
 						{
-							
-							velocity.x = 0.0f;
-							velocity.y = playerBoundingBox.Velocity.y;
-							velocity.z = 0.0f;
-							movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+							(movablePhysicsMediatorsArray[k] as Player).TouchGroundFrameCount = 0;
 						}
-					}
-					else if (movablePhysicsMediatorsArray[k] is Player && movablePhysicsMediatorsArray[k].velocity.y < Vector3.zero.y &&
-						(movablePhysicsMediatorsArray[k] as Player).TouchGroundFrameCount > 2)
-					{
-						(movablePhysicsMediatorsArray[k] as Player).TouchGroundFrameCount = 0;
+
+						//Debug.Log("Player on ground for frames: " + (movablePhysicsMediators[k] as Player).TouchGroundFrameCount);
 					}
 
-					//Debug.Log("Player on ground for frames: " + (movablePhysicsMediators[k] as Player).TouchGroundFrameCount);
+					try
+					{
+						movablePhysicsMediatorsArray[k].UpdatePosition();
+						movablePhysicsMediatorsArray[k].ResetVelocity();
+					}
+					catch (MissingReferenceException e)
+					{
+						throw e;
+					}
 				}
-
-				movablePhysicsMediatorsArray[k].UpdatePosition();
-				movablePhysicsMediatorsArray[k].ResetVelocity();
-			}
+			
 		}
 
 		private int findPosition(PhysicsMediator[] ground, AABB3D movable)
@@ -309,7 +293,6 @@ namespace Assets.Scripts.MediatorPattern
 					movablePhysicsMediatorsArray = movablePhysicsMediators.ToArray();
 					if (telegram.Message is Player)
 						player = movablePhysicsMediators.Find(p => p is Player);
-					assignGravity = true;
 				}
 				else if (telegram.Message is Ground)
 				{
@@ -344,15 +327,12 @@ namespace Assets.Scripts.MediatorPattern
 						}
 					}
 				}
-				else if(telegram.Message is WeaponPickUpGameObject)
-					weaponPickUpGameObjects.Add((WeaponPickUpGameObject)telegram.Message);
-				else if(telegram.Message is AbilityPickUpGameObject)
-					abilityPickUps.Add((AbilityPickUpGameObject)telegram.Message);
-				else if(telegram.Message is HealthPack)
-					healthPacks.Add((HealthPack)telegram.Message);
-				else if(telegram.Message is Bullet)
+				else if(telegram.Message is ItemPickUp)
+					itemPickUps.Add((ItemPickUp)telegram.Message);
+				else if (telegram.Message is Bullet)
+				{
 					bullets.Add((Bullet)telegram.Message);
-
+				}
 			}
 		}
 	}

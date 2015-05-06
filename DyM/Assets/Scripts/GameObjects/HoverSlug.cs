@@ -44,7 +44,7 @@ public class HoverSlug : Slug
 		}
 
 
-		var test = rangeWeaponFactory.Create(WeaponTypes.MACHINE_GUN);
+		var test = rangeWeaponFactory.Create(WeaponTypes.SLUG_GUN);
 		test.Character = Character;
 		messageDispatcher.DispatchMessage(new Telegram(test, null, true));
 
@@ -68,7 +68,6 @@ public class HoverSlug : Slug
             bullet.ShotDirection = -gun.transform.forward;
 			var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
 			bulletInstance.Projectile = bullet;
-			bulletInstance.Initialize();
 			messageDispatcher.DispatchMessage(new Telegram(bulletInstance, gunModel.transform));
 		}
 		base.Update();

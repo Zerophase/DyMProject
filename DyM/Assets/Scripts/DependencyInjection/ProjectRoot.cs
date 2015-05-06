@@ -61,12 +61,13 @@ namespace Assets.Scripts.DependencyInjection
 				WhenInjectedInto<MachineGun>();
 			_container.Bind<IProjectile>().ToTransient<LightningGunProjectile>().
 				WhenInjectedInto<ForkLightningGun>();
+			_container.Bind<IProjectile>().ToTransient<SlugProjectile>().
+				WhenInjectedInto<SlugGun>();
 			_container.Bind<IBulletPool>().ToSingle<BulletPool>();
 			_container.Bind<IPooledGameObjects>().ToSingle<PooledGameobjects>();
 			_container.Bind<IPickUp>().ToTransient<WeaponPickUp>();
 
 			_container.Bind<IRangeWeapon>().ToTransient<SlugGun>();
-			_container.Bind<IProjectile>().ToTransient<LightningGunProjectile>().WhenInjectedInto<SlugGun>();
 		}
 
 		private void meleeWeaponBindings()

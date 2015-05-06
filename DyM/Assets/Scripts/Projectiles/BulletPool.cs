@@ -18,22 +18,12 @@ namespace Assets.Scripts.Projectiles
 		{
 		}
 
-		List<IPooledProjectile> pooledProjectiles = new List<IPooledProjectile>();
 
         private Dictionary<CharacterTypes, List<IPooledProjectile>> projectilesBoundToCharacterType
 			= new Dictionary<CharacterTypes, List<IPooledProjectile>>();
 
 		[Inject]
 		private PooledProjectileFactory pooledProjectileFactory;
-		//private IPooledProjectile pooledProjectile;
-		//private IProjectile projectile;
-
-		private IRangeWeapon currentRangeWeapon;
-
-        //public List<IPooledProjectile> Projectiles
-        //{
-        //    get { return  pooledProjectiles; }
-        //}
 
 		public Dictionary<CharacterTypes, List<IPooledProjectile>> ProjectileBoundToCharacterType
         {
@@ -46,7 +36,6 @@ namespace Assets.Scripts.Projectiles
 
 		public void Initialize(IRangeWeapon rangeWeapon, Vector3 startPosition, int count)
 		{
-			currentRangeWeapon = rangeWeapon;
             List<IPooledProjectile> temp = new List<IPooledProjectile>();
             temp.Add(new PooledProjectile(rangeWeapon.Projectile));
 			if(!projectilesBoundToCharacterType.ContainsKey(rangeWeapon.Character.CharacterType))
@@ -67,7 +56,8 @@ namespace Assets.Scripts.Projectiles
         {
 			if (!projectilesBoundToCharacterType.ContainsKey(rangeWeapon.Character.CharacterType))
 				AddCharacterKey(rangeWeapon);
-			projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][0].Projectile = rangeWeapon.Projectile;
+			projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType]
+				.Find(x => x.Active == false).Projectile = rangeWeapon.Projectile;
         }
 
 		public void AddCharacterKey(IRangeWeapon rangeWeapon)
@@ -84,16 +74,10 @@ namespace Assets.Scripts.Projectiles
 			}
 			
 		}
-        //private void changeProjectileType(IProjectile projectile)
-        //{
-        //    this.projectile = projectile;
-        //}
 
         // TODO There might be bugs here
 		public void ChangeBullet(IRangeWeapon rangeWeapon)
 		{
-            currentRangeWeapon = rangeWeapon;
-			
             changeProjectileType(rangeWeapon);
 			for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count; i++)
             {
@@ -120,9 +104,7 @@ namespace Assets.Scripts.Projectiles
 			addNewProjectileToList(rangeWeapon, ref currentProjectile);
 			
 			iterateThroughCreatedProjectiles(rangeWeapon, ref currentProjectile);
-
-            //if (pooledProjectiles.Any(b => b.Projectile is LightningGunProjectile))
-            //    Debug.Log("machineGun Projectile when should be lightning:" + pooledProjectiles.Find(b => b.Projectile is MachineGunProjectile));
+           
 			return currentProjectile;
 		}
 

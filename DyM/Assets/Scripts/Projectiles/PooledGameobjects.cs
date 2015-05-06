@@ -27,6 +27,7 @@ namespace Assets.Scripts.Projectiles
 			for (int i = 0; i < bulletPool.GetProjectiles(character).Count; i++)
 			{
 				addProjectile();
+				pooledBullets[i].GetComponent<Bullet>().Initialize();
 				pooledBullets[i].SetActive(false);
 				SetArt(character, i);
 			}

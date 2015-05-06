@@ -27,6 +27,8 @@ namespace Assets.Scripts.DependencyInjection
 					return instantiator.Instantiate<MachineGun>();
 				case WeaponTypes.FORK_LIGHTNING:
 					return instantiator.Instantiate<ForkLightningGun>();
+				case WeaponTypes.SLUG_GUN:
+					return instantiator.Instantiate<SlugGun>();
 			}
 
 			return null;

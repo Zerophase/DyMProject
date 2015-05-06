@@ -9,6 +9,7 @@ namespace Assets.Scripts.Weapons
 	{
 		MACHINE_GUN,
 		FORK_LIGHTNING,
+		SLUG_GUN,
 		SWORD
 	};
 }

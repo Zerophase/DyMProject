@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace Assets.Scripts.GameObjects
 {
-	public class AbilityPickUpGameObject : PhysicsMediator
+	public class AbilityPickUpGameObject : ItemPickUp
 	{
 		public AbilityTypes abilityTypes;
 
@@ -24,7 +24,7 @@ namespace Assets.Scripts.GameObjects
 			base.Start();
 		}
 
-		public void PickUp(GameObject player)
+		public override void PickUp(GameObject player)
 		{
 			abilityPickUp.PickUp(player.GetComponent<Player>());
 			Destroy(gameObject);

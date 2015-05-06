@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.GameObjects
 {
-	public class WeaponPickUpGameObject : PhysicsMediator
+	public class WeaponPickUpGameObject : ItemPickUp
 	{
 		public WeaponTypes WeaponTypes;
 		[Inject]
@@ -22,7 +22,7 @@ namespace Assets.Scripts.GameObjects
 			base.Start();
 		}
 
-		public void PickUp(GameObject player)
+		public override void PickUp(GameObject player)
 		{
 			weaponPickUp.PickUp(player.GetComponent<Player>());
 			Destroy(gameObject);
