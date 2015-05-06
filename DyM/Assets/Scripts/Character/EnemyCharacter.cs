@@ -176,5 +176,12 @@ namespace Assets.Scripts.Character
 		{
 			throw new NotImplementedException();
 		}
+
+		private CharacterTypes characterType;
+		public CharacterTypes CharacterType
+		{
+			get { return characterType; }
+			set { characterType = value; }
+		}
 	}
 }

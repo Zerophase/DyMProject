@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.DependencyInjection;
+﻿using Assets.Scripts.Character;
+using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Projectiles;
 using Assets.Scripts.Projectiles.Interfaces;
@@ -47,9 +48,12 @@ public class HoverSlug : Slug
 		test.Character = Character;
 		messageDispatcher.DispatchMessage(new Telegram(test, null, true));
 
+		Character.CharacterType = CharacterTypes.HOVERSLUG;
         Character.AddWeapon((RangeWeaponBase)slugGun);
         Character.Equip(slugGun);
 		gun = gameObject.GetComponentInChildren<Gun>();
+
+		
 		base.Start();
 	}
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Character;
 using Assets.Scripts.DependencyInjection;
 using Assets.Scripts.Projectiles.Interfaces;
 using Assets.Scripts.Projectiles.Projectiles;
@@ -19,8 +20,8 @@ namespace Assets.Scripts.Projectiles
 
 		List<IPooledProjectile> pooledProjectiles = new List<IPooledProjectile>();
 
-        private Dictionary<ICharacter, List<IPooledProjectile>> projectilesBoundToCharacterType
-            = new Dictionary<ICharacter, List<IPooledProjectile>>();
+        private Dictionary<CharacterTypes, List<IPooledProjectile>> projectilesBoundToCharacterType
+			= new Dictionary<CharacterTypes, List<IPooledProjectile>>();
 
 		[Inject]
 		private PooledProjectileFactory pooledProjectileFactory;
@@ -34,13 +35,13 @@ namespace Assets.Scripts.Projectiles
         //    get { return  pooledProjectiles; }
         //}
 
-        public Dictionary<ICharacter, List<IPooledProjectile>> ProjectileBoundToCharacterType
+		public Dictionary<CharacterTypes, List<IPooledProjectile>> ProjectileBoundToCharacterType
         {
             get { return projectilesBoundToCharacterType; }
         }
         public List<IPooledProjectile> GetProjectiles(ICharacter character)
         {
-            return projectilesBoundToCharacterType[character];
+            return projectilesBoundToCharacterType[character.CharacterType];
         }
 
 		public void Initialize(IRangeWeapon rangeWeapon, Vector3 startPosition, int count)
@@ -48,7 +49,8 @@ namespace Assets.Scripts.Projectiles
 			currentRangeWeapon = rangeWeapon;
             List<IPooledProjectile> temp = new List<IPooledProjectile>();
             temp.Add(new PooledProjectile(rangeWeapon.Projectile));
-            projectilesBoundToCharacterType.Add(rangeWeapon.Character, temp);
+			if(!projectilesBoundToCharacterType.ContainsKey(rangeWeapon.Character.CharacterType))
+				projectilesBoundToCharacterType.Add(rangeWeapon.Character.CharacterType, temp);
 			changeProjectileType(rangeWeapon);
 			for (int i = 0; i < count; i++)
 			{
@@ -58,26 +60,29 @@ namespace Assets.Scripts.Projectiles
 
         private void addProjectile(IRangeWeapon rangeWeapon)
         {
-            projectilesBoundToCharacterType[rangeWeapon.Character].Add(pooledProjectileFactory.Create(rangeWeapon.Projectile));
+			projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Add(pooledProjectileFactory.Create(rangeWeapon.Projectile));
         }
 
         private void changeProjectileType(IRangeWeapon rangeWeapon)
         {
-			if(!projectilesBoundToCharacterType.ContainsKey(rangeWeapon.Character))
+			if (!projectilesBoundToCharacterType.ContainsKey(rangeWeapon.Character.CharacterType))
 				AddCharacterKey(rangeWeapon);
-	        projectilesBoundToCharacterType[rangeWeapon.Character].
-				Find(x => x.Active == false).Projectile = rangeWeapon.Projectile;
+			projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][0].Projectile = rangeWeapon.Projectile;
         }
 
 		public void AddCharacterKey(IRangeWeapon rangeWeapon)
 		{
-			List<IPooledProjectile> temp = new List<IPooledProjectile>();
-			temp.Add(new PooledProjectile(rangeWeapon.Projectile));
-			projectilesBoundToCharacterType.Add(rangeWeapon.Character, temp);
-			for (int i = 0; i < 50; i++)
+			if (!projectilesBoundToCharacterType.ContainsKey(rangeWeapon.Character.CharacterType))
 			{
-				addProjectile(rangeWeapon);
+				List<IPooledProjectile> temp = new List<IPooledProjectile>();
+				temp.Add(new PooledProjectile(rangeWeapon.Projectile));
+				projectilesBoundToCharacterType.Add(rangeWeapon.Character.CharacterType, temp);
+				for (int i = 0; i < 100; i++)
+				{
+					addProjectile(rangeWeapon);
+				}
 			}
+			
 		}
         //private void changeProjectileType(IProjectile projectile)
         //{
@@ -90,10 +95,10 @@ namespace Assets.Scripts.Projectiles
             currentRangeWeapon = rangeWeapon;
 			
             changeProjectileType(rangeWeapon);
-            for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character].Count; i++)
+			for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count; i++)
             {
-                if (!projectilesBoundToCharacterType[rangeWeapon.Character][i].Active)
-                    projectilesBoundToCharacterType[rangeWeapon.Character][i] = 
+				if (!projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i].Active)
+					projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i] = 
                         pooledProjectileFactory.Create(rangeWeapon.Projectile);
             }
 		}
@@ -102,13 +107,13 @@ namespace Assets.Scripts.Projectiles
 		{
 			IPooledProjectile currentProjectile = null;
 
-            for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character].Count; i++)
+			for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count; i++)
 			{
-                if (!projectilesBoundToCharacterType[rangeWeapon.Character][i].Active &&
-                    !projectilesBoundToCharacterType[rangeWeapon.Character][i].Projectile.Equals(rangeWeapon.Projectile))
+				if (!projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i].Active &&
+					!projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i].Projectile.Equals(rangeWeapon.Projectile))
 				{
                     changeProjectileType(rangeWeapon);
-                    projectilesBoundToCharacterType[rangeWeapon.Character][i] = pooledProjectileFactory.Create(rangeWeapon.Projectile);
+					projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i] = pooledProjectileFactory.Create(rangeWeapon.Projectile);
 				}
 			}
 
@@ -123,12 +128,12 @@ namespace Assets.Scripts.Projectiles
 
 		private void iterateThroughCreatedProjectiles(IRangeWeapon rangeWeapon, ref IPooledProjectile currentProjectile)
 		{
-            for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character].Count; i++)
+			for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count; i++)
 			{
-                if (!projectilesBoundToCharacterType[rangeWeapon.Character][i].Active)
+				if (!projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i].Active)
 				{
-                    projectilesBoundToCharacterType[rangeWeapon.Character][i].Active = true;
-                    currentProjectile = projectilesBoundToCharacterType[rangeWeapon.Character][i];
+					projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i].Active = true;
+					currentProjectile = projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i];
 					break;
 				}
 			}
@@ -136,18 +141,18 @@ namespace Assets.Scripts.Projectiles
 
         private void addNewProjectileToList(IRangeWeapon rangeWeapon, ref IPooledProjectile currentProjectile)
 		{
-            if (projectilesBoundToCharacterType[rangeWeapon.Character][projectilesBoundToCharacterType[rangeWeapon.Character].Count - 1].Active)
+			if (projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count - 1].Active)
 			{
-                int lastElement = projectilesBoundToCharacterType[rangeWeapon.Character].Count - 1;
+				int lastElement = projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count - 1;
                 addProjectile(rangeWeapon);
-                projectilesBoundToCharacterType[rangeWeapon.Character][lastElement].Active = true;
-                currentProjectile = projectilesBoundToCharacterType[rangeWeapon.Character][lastElement];
+				projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][lastElement].Active = true;
+				currentProjectile = projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][lastElement];
 			}
 		}
 
 		public void DeactivatePooledProjectile(ICharacter character, IProjectile projectile)
 		{
-            projectilesBoundToCharacterType[character].Find(p => p.Projectile == projectile).Active = false;
+            projectilesBoundToCharacterType[character.CharacterType].Find(p => p.Projectile == projectile).Active = false;
 		}
 	}
 }

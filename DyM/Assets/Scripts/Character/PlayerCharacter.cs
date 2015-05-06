@@ -218,5 +218,12 @@ namespace Assets.Scripts.Character
 
 			return false;
 		}
+
+		private CharacterTypes characterType;
+		public CharacterTypes CharacterType
+		{
+			get { return characterType; }
+			set { characterType = value; }
+		}
 	}
 }

@@ -74,7 +74,7 @@ namespace Assets.Scripts.Weapons.Bases
 		public void PostCreation()
         {
             if (bulletPool.ProjectileBoundToCharacterType.Count == 0)
-				bulletPool.Initialize(this, new Vector3(0f, 0f, 0f), 50);
+				bulletPool.Initialize(this, new Vector3(0f, 0f, 0f), 100);
         }
 		public RangeWeaponBase(int order, IProjectile projectile)
 		{
@@ -124,7 +124,7 @@ namespace Assets.Scripts.Weapons.Bases
 		public void Receive(ITelegram telegram)
 		{
             if (bulletPool.ProjectileBoundToCharacterType.Count == 0)
-                bulletPool.Initialize(this, new Vector3(0f, 0f, 0f), 50);
+                bulletPool.Initialize(this, new Vector3(0f, 0f, 0f), 100);
 		}
 	}
 }

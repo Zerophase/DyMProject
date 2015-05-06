@@ -13,6 +13,7 @@ using Assets.Scripts.Utilities;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Character;
 using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
@@ -80,6 +81,8 @@ namespace Assets.Scripts.GameObjects
 
 			particleSystem = GameObject.Find("PlaneShiftParticle").GetComponent<ParticleSystem>();
 
+			character.CharacterType = CharacterTypes.PLAYER;
+
 			base.Start();
 		}
 
@@ -120,6 +123,7 @@ namespace Assets.Scripts.GameObjects
 				var changePlane = planeShift.ShiftPlane(KeyCode.Joystick1Button4,
 					transform.position);
 				previousPlane = transform.position;
+
 				UpdatePlane(changePlane);
 
 				if (transform.position != previousPlane)
@@ -216,20 +220,20 @@ namespace Assets.Scripts.GameObjects
         private bool shot;
 		private void rangeAttack()
 		{
-            if (character.EquippedRangeWeapon() && InputManager.Fire())
-            {
-                shot = character.RangeWeapon.FireRate(Time.deltaTime);
-                animator.SetBool("Shot", shot);
-                if (shot)
-                {
-                    IProjectile bullet = character.RangeWeapon.Fire();
-                    bullet.ShotDirection = -GunModel.transform.right;
-	                var bulletInstance = PooledBulletGameObjects.GetPooledBullet(character).GetComponent<Bullet>();
-	                bulletInstance.Projectile = bullet;
-					bulletInstance.Initialize();
-					messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));
-                }
-            }
+			//if (character.EquippedRangeWeapon() && InputManager.Fire())
+			//{
+			//	shot = character.RangeWeapon.FireRate(Time.deltaTime);
+			//	animator.SetBool("Shot", shot);
+			//	if (shot)
+			//	{
+			//		IProjectile bullet = character.RangeWeapon.Fire();
+			//		bullet.ShotDirection = -GunModel.transform.right;
+			//		var bulletInstance = PooledBulletGameObjects.GetPooledBullet(character).GetComponent<Bullet>();
+			//		bulletInstance.Projectile = bullet;
+			//		bulletInstance.Initialize();
+			//		messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));
+			//	}
+			//}
             
 		}
 

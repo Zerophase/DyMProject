@@ -17,6 +17,7 @@ namespace Assets.Scripts.Character.Interfaces
 {
 	public interface ICharacter : IOwner
 	{
+		CharacterTypes CharacterType { get; set; }
 		void PostConstruction();
 		IRangeWeapon RangeWeapon { get; }
 		IMeleeWeapon MeleeWeapon { get; }

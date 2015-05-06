@@ -72,6 +72,8 @@ namespace Assets.Scripts.MediatorPattern
 
 		public void UpdatePlane(Vector3 planeChange)
 		{
+			if ((planeChange + transform.position).magnitude > 0f)
+				;
 			boundingBox.Center += planeChange;
 			transform.Translate(planeChange, Space.World);
 		}
