@@ -5,7 +5,7 @@ namespace Assets.Scripts.Projectiles.Projectiles
 	public class SlugProjectile : ProjectileBase
 	{
 		public SlugProjectile() :
-			base("SlugProjectile", 30f)
+			base("SlugProjectile", 30f, "EnemyBullet")
 		{
 			damage = 1;
 		}

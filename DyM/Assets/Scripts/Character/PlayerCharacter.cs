@@ -65,7 +65,7 @@ namespace Assets.Scripts.Character
         private IIds id;
 
 		private int health = 300;
-		public int Health { get { return health; } }
+		public int Health { get { return health; } set { health = value; } }
 
 		private int score = 0;
 		public int Score { get {return score; } }

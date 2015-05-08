@@ -31,10 +31,10 @@ namespace Assets.Scripts.Abilities
 		public void PickUp(Player player)
 		{
 
-			ability.PlayerCharacter = player.character;
+			ability.PlayerCharacter = player.Character;
 			AbilityMessage message = new AbilityMessage(5f);
 			this.messageDispatcher.DispatchMessage(new Telegram(entityManager.GetEntityFromID(Entities.HUD, 1), message));
-			messageDispatcher.DispatchMessage(new Telegram(player.character, ability));
+			messageDispatcher.DispatchMessage(new Telegram(player.Character, ability));
 		}
 	}
 }

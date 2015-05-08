@@ -66,6 +66,7 @@ public class HoverSlug : Slug
             
 			IProjectile bullet = slugGun.Fire();
             bullet.ShotDirection = -gun.transform.forward;
+			bullet.CharacterType = CharacterTypes.PLAYER;
 			var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
 			bulletInstance.Projectile = bullet;
 			messageDispatcher.DispatchMessage(new Telegram(bulletInstance, gunModel.transform));

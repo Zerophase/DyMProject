@@ -24,7 +24,7 @@ namespace Assets.Scripts.Weapons
 
 		public void PickUp(Player player)
 		{
-			messageDispatcher.DispatchMessage(new Telegram(player.character, weapon));
+			messageDispatcher.DispatchMessage(new Telegram(player.Character, weapon));
 		}
 	}
 }

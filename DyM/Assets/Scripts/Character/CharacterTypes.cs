@@ -2,7 +2,9 @@
 {
 	public enum CharacterTypes
 	{
+		NONE = 0,
 		PLAYER,
-		HOVERSLUG
+		HOVERSLUG,
+		ENEMY
 	}
 }

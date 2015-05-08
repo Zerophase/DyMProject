@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Character;
 using Assets.Scripts.GameObjects;
 using Assets.Scripts.Projectiles.Interfaces;
 using UnityEngine;
@@ -33,16 +34,19 @@ namespace Assets.Scripts.Projectiles.Projectiles
         private ICharacter character;
         public ICharacter Character { get { return character; } set { character = value; } }
 
-		public ProjectileBase(string matterialName, float deactivationDistance)
+		private CharacterTypes characterType;
+		public CharacterTypes CharacterType { get { return characterType; } set { characterType = value; } }
+
+		public ProjectileBase(string matterialName, float deactivationDistance, string model)
 		{
 			material = Resources.Load<Material>("Materials/" + matterialName);
 			//TODO once meshes are made replace with direct reference to mesh.
 			GameObject go;
-			if(!GameObject.Find("Bullet" + "(Clone)"))
-				go = GameObject.Instantiate(Resources.Load<GameObject>("Meshes/" + "Bullet")) as GameObject;
+			if(!GameObject.Find(model + "(Clone)"))
+				go = GameObject.Instantiate(Resources.Load<GameObject>("Meshes/" + model)) as GameObject;
 			else
 			{
-				go = GameObject.Find("Bullet" + "(Clone)");
+				go = GameObject.Find(model + "(Clone)");
 			}
 
 			mesh = go.GetComponent<MeshFilter>().mesh;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Character;
 using UnityEngine;
 using Assets.Scripts.Character.Interfaces;
 
@@ -23,5 +24,6 @@ namespace Assets.Scripts.Projectiles.Interfaces
         Vector3 ShotDirection { set; }
 
         ICharacter Character { get; set; }
+		CharacterTypes CharacterType { get; set; }
 	}
 }

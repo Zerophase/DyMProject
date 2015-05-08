@@ -63,5 +63,7 @@ namespace Assets.Scripts.MediatorPattern
 			else if (model.transform.eulerAngles != vc.RotationRight && speed < 0f)
 				model.transform.eulerAngles = vc.RotationRight;
 		}
+
+		
 	}
 }

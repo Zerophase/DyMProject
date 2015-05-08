@@ -5,8 +5,9 @@ using Assets.Scripts.StatusEffects;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Character;
 
-public class Slug : MovablePhysicsMediator 
+public class Slug : UnitPhysicsMediator 
 {
 	protected Vector3 acceleration = new Vector3(2f, 0f, 0f);
 	protected Vector3 maxPatrolDistance = new Vector3(10f, 0f, 0f);
@@ -15,17 +16,14 @@ public class Slug : MovablePhysicsMediator
 	protected Vector3 comparisor;
 	private PathFinder pathFinder;
 
-	protected int health = 10;
-	public int Health { get { return health; } }
-
 	private int damage = 2;
 
-	[Inject] private ICharacter character;
-    protected ICharacter Character { get { return character; } }
-
-	// Use this for initialization
 	protected virtual void Start () 
 	{
+		if(Character.CharacterType == CharacterTypes.NONE)
+			Character.CharacterType = CharacterTypes.ENEMY;
+		Character.Health = 10;
+
 		pathFinder = new PathFinder();
 		pathFinder.UpdateGraph(0, transform.position);
 		pathFinder.UpdateGraph(1, transform.position + maxPatrolDistance);
@@ -68,7 +66,7 @@ public class Slug : MovablePhysicsMediator
 	private void statusEffect()
 	{
 		
-		var statusEffect = character.StatusEffect;
+		var statusEffect = Character.StatusEffect;
 		if (statusEffect == StatusEffect.NONE)
 			movementMultiplier = 1.0f;
 		else if((statusEffect & StatusEffect.SLOW_TIME) == 
@@ -82,16 +80,16 @@ public class Slug : MovablePhysicsMediator
 			movementMultiplier = 1.5f;
 		}
 
-		if (character.StatusEffect != StatusEffect.NONE)
+		if (Character.StatusEffect != StatusEffect.NONE)
 		{
-			character.RemoveStatusEffect();
+			Character.RemoveStatusEffect();
 		}
 			
 	}
 
-	public void TakeDamge(int healthLost)
+	public override void TakeDamage(int healthLost)
 	{
-		health -= healthLost;
+		Character.Health -= healthLost;
 	}
 
 	public int DealDamage()

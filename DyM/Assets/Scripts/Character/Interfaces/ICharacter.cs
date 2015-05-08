@@ -25,7 +25,7 @@ namespace Assets.Scripts.Character.Interfaces
 		StatusEffect StatusEffect { get; }
 		void GainStatusEffect(StatusEffect statusEffect);
 		Vector3 Position { get; set; }
-		int Health { get; }
+		int Health { get; set; }
 		bool EquippedRangeWeapon();
 		bool EquippedMeleeWeapon();
 		bool EquippedAbility(AbilityTypes abilityType);

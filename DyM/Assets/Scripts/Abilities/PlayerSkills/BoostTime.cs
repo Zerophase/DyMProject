@@ -12,7 +12,7 @@ namespace Assets.Scripts.Abilities.PlayerSkills
 {
     public class BoostTime : AbilityBase
     {
-		private PlayerCharacter playerCharacter = new PlayerCharacter();
+	    private PlayerCharacter playerCharacter = new PlayerCharacter();
 
         public BoostTime(IMessageDispatcher messageDispatcher)
             :base(messageDispatcher, AbilityTypes.SPEED_UP_TIME)

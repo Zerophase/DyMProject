@@ -59,9 +59,11 @@ namespace Assets.Scripts.Character
 			}
 		}
 
+		private int health;
 		public int Health
 		{
-			get { throw new NotImplementedException(); }
+			get { return health; }
+			set { health = value; }
 		}
 
 		public EnemyCharacter()

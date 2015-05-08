@@ -6,6 +6,7 @@ using Assets.Scripts.Projectiles.Projectiles;
 using ModestTree.Zenject;
 using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Character;
 using Assets.Scripts.Utilities;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 
@@ -22,6 +23,9 @@ namespace Assets.Scripts.GameObjects
 		private Vector3 playerXMove;
 		[Inject]
 		public IPooledGameObjects PooledBulletGameObjects;
+
+		private CharacterTypes characterType;
+		public CharacterTypes CharacterType { get { return characterType; } set { characterType = value; } }
 
 		public void Initialize()
 		{

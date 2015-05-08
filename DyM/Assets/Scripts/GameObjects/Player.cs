@@ -21,14 +21,11 @@ using Assets.Scripts.Weapons;
 
 namespace Assets.Scripts.GameObjects
 {
-	public partial class Player : MovablePhysicsMediator
+	public partial class Player : UnitPhysicsMediator
 	{
 		private IPlaneShift planeShift;
 		[Inject]
 		private PlaneShiftFactory factory;
-
-		[Inject]
-		public ICharacter character;
 
 		[Inject]
 		public IPooledGameObjects PooledBulletGameObjects;
@@ -43,7 +40,7 @@ namespace Assets.Scripts.GameObjects
 
 		private float weaponSwitchTimer = 0.0f;
 
-		public int Health { get { return character.Health; } }
+		public int Health { get { return Character.Health; } }
 
 		public int TouchGroundFrameCount;
 
@@ -64,9 +61,9 @@ namespace Assets.Scripts.GameObjects
 
 			// TODO remove once a better way of getting the gun info to the game is found
 			var test = rangeWeaponFactory.Create(WeaponTypes.MACHINE_GUN);
-			test.Character = character;
+			test.Character = Character;
 			messageDispatcher.DispatchMessage(new Telegram(test, null, true));
-			PooledBulletGameObjects.Initialize(character);
+			PooledBulletGameObjects.Initialize(Character);
 
 			animator = GetComponent<Animator>();
 
@@ -76,12 +73,12 @@ namespace Assets.Scripts.GameObjects
 				audioSources.Add(aSources[i]);
 			}
 
-			character.PostConstruction();
-			character.SendOutStats();
+			Character.PostConstruction();
+			Character.SendOutStats();
 
 			particleSystem = GameObject.Find("PlaneShiftParticle").GetComponent<ParticleSystem>();
 
-			character.CharacterType = CharacterTypes.PLAYER;
+			Character.CharacterType = CharacterTypes.PLAYER;
 
 			base.Start();
 		}
@@ -202,7 +199,7 @@ namespace Assets.Scripts.GameObjects
 
 		private void statusEffect()
 		{
-			var statusEffect = character.StatusEffect;
+			var statusEffect = Character.StatusEffect;
 			if (statusEffect == StatusEffect.NONE)
 				movementMultiplier = 1.0f;
 			else if ((statusEffect & StatusEffect.BOOST_TIME) ==
@@ -211,24 +208,25 @@ namespace Assets.Scripts.GameObjects
 				movementMultiplier = 1.5f;
 			}
 
-			if (character.StatusEffect != StatusEffect.NONE)
+			if (Character.StatusEffect != StatusEffect.NONE)
 			{
-				character.RemoveStatusEffect();
+				Character.RemoveStatusEffect();
 			}
 		}
 
         private bool shot;
 		private void rangeAttack()
 		{
-			if (character.EquippedRangeWeapon() && InputManager.Fire())
+			if (Character.EquippedRangeWeapon() && InputManager.Fire())
 			{
-				shot = character.RangeWeapon.FireRate(Time.deltaTime);
+				shot = Character.RangeWeapon.FireRate(Time.deltaTime);
 				animator.SetBool("Shot", shot);
 				if (shot)
 				{
-					IProjectile bullet = character.RangeWeapon.Fire();
+					IProjectile bullet = Character.RangeWeapon.Fire();
 					bullet.ShotDirection = -GunModel.transform.right;
-					var bulletInstance = PooledBulletGameObjects.GetPooledBullet(character).GetComponent<Bullet>();
+					bullet.CharacterType = CharacterTypes.HOVERSLUG;
+					var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
 					bulletInstance.Projectile = bullet;
 					messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));
 				}
@@ -238,44 +236,44 @@ namespace Assets.Scripts.GameObjects
 
 		private void weakAttack()
 		{
-			if (InputManager.WeakAttack() && character.EquippedRangeWeapon())
+			if (InputManager.WeakAttack() && Character.EquippedRangeWeapon())
 			{
-				character.MeleeWeapon.Attack();
+				Character.MeleeWeapon.Attack();
 			}
 		}
 
 		private void activateAbility()
 		{
-            
-			if (character.EquippedAbility(InputManager.ActivateAbility()) && 
-				character.Ability.CoolDown())
+
+			if (Character.EquippedAbility(InputManager.ActivateAbility()) &&
+				Character.Ability.CoolDown())
 			{
-				character.Ability.Activate(character);
+				Character.Ability.Activate(Character);
 			}
 		}
 
 		private void switchWeapon()
 		{
 			if (InputManager.SwitchWeapon() &&
-			    character.EquippedRangeWeapon())
+				Character.EquippedRangeWeapon())
 			{
-				character.SwitchWeapon();
+				Character.SwitchWeapon();
 			}
 		}
 
-		public void TakeDamage(int healthLost)
+		public override void TakeDamage(int healthLost)
 		{
-			character.TakeDamage(healthLost);
+			Character.TakeDamage(healthLost);
 		}
 
 		public void Heal(int healthGained)
 		{
-			character.Heal(healthGained);
+			Character.Heal(healthGained);
 		}
 
 		public void AddScore(int scoreValue)
 		{
-			character.AddScore(scoreValue);
+			Character.AddScore(scoreValue);
 		}
 
 		void LateUpdate()

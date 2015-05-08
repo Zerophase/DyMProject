@@ -15,10 +15,10 @@ namespace Assets.Scripts.MediatorPattern
 {
 	public class PhysicsDirector : Director
 	{
-		private List<MovablePhysicsMediator> movablePhysicsMediators = new List<MovablePhysicsMediator>();
+		private List<UnitPhysicsMediator> unitPhysicsMediatorsTempList = new List<UnitPhysicsMediator>();
 		private List<Ground> grounds = new List<Ground>();
 
-		private MovablePhysicsMediator[] movablePhysicsMediatorsArray;
+		private UnitPhysicsMediator[] unitPhysicsMediators;
 		private Ground[] groundsArray;
 		private int groundCount;
 
@@ -28,7 +28,7 @@ namespace Assets.Scripts.MediatorPattern
 
 		private Vector3 gravity = new Vector3(0f, -30f, 0f);
 
-		private PhysicsMediator player;
+		private UnitPhysicsMediator player;
 
 		private AABBIntersection aabbIntersection = new AABBIntersection();
 
@@ -58,18 +58,18 @@ namespace Assets.Scripts.MediatorPattern
 		private int damage;
 		private void slugCollision()
 		{
-            for (int i = 0; i < movablePhysicsMediatorsArray.Length; i++)
+            for (int i = 0; i < unitPhysicsMediators.Length; i++)
 			{
-                if (movablePhysicsMediatorsArray[i] is Player)
+                if (unitPhysicsMediators[i] is Player)
 					continue;
-                if (aabbIntersection.Intersect(player.BoundingBox, movablePhysicsMediatorsArray[i].BoundingBox))
+                if (aabbIntersection.Intersect(player.BoundingBox, unitPhysicsMediators[i].BoundingBox))
 				{
-                    ((Player)player).TakeDamage(((Slug)movablePhysicsMediatorsArray[i]).DealDamage());
+                    ((Player)player).TakeDamage(((Slug)unitPhysicsMediators[i]).DealDamage());
 
-					if (((Player)player).Health <= 0)
+					if (player.Die())
 					{
-						PhysicsMediator removeMe = movablePhysicsMediators.Find(p => p == player);
-						movablePhysicsMediators.RemoveAt(i);
+						PhysicsMediator removeMe = unitPhysicsMediatorsTempList.Find(p => p == player);
+						unitPhysicsMediatorsTempList.RemoveAt(i);
 						Destroy(removeMe.gameObject);
 					}
 				}
@@ -82,20 +82,19 @@ namespace Assets.Scripts.MediatorPattern
 				return;
 			for (int i = 0; i < bullets.Count; i++)
 			{
-                for (int j = 0; j < movablePhysicsMediatorsArray.Length; j++)
+                for (int j = 0; j < unitPhysicsMediators.Length; j++)
 				{
-					if (movablePhysicsMediatorsArray[j] is Player)
-						continue;
-                    if (aabbIntersection.Intersect(bullets[i].BoundingBox, movablePhysicsMediatorsArray[j].BoundingBox))
+					if (((Bullet)bullets[i]).CharacterType != unitPhysicsMediators[j].Character.CharacterType &&
+						aabbIntersection.Intersect(bullets[i].BoundingBox, unitPhysicsMediators[j].BoundingBox))
 					{
-                        ((Slug)movablePhysicsMediatorsArray[j]).TakeDamge(((Bullet)bullets[i]).DealDamage());
+                        unitPhysicsMediators[j].TakeDamage(((Bullet)bullets[i]).DealDamage());
 
-                        if (((Slug)movablePhysicsMediatorsArray[j]).Health <= 0)
+                        if (unitPhysicsMediators[j].Die())
 						{
-                            PhysicsMediator removeMe = movablePhysicsMediatorsArray[j];
-                            movablePhysicsMediatorsArray[j] = null;
-                            quicksort(movablePhysicsMediatorsArray, 0, movablePhysicsMediatorsArray.Length - 1);
-                            Array.Resize<MovablePhysicsMediator>(ref movablePhysicsMediatorsArray, movablePhysicsMediatorsArray.Length - 1);
+                            PhysicsMediator removeMe = unitPhysicsMediators[j];
+                            unitPhysicsMediators[j] = null;
+                            quicksort(unitPhysicsMediators, 0, unitPhysicsMediators.Length - 1);
+                            Array.Resize(ref unitPhysicsMediators, unitPhysicsMediators.Length - 1);
 							Destroy(removeMe.gameObject);
 						}
 					}
@@ -190,16 +189,16 @@ namespace Assets.Scripts.MediatorPattern
 		private bool adjustPosition = true;
 		private void GroundCollision()
 		{
-				quicksort(movablePhysicsMediatorsArray, 0, movablePhysicsMediatorsArray.Length - 1);
+				quicksort(unitPhysicsMediators, 0, unitPhysicsMediators.Length - 1);
 
 				float hitTime = 0f;
 
-				for (int k = 0; k < movablePhysicsMediatorsArray.Length; k++)
+				for (int k = 0; k < unitPhysicsMediators.Length; k++)
 				{
 					try
 					{
-						movablePhysicsMediatorsArray[k].UpdateVelocity(gravity);
-						playerBoundingBox = movablePhysicsMediatorsArray[k].BoundingBox;
+						unitPhysicsMediators[k].UpdateVelocity(gravity);
+						playerBoundingBox = unitPhysicsMediators[k].BoundingBox;
 					}
 					catch (MissingReferenceException e)
 					{
@@ -227,14 +226,14 @@ namespace Assets.Scripts.MediatorPattern
 								velocity.x = playerBoundingBox.Velocity.x;
 								velocity.y = 0.0f;
 								velocity.z = 0.0f;
-								movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+								unitPhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
 							}
 							else if (playerBoundingBox.NormalCollision[0].x < 0.0f)
 							{
 								velocity.x = playerBoundingBox.Velocity.x;
 								velocity.y = 0.0f;
 								velocity.z = 0.0f;
-								movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+								unitPhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
 							}
 							// TODO find out if better way for avoiding getting caught in platforms
 							if (playerBoundingBox.NormalCollision[1].y < 0.0f && playerBoundingBox.Velocity.y < 0.0f)
@@ -243,22 +242,20 @@ namespace Assets.Scripts.MediatorPattern
 								velocity.x = 0.0f;
 								velocity.y = playerBoundingBox.Velocity.y;
 								velocity.z = 0.0f;
-								movablePhysicsMediatorsArray[k].UpdateVelocity(-velocity * actualHittime);
+								unitPhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
 							}
 						}
-						else if (movablePhysicsMediatorsArray[k] is Player && movablePhysicsMediatorsArray[k].velocity.y < Vector3.zero.y &&
-							(movablePhysicsMediatorsArray[k] as Player).TouchGroundFrameCount > 2)
+						else if (unitPhysicsMediators[k] is Player && unitPhysicsMediators[k].velocity.y < Vector3.zero.y &&
+							(unitPhysicsMediators[k] as Player).TouchGroundFrameCount > 2)
 						{
-							(movablePhysicsMediatorsArray[k] as Player).TouchGroundFrameCount = 0;
+							(unitPhysicsMediators[k] as Player).TouchGroundFrameCount = 0;
 						}
-
-						//Debug.Log("Player on ground for frames: " + (movablePhysicsMediators[k] as Player).TouchGroundFrameCount);
 					}
 
 					try
 					{
-						movablePhysicsMediatorsArray[k].UpdatePosition();
-						movablePhysicsMediatorsArray[k].ResetVelocity();
+						unitPhysicsMediators[k].UpdatePosition();
+						unitPhysicsMediators[k].ResetVelocity();
 					}
 					catch (MissingReferenceException e)
 					{
@@ -287,12 +284,12 @@ namespace Assets.Scripts.MediatorPattern
 			/// TODO replace with Switch Statement
 			if (telegram.Receiver == this)
 			{
-				if(telegram.Message is MovablePhysicsMediator)
+				if(telegram.Message is UnitPhysicsMediator)
 				{
-					movablePhysicsMediators.Add((MovablePhysicsMediator)telegram.Message);
-					movablePhysicsMediatorsArray = movablePhysicsMediators.ToArray();
+					unitPhysicsMediatorsTempList.Add((UnitPhysicsMediator)telegram.Message);
+					unitPhysicsMediators = unitPhysicsMediatorsTempList.ToArray();
 					if (telegram.Message is Player)
-						player = movablePhysicsMediators.Find(p => p is Player);
+						player = unitPhysicsMediatorsTempList.Find(p => p is Player);
 				}
 				else if (telegram.Message is Ground)
 				{
