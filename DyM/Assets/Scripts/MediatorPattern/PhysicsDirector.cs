@@ -28,7 +28,7 @@ namespace Assets.Scripts.MediatorPattern
 
 		private Vector3 gravity = new Vector3(0f, -30f, 0f);
 
-		private UnitPhysicsMediator player;
+		private static UnitPhysicsMediator player;
 
 		private static AABBIntersection aabbIntersection = new AABBIntersection();
 
@@ -189,80 +189,84 @@ namespace Assets.Scripts.MediatorPattern
 		private bool adjustPosition = true;
 		private void GroundCollision()
 		{
-				quicksort(unitPhysicsMediators, 0, unitPhysicsMediators.Length - 1);
+			quicksort(unitPhysicsMediators, 0, unitPhysicsMediators.Length - 1);
 
-				float hitTime = 0f;
+			float hitTime = 0f;
 
-				for (int k = 0; k < unitPhysicsMediators.Length; k++)
+			for (int k = 0; k < unitPhysicsMediators.Length; k++)
+			{
+				try
 				{
-					try
+					unitPhysicsMediators[k].UpdateVelocity(gravity);
+					playerBoundingBox = unitPhysicsMediators[k].BoundingBox;
+				}
+				catch (MissingReferenceException e)
+				{
+					Debug.Log("Test");
+					throw e;
+				}
+
+				for (int i = 0; i < groundsArray.Length; i++)
+				{
+					groundBoundingBox = groundsArray[i].BoundingBox;
+					var groundMin = groundBoundingBox.Center - new Vector3(groundBoundingBox.HalfWidth, groundBoundingBox.HalfHeight);
+					var unitMax = playerBoundingBox.Center + new Vector3(playerBoundingBox.HalfWidth, playerBoundingBox.HalfHeight) + playerBoundingBox.Velocity * Time.deltaTime;
+					if (groundMin.x > unitMax.x)
 					{
-						unitPhysicsMediators[k].UpdateVelocity(gravity);
-						playerBoundingBox = unitPhysicsMediators[k].BoundingBox;
+						break;
 					}
-					catch (MissingReferenceException e)
+
+					if (aabbIntersection.Intersect(playerBoundingBox, groundBoundingBox))
 					{
-						Debug.Log("Test");
-						throw e;
+						var penetrationVector = playerBoundingBox.Center - groundBoundingBox.Center;
+						unitPhysicsMediators[k].UpdateVelocity(Vector3.up * penetrationVector.y - gravity);
 					}
-
-					for (int i = 0; i < groundsArray.Length; i++)
+					else if (sweep.TestMovingAABB(playerBoundingBox,
+						playerBoundingBox.Velocity * Time.deltaTime, 0f, 1f,
+						groundBoundingBox, ref hitTime))
 					{
-						groundBoundingBox = groundsArray[i].BoundingBox;
-						var groundMin = groundBoundingBox.Center - new Vector3(groundBoundingBox.HalfWidth, groundBoundingBox.HalfHeight);
-						var unitMax = playerBoundingBox.Center + new Vector3(playerBoundingBox.HalfWidth, playerBoundingBox.HalfHeight) + playerBoundingBox.Velocity * Time.deltaTime;
-						if (groundMin.x > unitMax.x)
+						float actualHittime = 1.0f - hitTime;
+						if (playerBoundingBox.NormalCollision[0].x > 0.0f)
 						{
-							break;
+							velocity.x = playerBoundingBox.Velocity.x;
+							velocity.y = 0.0f;
+							velocity.z = 0.0f;
+							unitPhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
 						}
-
-						if (sweep.TestMovingAABB(playerBoundingBox,
-							playerBoundingBox.Velocity * Time.deltaTime, 0f, 1f,
-							groundBoundingBox, ref hitTime))
+						else if (playerBoundingBox.NormalCollision[0].x < 0.0f)
 						{
-							float actualHittime = 1.0f - hitTime;
-							if (playerBoundingBox.NormalCollision[0].x > 0.0f)
-							{
-								velocity.x = playerBoundingBox.Velocity.x;
-								velocity.y = 0.0f;
-								velocity.z = 0.0f;
-								unitPhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
-							}
-							else if (playerBoundingBox.NormalCollision[0].x < 0.0f)
-							{
-								velocity.x = playerBoundingBox.Velocity.x;
-								velocity.y = 0.0f;
-								velocity.z = 0.0f;
-								unitPhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
-							}
-							// TODO find out if better way for avoiding getting caught in platforms
-							if (playerBoundingBox.NormalCollision[1].y < 0.0f && playerBoundingBox.Velocity.y < 0.0f)
-							{
-
-								velocity.x = 0.0f;
-								velocity.y = playerBoundingBox.Velocity.y;
-								velocity.z = 0.0f;
-								unitPhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
-							}
+							velocity.x = playerBoundingBox.Velocity.x;
+							velocity.y = 0.0f;
+							velocity.z = 0.0f;
+							unitPhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
 						}
-						else if (unitPhysicsMediators[k] is Player && unitPhysicsMediators[k].velocity.y < Vector3.zero.y &&
-							(unitPhysicsMediators[k] as Player).TouchGroundFrameCount > 2)
+						// TODO find out if better way for avoiding getting caught in platforms
+						if (playerBoundingBox.NormalCollision[1].y < 0.0f && playerBoundingBox.Velocity.y < 0.0f)
 						{
-							(unitPhysicsMediators[k] as Player).TouchGroundFrameCount = 0;
+
+							velocity.x = 0.0f;
+							velocity.y = playerBoundingBox.Velocity.y;
+							velocity.z = 0.0f;
+							unitPhysicsMediators[k].UpdateVelocity(-velocity * actualHittime);
 						}
 					}
-
-					try
+					else if (unitPhysicsMediators[k] is Player && unitPhysicsMediators[k].velocity.y < Vector3.zero.y &&
+						(unitPhysicsMediators[k] as Player).TouchGroundFrameCount > 2)
 					{
-						unitPhysicsMediators[k].UpdatePosition();
-						unitPhysicsMediators[k].ResetVelocity();
-					}
-					catch (MissingReferenceException e)
-					{
-						throw e;
+						(unitPhysicsMediators[k] as Player).TouchGroundFrameCount = 0;
 					}
 				}
-			
+
+				try
+				{
+					unitPhysicsMediators[k].UpdatePosition();
+					unitPhysicsMediators[k].ResetVelocity();
+				}
+				catch (MissingReferenceException e)
+				{
+					throw e;
+				}
+			}
 		}
 
 		private int findPosition(PhysicsMediator[] ground, AABB3D movable)
@@ -339,15 +343,16 @@ namespace Assets.Scripts.MediatorPattern
 			{
 				groundBoundingBox = groundsArray[i].BoundingBox;
 				var groundMin = groundBoundingBox.Center - new Vector3(groundBoundingBox.HalfWidth, groundBoundingBox.HalfHeight);
-				var unitMax = playerBoundingBox.Center + new Vector3(playerBoundingBox.HalfWidth, playerBoundingBox.HalfHeight) + playerBoundingBox.Velocity * Time.deltaTime;
+				var pBoundingBox = player.BoundingBox;
+				var unitMax = pBoundingBox.Center + new Vector3(pBoundingBox.HalfWidth, pBoundingBox.HalfHeight) + pBoundingBox.Velocity * Time.deltaTime;
 				if (groundMin.x > unitMax.x)
 				{
 					break;
 				}
 
 				var BoundingBoxCenter = playerBoundingBox.Center + planeChange;
-				AABB3D checkBoundingBox = new AABB3D(BoundingBoxCenter, playerBoundingBox.HalfWidth * 2,
-					playerBoundingBox.HalfHeight * 2, playerBoundingBox.HalfDepth * 2);
+				AABB3D checkBoundingBox = new AABB3D(BoundingBoxCenter, pBoundingBox.HalfWidth * 2,
+					pBoundingBox.HalfHeight * 2, pBoundingBox.HalfDepth * 2);
 				if (aabbIntersection.Intersect(groundBoundingBox, checkBoundingBox))
 				{
 					return false;
