@@ -10,6 +10,7 @@ public class SplineInterpolator : MonoBehaviour
 {
 	eEndPointsMode mEndPointsMode = eEndPointsMode.AUTO;
 
+	private MoveShip moveShip;
 	internal class SplineNode
 	{
 		internal Vector3 Point;
@@ -32,6 +33,8 @@ public class SplineInterpolator : MonoBehaviour
 	void Awake()
 	{
 		Reset();
+
+		moveShip = GameObject.Find("shipMesh").GetComponent<MoveShip>();
 	}
 
 	public void StartInterpolation(OnEndCallback endCallback, bool bRotations, eWrapMode mode)
@@ -156,12 +159,15 @@ public class SplineInterpolator : MonoBehaviour
 					// We stop right in the end point
 					transform.position = mNodes[mNodes.Count - 2].Point;
 
+
 					if (mRotations)
 						transform.rotation = mNodes[mNodes.Count - 2].Rot;
 
 					// We call back to inform that we are ended
 					if (mOnEndCallback != null)
 						mOnEndCallback();
+
+					moveShip.enabled = true;
 				}
 				else
 				{

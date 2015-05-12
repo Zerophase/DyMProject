@@ -105,11 +105,11 @@ namespace Assets.Scripts.GameObjects
         // TODO move out of player
 		private void endScreen()
 		{
-			if (transform.position.y < -40)
-			{
-				//Application.LoadLevel("GameOver");
-				AutoFade.LoadLevel(4, 2, 1, Color.black);
-			}
+			//if (transform.position.y < -40)
+			//{
+			//	//Application.LoadLevel("GameOver");
+			//	AutoFade.LoadLevel(4, 2, 1, Color.black);
+			//}
 		}
 
 		private Vector3 previousPlane;

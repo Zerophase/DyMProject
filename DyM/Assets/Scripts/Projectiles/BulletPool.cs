@@ -87,9 +87,10 @@ namespace Assets.Scripts.Projectiles
             }
 		}
 
+		private IPooledProjectile currentProjectile;
 		public IPooledProjectile GetPooledProjectile(IRangeWeapon rangeWeapon)
 		{
-			IPooledProjectile currentProjectile = null;
+			currentProjectile = null;
 
 			for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count; i++)
 			{
@@ -121,11 +122,12 @@ namespace Assets.Scripts.Projectiles
 			}
 		}
 
+		private int lastElement;
         private void addNewProjectileToList(IRangeWeapon rangeWeapon, ref IPooledProjectile currentProjectile)
 		{
 			if (projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count - 1].Active)
 			{
-				int lastElement = projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count - 1;
+				lastElement = projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count - 1;
                 addProjectile(rangeWeapon);
 				projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][lastElement].Active = true;
 				currentProjectile = projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][lastElement];

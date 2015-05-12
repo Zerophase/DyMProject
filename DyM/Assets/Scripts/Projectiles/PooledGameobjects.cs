@@ -50,17 +50,30 @@ namespace Assets.Scripts.Projectiles
 		}
 
 		private GameObject currentBullet;
+		List<IPooledProjectile> projectiles = new List<IPooledProjectile>(100);
 		public GameObject GetPooledBullet(ICharacter character)
 		{
 			currentBullet = null;
-
-            if (bulletPool.GetProjectiles(character).Any(p =>
+			//projectiles = bulletPool.GetProjectiles(character);
+			//for (int i = 0; i < pooledBullets.Count; i++)
+			//{
+			//	for (int j = 0; j < projectiles.Count; j++)
+			//	{
+			//		if (pooledBullets[i].renderer.material != projectiles[j].Projectile.GetMaterial)
+			//		{
+			//			if (!pooledBullets[i].activeInHierarchy)
+			//				SetArt(character, i);
+			//		}
+			//	}
+			//}
+			//bulletPool.GetProjectiles(character).Single(p => p.Projectile.GetMaterial);
+			if (bulletPool.GetProjectiles(character).Any(p =>
 				   pooledBullets.Find(x => x.renderer.material != p.Projectile.GetMaterial)))
 			{
 				for (int i = 0; i < pooledBullets.Count; i++)
 				{
 					if(!pooledBullets[i].activeInHierarchy)
-                        SetArt(character, i);
+						SetArt(character, i);
 				}
 			}
 

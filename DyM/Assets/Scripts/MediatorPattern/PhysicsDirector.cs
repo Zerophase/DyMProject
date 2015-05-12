@@ -32,6 +32,7 @@ namespace Assets.Scripts.MediatorPattern
 
 		private static AABBIntersection aabbIntersection = new AABBIntersection();
 
+		private Trigger trigger;
 		public void Initialize()
 		{
 			groundCount = FindObjectsOfType<Ground>().Length;
@@ -44,7 +45,7 @@ namespace Assets.Scripts.MediatorPattern
 			if(player == null)
 			{
 				//Application.LoadLevel("GameOver");
-				AutoFade.LoadLevel(4, 2, 1, Color.black);
+				
 			}
 
 			GroundCollision();
@@ -53,6 +54,9 @@ namespace Assets.Scripts.MediatorPattern
 
 			bulletCollision();
 			slugCollision();
+
+			if(aabbIntersection.Intersect(player.BoundingBox, trigger.BoundingBox))
+				trigger.Tripped();
 		}
 
 		private int damage;
@@ -333,6 +337,10 @@ namespace Assets.Scripts.MediatorPattern
 				else if (telegram.Message is Bullet)
 				{
 					bullets.Add((Bullet)telegram.Message);
+				}
+				else if (telegram.Message is Trigger)
+				{
+					trigger = (Trigger) telegram.Message;
 				}
 			}
 		}

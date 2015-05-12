@@ -74,7 +74,6 @@ public class HoverSlug : Slug
 			bulletInstance.Projectile = bullet;
 			telegram.Receiver = bulletInstance;
 			telegram.Message = gunModel.transform;
-			telegram = new Telegram(bulletInstance, gunModel.transform);
 			messageDispatcher.DispatchMessage(telegram);
 		}
 		base.Update();
