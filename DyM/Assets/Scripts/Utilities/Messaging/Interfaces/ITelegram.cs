@@ -7,8 +7,8 @@ namespace Assets.Scripts.Utilities.Messaging.Interfaces
 {
 	public interface ITelegram 
 	{
-		IOwner Receiver { get; }
-		object Message { get; }
+		IOwner Receiver { get; set; }
+		object Message { get; set; }
 		bool Global { get; }
 	}
 }

@@ -13,12 +13,14 @@ namespace Assets.Scripts.Utilities.Messaging
 		public IOwner Receiver
 		{
 			get { return receiver; }
+			set { receiver = value; }
 		}
 
 		private object message;
 		public object Message
 		{
 			get { return message; }
+			set { message = value; }
 		}
 
 		private bool global;

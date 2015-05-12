@@ -96,12 +96,13 @@ namespace Assets.Scripts.Weapons.Bases
 		{
 			return this.Order.CompareTo(other.Order);
 		}
-		
+
+		private IProjectile projectileTemp;
 		public IProjectile Fire()
 		{
-			var projectile = bulletPool.GetPooledProjectile(this).Projectile;
-			projectile.Character = character;
-			return projectile;
+			projectileTemp = bulletPool.GetPooledProjectile(this).Projectile;
+			projectileTemp.Character = character;
+			return projectileTemp;
 		}
 
 		public virtual bool FireRate(float time)

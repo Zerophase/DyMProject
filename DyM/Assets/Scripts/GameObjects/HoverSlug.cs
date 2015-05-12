@@ -57,19 +57,25 @@ public class HoverSlug : Slug
 		base.Start();
 	}
 
+	private IProjectile bullet;
+	private Bullet bulletInstance;
+	private Telegram telegram = new Telegram();
 	protected override void Update()
 	{
 		gun.Rotate(Vector3.Dot(comparisor, Vector3.left));
 
 		if (slugGun.FireRate(Time.deltaTime))
 		{
-            
-			IProjectile bullet = slugGun.Fire();
-            bullet.ShotDirection = gun.transform.right;
+
+			bullet = slugGun.Fire();
+			bullet.ShotDirection = gun.transform.right;
 			bullet.CharacterType = CharacterTypes.PLAYER;
-			var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
+			bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
 			bulletInstance.Projectile = bullet;
-			messageDispatcher.DispatchMessage(new Telegram(bulletInstance, gunModel.transform));
+			telegram.Receiver = bulletInstance;
+			telegram.Message = gunModel.transform;
+			telegram = new Telegram(bulletInstance, gunModel.transform);
+			messageDispatcher.DispatchMessage(telegram);
 		}
 		base.Update();
 	}

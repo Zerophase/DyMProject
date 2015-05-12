@@ -49,9 +49,10 @@ namespace Assets.Scripts.Projectiles
 			pooledBullets.Add(go);
 		}
 
+		private GameObject currentBullet;
 		public GameObject GetPooledBullet(ICharacter character)
 		{
-			GameObject currentBullet = null;
+			currentBullet = null;
 
             if (bulletPool.GetProjectiles(character).Any(p =>
 				   pooledBullets.Find(x => x.renderer.material != p.Projectile.GetMaterial)))
