@@ -73,10 +73,13 @@ namespace Assets.Scripts.MediatorPattern
 		public void UpdatePlane(Vector3 planeChange)
 		{
 			// TODO check if player is going to collide with a wall.
-			if ((planeChange + transform.position).magnitude > 0f)
-				;
-			boundingBox.Center += planeChange;
-			transform.Translate(planeChange, Space.World);
+			// send message to PhysicsDirector.
+			if (PhysicsDirector.ShiftCollision(planeChange))
+			{
+				boundingBox.Center += planeChange;
+				transform.Translate(planeChange, Space.World);
+			}
+			
 		}
 
 		public void UpdatePlane(float zPosition)

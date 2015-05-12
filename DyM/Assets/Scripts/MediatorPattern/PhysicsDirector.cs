@@ -19,7 +19,7 @@ namespace Assets.Scripts.MediatorPattern
 		private List<Ground> grounds = new List<Ground>();
 
 		private UnitPhysicsMediator[] unitPhysicsMediators;
-		private Ground[] groundsArray;
+		private static Ground[] groundsArray;
 		private int groundCount;
 
 		private List<ItemPickUp> itemPickUps = new List<ItemPickUp>(100); 
@@ -30,7 +30,7 @@ namespace Assets.Scripts.MediatorPattern
 
 		private UnitPhysicsMediator player;
 
-		private AABBIntersection aabbIntersection = new AABBIntersection();
+		private static AABBIntersection aabbIntersection = new AABBIntersection();
 
 		public void Initialize()
 		{
@@ -115,8 +115,8 @@ namespace Assets.Scripts.MediatorPattern
 		}
 
 		// TODO move into Seperate class
-		private AABB3D playerBoundingBox;
-		private AABB3D groundBoundingBox;
+		private static AABB3D playerBoundingBox;
+		private static AABB3D groundBoundingBox;
 		private Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
 
 		private Sweep sweep = new Sweep();
@@ -331,6 +331,32 @@ namespace Assets.Scripts.MediatorPattern
 					bullets.Add((Bullet)telegram.Message);
 				}
 			}
+		}
+
+		public static bool ShiftCollision(Vector3 planeChange)
+		{
+			for (int i = 0; i < groundsArray.Length; i++)
+			{
+				groundBoundingBox = groundsArray[i].BoundingBox;
+				var groundMin = groundBoundingBox.Center - new Vector3(groundBoundingBox.HalfWidth, groundBoundingBox.HalfHeight);
+				var unitMax = playerBoundingBox.Center + new Vector3(playerBoundingBox.HalfWidth, playerBoundingBox.HalfHeight) + playerBoundingBox.Velocity * Time.deltaTime;
+				if (groundMin.x > unitMax.x)
+				{
+					break;
+				}
+
+				var BoundingBoxCenter = playerBoundingBox.Center + planeChange;
+				AABB3D checkBoundingBox = new AABB3D(BoundingBoxCenter, playerBoundingBox.HalfWidth * 2,
+					playerBoundingBox.HalfHeight * 2, playerBoundingBox.HalfDepth * 2);
+				if (aabbIntersection.Intersect(groundBoundingBox, checkBoundingBox))
+				{
+					return false;
+				}
+				//if (Math.Abs(groundBoundingBox.Center.z - (playerBoundingBox.Center.z + planeChange.z))
+				//	> (groundBoundingBox.HalfDepth + playerBoundingBox.HalfDepth))
+				//	return false;
+			}
+			return true;
 		}
 	}
 }
