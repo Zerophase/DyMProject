@@ -225,7 +225,7 @@ namespace Assets.Scripts.GameObjects
 				{
 					IProjectile bullet = Character.RangeWeapon.Fire();
 					bullet.ShotDirection = -GunModel.transform.right;
-					bullet.CharacterType = CharacterTypes.HOVERSLUG;
+					bullet.CharacterType = CharacterTypes.ENEMY;
 					var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
 					bulletInstance.Projectile = bullet;
 					messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));

@@ -48,7 +48,7 @@ public class HoverSlug : Slug
 		test.Character = Character;
 		messageDispatcher.DispatchMessage(new Telegram(test, null, true));
 
-		Character.CharacterType = CharacterTypes.HOVERSLUG;
+		Character.CharacterType = CharacterTypes.ENEMY;
         Character.AddWeapon((RangeWeaponBase)slugGun);
         Character.Equip(slugGun);
 		gun = gameObject.GetComponentInChildren<Gun>();
@@ -65,7 +65,7 @@ public class HoverSlug : Slug
 		{
             
 			IProjectile bullet = slugGun.Fire();
-            bullet.ShotDirection = -gun.transform.forward;
+            bullet.ShotDirection = gun.transform.right;
 			bullet.CharacterType = CharacterTypes.PLAYER;
 			var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
 			bulletInstance.Projectile = bullet;

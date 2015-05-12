@@ -16,7 +16,7 @@ namespace Assets.Scripts.GameObjects
 	{
 		// TODO see if can remove these and just use IPooledGameObjects
 		private IProjectile projectile;
-		public IProjectile Projectile { set { projectile = value; } }
+		public IProjectile Projectile { set { projectile = value; }  get { return projectile; }}
 
 		private Transform startPosition;
 

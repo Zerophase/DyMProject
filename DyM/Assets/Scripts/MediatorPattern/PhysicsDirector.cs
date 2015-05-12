@@ -83,8 +83,8 @@ namespace Assets.Scripts.MediatorPattern
 			for (int i = 0; i < bullets.Count; i++)
 			{
                 for (int j = 0; j < unitPhysicsMediators.Length; j++)
-				{
-					if (((Bullet)bullets[i]).CharacterType != unitPhysicsMediators[j].Character.CharacterType &&
+                {
+					if (((Bullet)bullets[i]).Projectile.CharacterType == unitPhysicsMediators[j].Character.CharacterType &&
 						aabbIntersection.Intersect(bullets[i].BoundingBox, unitPhysicsMediators[j].BoundingBox))
 					{
                         unitPhysicsMediators[j].TakeDamage(((Bullet)bullets[i]).DealDamage());

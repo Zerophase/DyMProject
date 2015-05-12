@@ -40,6 +40,7 @@ public class Slug : UnitPhysicsMediator
 
 	protected virtual void Update ()
 	{
+		boundingBox.DrawBoundingBox();
         statusEffect();
 
 		if (pathFinder.UpdateDistanceTraveled(transform.position) < 10f || !pathFinder.FirstSearchDone)

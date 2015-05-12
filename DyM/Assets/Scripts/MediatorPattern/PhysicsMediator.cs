@@ -16,7 +16,7 @@ namespace Assets.Scripts.MediatorPattern
 		protected IMessageDispatcher messageDispatcher;
 		protected static PhysicsDirector physicsDirector;
 
-		private AABB3D boundingBox;
+		protected AABB3D boundingBox;
 
 		public AABB3D BoundingBox
 		{
