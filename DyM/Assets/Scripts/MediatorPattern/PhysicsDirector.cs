@@ -350,7 +350,7 @@ namespace Assets.Scripts.MediatorPattern
 					break;
 				}
 
-				var BoundingBoxCenter = playerBoundingBox.Center + planeChange;
+				var BoundingBoxCenter = pBoundingBox.Center + planeChange;
 				AABB3D checkBoundingBox = new AABB3D(BoundingBoxCenter, pBoundingBox.HalfWidth * 2,
 					pBoundingBox.HalfHeight * 2, pBoundingBox.HalfDepth * 2);
 				if (aabbIntersection.Intersect(groundBoundingBox, checkBoundingBox))
