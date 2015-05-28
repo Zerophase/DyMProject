@@ -37,19 +37,25 @@ namespace Assets.Scripts.Projectiles.Projectiles
 		private CharacterTypes characterType;
 		public CharacterTypes CharacterType { get { return characterType; } set { characterType = value; } }
 
+		private GameObject gameObject;
+
+		public GameObject GameObject
+		{
+			get { return gameObject; }
+		}
 		public ProjectileBase(string matterialName, float deactivationDistance, string model)
 		{
 			material = Resources.Load<Material>("Materials/" + matterialName);
 			//TODO once meshes are made replace with direct reference to mesh.
 			GameObject go;
 			if(!GameObject.Find(model + "(Clone)"))
-				go = GameObject.Instantiate(Resources.Load<GameObject>("Meshes/" + model)) as GameObject;
+				gameObject = GameObject.Instantiate(Resources.Load<GameObject>("Meshes/" + model)) as GameObject;
 			else
 			{
-				go = GameObject.Find(model + "(Clone)");
+				gameObject = GameObject.Find(model + "(Clone)");
 			}
 
-			mesh = go.GetComponent<MeshFilter>().mesh;
+			mesh = gameObject.GetComponent<MeshFilter>().mesh;
 			this.deactivationDistance = deactivationDistance;
 		}
 

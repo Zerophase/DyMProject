@@ -8,7 +8,10 @@ using  UnityEngine;
 namespace Assets.Scripts.GameObjects
 {
 	public class Ground : PhysicsMediator
-	{	
-		
+	{
+		public void Update()
+		{
+			boundingBox.DrawBoundingBox();
+		}
 	}
 }

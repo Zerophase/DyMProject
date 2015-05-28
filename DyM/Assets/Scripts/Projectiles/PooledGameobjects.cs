@@ -14,7 +14,7 @@ namespace Assets.Scripts.Projectiles
 	public class PooledGameobjects : IPooledGameObjects
 	{
 		List<GameObject> pooledBullets = new List<GameObject>();
-
+		List<Bullet> bullets = new List<Bullet>();
 		[Inject] private IBulletPool bulletPool;
 		
 		[Inject]
@@ -27,7 +27,9 @@ namespace Assets.Scripts.Projectiles
 			for (int i = 0; i < bulletPool.GetProjectiles(character).Count; i++)
 			{
 				addProjectile();
-				pooledBullets[i].GetComponent<Bullet>().Initialize();
+				var b = pooledBullets[i].GetComponent<Bullet>();
+				b.Initialize();
+				bullets.Add(b);
 				pooledBullets[i].SetActive(false);
 				SetArt(character, i);
 			}
@@ -51,7 +53,7 @@ namespace Assets.Scripts.Projectiles
 
 		private GameObject currentBullet;
 		List<IPooledProjectile> projectiles = new List<IPooledProjectile>(100);
-		public GameObject GetPooledBullet(ICharacter character)
+		public Bullet GetPooledBullet(ICharacter character)
 		{
 			currentBullet = null;
 			//projectiles = bulletPool.GetProjectiles(character);
@@ -67,13 +69,19 @@ namespace Assets.Scripts.Projectiles
 			//	}
 			//}
 			//bulletPool.GetProjectiles(character).Single(p => p.Projectile.GetMaterial);
+			int bulletPlaceInList = -1; 
 			if (bulletPool.GetProjectiles(character).Any(p =>
 				   pooledBullets.Find(x => x.renderer.material != p.Projectile.GetMaterial)))
 			{
 				for (int i = 0; i < pooledBullets.Count; i++)
 				{
-					if(!pooledBullets[i].activeInHierarchy)
+					if (!pooledBullets[i].activeInHierarchy)
+					{
 						SetArt(character, i);
+						bulletPlaceInList = i;
+						break;
+					}
+						
 				}
 			}
 
@@ -81,7 +89,7 @@ namespace Assets.Scripts.Projectiles
 			
 			iterateThroughCreatedProjectiles(ref currentBullet);
 
-			return currentBullet;
+			return bullets[bulletPlaceInList];
 		}
 
 		private void iterateThroughCreatedProjectiles(ref GameObject currentProjectile)

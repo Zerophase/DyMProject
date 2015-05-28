@@ -68,12 +68,11 @@ public class HoverSlug : Slug
 		{
 
 			bullet = slugGun.Fire();
-			bullet.ShotDirection = gun.transform.right;
 			bullet.CharacterType = CharacterTypes.PLAYER;
-			bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
+			bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character);
 			bulletInstance.Projectile = bullet;
 			telegram.Receiver = bulletInstance;
-			telegram.Message = gunModel.transform;
+			telegram.Message = gunModel;
 			messageDispatcher.DispatchMessage(telegram);
 		}
 		base.Update();

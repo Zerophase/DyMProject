@@ -8,6 +8,7 @@ using UnityEngine;
 using System.Collections;
 using Assets.Scripts.Character;
 using Assets.Scripts.Utilities;
+using Assets.Scripts.Utilities.EqualityComparison.Float;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 
 namespace Assets.Scripts.GameObjects
@@ -18,7 +19,8 @@ namespace Assets.Scripts.GameObjects
 		private IProjectile projectile;
 		public IProjectile Projectile { set { projectile = value; }  get { return projectile; }}
 
-		private Transform startPosition;
+		private Vector3 startPosition;
+		private Quaternion rotation;
 
 		private Vector3 playerXMove;
 		[Inject]
@@ -40,13 +42,10 @@ namespace Assets.Scripts.GameObjects
 			if (!projectile.IsProjectileSetup)
 			{
 				audio.Play();
-				transform.rotation = Quaternion.Inverse(
-					Quaternion.Inverse(startPosition.rotation)
-					);
-				transform.position = startPosition.position;
+				transform.rotation = rotation;
+				transform.position = startPosition;
 				projectile.SetUpProjectile(transform.position);
 				BoundingBox.Center = transform.position;
-
 			}
 
 			var projectilePosition = projectile.ProjectilePattern();
@@ -86,7 +85,16 @@ namespace Assets.Scripts.GameObjects
 		{
 			if (telegram.Receiver == this)
 			{
-				startPosition = (Transform)telegram.Message;
+				var gunModel = (GameObject) telegram.Message;
+				startPosition = gunModel.transform.position;
+				rotation = gunModel.transform.rotation;
+				projectile.ShotDirection = -gunModel.transform.right;
+				//Debug.Log("GunModel Rotation: " + gunModel.transform.rotation);
+				if (FloatComparer.Compare(gunModel.transform.rotation.z, 0f, 0.1f))
+				{
+					var rotationVector = rotation.eulerAngles;
+					rotation = Quaternion.Euler(rotationVector.x, 180f, rotationVector.z);
+				}
 			}
 		}
 	}

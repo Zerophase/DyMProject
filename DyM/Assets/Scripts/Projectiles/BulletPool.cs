@@ -56,8 +56,13 @@ namespace Assets.Scripts.Projectiles
         {
 			if (!projectilesBoundToCharacterType.ContainsKey(rangeWeapon.Character.CharacterType))
 				AddCharacterKey(rangeWeapon);
-			projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType]
-				.Find(x => x.Active == false).Projectile = rangeWeapon.Projectile;
+	        for (int i = 0; i < projectilesBoundToCharacterType.Count; i++)
+	        {
+		        if (projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i].Active == false)
+		        {
+			        projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i].Projectile = rangeWeapon.Projectile;
+		        }
+	        }
         }
 
 		public void AddCharacterKey(IRangeWeapon rangeWeapon)
@@ -87,11 +92,10 @@ namespace Assets.Scripts.Projectiles
             }
 		}
 
-		private IPooledProjectile currentProjectile;
+		private IPooledProjectile currentProjectile = null;
+
 		public IPooledProjectile GetPooledProjectile(IRangeWeapon rangeWeapon)
 		{
-			currentProjectile = null;
-
 			for (int i = 0; i < projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType].Count; i++)
 			{
 				if (!projectilesBoundToCharacterType[rangeWeapon.Character.CharacterType][i].Active &&

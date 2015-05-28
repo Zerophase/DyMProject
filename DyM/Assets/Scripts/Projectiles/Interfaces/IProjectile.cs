@@ -23,6 +23,8 @@ namespace Assets.Scripts.Projectiles.Interfaces
 
         Vector3 ShotDirection { set; }
 
+		GameObject GameObject { get; }
+
         ICharacter Character { get; set; }
 		CharacterTypes CharacterType { get; set; }
 	}

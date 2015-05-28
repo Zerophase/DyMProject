@@ -124,6 +124,8 @@ namespace Assets.Scripts.MediatorPattern
 		private Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
 
 		private Sweep sweep = new Sweep();
+		private AABB3D a;
+		private AABB3D b;
 
 		private int compareAABBS(PhysicsMediator left, PhysicsMediator right)
 		{
@@ -139,8 +141,8 @@ namespace Assets.Scripts.MediatorPattern
             }
             else
             {
-                AABB3D a = left.BoundingBox;
-                AABB3D b = right.BoundingBox;
+                a = left.BoundingBox;
+                b = right.BoundingBox;
                 leftMin = a.Center.x - a.HalfWidth;
                 rightMin = b.Center.x - b.HalfWidth;
             }

@@ -18,6 +18,7 @@ using Assets.Scripts.StatusEffects;
 using Assets.Scripts.Utilities.Messaging;
 using Assets.Scripts.Utilities.Messaging.Interfaces;
 using Assets.Scripts.Weapons;
+using ModestTree;
 
 namespace Assets.Scripts.GameObjects
 {
@@ -93,9 +94,10 @@ namespace Assets.Scripts.GameObjects
 			
 			flip(gun.Direction.checkDirection());
 
-			rangeAttack();
+			//rangeAttack();
 
-			weakAttack();
+			// TODO Implent animation
+			//weakAttack();
 
 			activateAbility();
 
@@ -224,11 +226,11 @@ namespace Assets.Scripts.GameObjects
 				if (shot)
 				{
 					IProjectile bullet = Character.RangeWeapon.Fire();
-					bullet.ShotDirection = -GunModel.transform.right;
 					bullet.CharacterType = CharacterTypes.ENEMY;
-					var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character).GetComponent<Bullet>();
+					var bulletInstance = PooledBulletGameObjects.GetPooledBullet(Character);
 					bulletInstance.Projectile = bullet;
-					messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel.transform));
+					messageDispatcher.DispatchMessage(new Telegram(bulletInstance, GunModel));
+					//Debug.Log("GunModel Rotation: " + GunModel.transform.rotation );
 				}
 			}
             
@@ -279,6 +281,7 @@ namespace Assets.Scripts.GameObjects
 		void LateUpdate()
 		{
 			gun.Rotate();
+			rangeAttack();
 		}
 	}
 }
